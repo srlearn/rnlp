@@ -1,5 +1,6 @@
 from os import listdir,system
 import nltk
+from sys import argv
 
 def textFile(file):
     '''check if text file'''
@@ -153,6 +154,9 @@ def makeIdentifiers(blocks):
             beginning = nWords/float(3)
             ending = (2*nWords)/float(3)
             for word in tokens:
+                #=============predicate: wordString(wordID,#str)================
+                predicateString = "wordString("+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)+","+"\""+str(word)+"\")."
+                writeFact(predicateString)
                 if wordID < nWords:
                     #====================predicate: nextWordInSentence(sentenceID,wordID,wordID)==========================
                     predicateString = "nextWordInSentence("+str(blockID)+"_"+str(sentenceID)+","+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)+","+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID+1)+")."
@@ -181,10 +185,15 @@ def makeIdentifiers(blocks):
 
 def main():
     '''main method'''
+    n = 2
+    if "-blockSize" not in argv:
+        print "defaulting to block size "+str(n)
+    else:
+        n = int(argv[(argv.index("-blockSize"))+1])
     file = raw_input("Enter the file or folder to read the corpus from: ")
     corpus = readCorpus(file)
     sentences = getSentences(corpus)
-    blocks = getBlocks(sentences,2) #can toggle number of sentences in a block
+    blocks = getBlocks(sentences,n) #can toggle number of sentences in a block
     makeIdentifiers(blocks)
 main()
             

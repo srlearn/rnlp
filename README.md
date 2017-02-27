@@ -4,7 +4,7 @@ Processes text from a file or set of files into relational facts.
 Pre-requisites: nltk version 3.2.1
 
 Usage:
-python parseInputCorpus.py
+python parseInputCorpus.py -blockSize 'n'
 
 The code will prompt for a file or folder input of text files to convert to relational facts.
 
@@ -22,5 +22,6 @@ The relationships currently encoded are:
 6.nextWordInSentence - word that follows a word in a sentence in a block
 7.sentenceInBlock - sentence occurs in a block
 8.wordInSentence - word occurs in a sentence.
+9.wordString - the string contained in the word.
 
 More relationships are going to be included soon. such as part-of-speech tagging, named entity recognition and the wordString.
