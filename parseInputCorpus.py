@@ -154,8 +154,11 @@ def makeIdentifiers(blocks):
             beginning = nWords/float(3)
             ending = (2*nWords)/float(3)
             for word in tokens:
-                #=============predicate: wordString(wordID,#str)================
+                #============predicate: wordString(wordID,#str)==================
                 predicateString = "wordString("+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)+","+"\""+str(word)+"\")."
+                #============predicate: partOfSpeechTag(wordID,#POS)=============
+                POS = nltk.pos_tag([word])[0][1]
+                predicateString = "partOfSpeech("+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)+","+"\""+str(POS)+"\")."
                 writeFact(predicateString)
                 if wordID < nWords:
                     #====================predicate: nextWordInSentence(sentenceID,wordID,wordID)==========================
