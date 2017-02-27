@@ -32,4 +32,4 @@ The relationships currently encoded are:
 
 9.wordString - the string contained in the word.
 
-More relationships are going to be included soon. such as part-of-speech tagging, named entity recognition and the wordString.
+More relationships are going to be included soon. such as part-of-speech tagging and named entity recognition
