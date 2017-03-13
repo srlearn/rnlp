@@ -81,6 +81,12 @@ def checkConsistency():
             exit()
         else:
             system("rm -f wordIDs.txt")
+    if "bk.txt" in listdir("."):
+        answer = raw_input("bk.txt already exists, program will generate new one, OK/Exit?: ")
+        if answer.lower() == "exit":
+            exit()
+        else:
+            system("rm -f bk.txt")
     
 def writeBlock(block,blockID):
     '''writes the block to a file with the id'''
@@ -109,13 +115,56 @@ def writeWordFromSentenceInBlock(word,blockID,sentenceID,wordID):
 def writeFact(predicateString):
     '''writes the fact to facts file'''
     with open("facts.txt","a") as f:
-        f.write(predicateString+"\n")        
+        f.write(predicateString+"\n")
+
+def setParam(parameter,bk,defaultValue):
+    '''gets parameter value from user'''
+    parameterValue = defaultValue
+    ans = raw_input("Enter Custom "+parameter+"?(yes/no). default "+parameter+" is "+parameterValue+": ")
+    if ans.lower()=="yes":
+        parameterValue = raw_input("Enter "+parameter+": ")
+    bk.write("setParam: "+parameter+"="+parameterValue+".\n")
+
+def getTarget():
+    '''gets the object of inference from the user(target)'''
+    choice = raw_input("choose target: \n1.sentenceContainsTarget(+SID,+WID)\n2.blockContainsTarget(+BID,+SID)\n3.Both\n4.new target\nEnter choice: ")
+    if int(choice) == 1:
+        return "mode: sentenceContainsTarget(+SID,+WID).\n"
+    elif int(choice) == 2:
+        return "mode: blockContainsTarget(+BID,+SID).\n"
+    elif int(choice) == 3:
+        return "mode: sentenceContainsTarget(+SID,+WID).\n"+"mode: blockContainsTarget(+BID,+SID).\n"
+    elif int(choice) == 4:
+        newPredicate = raw_input("Enter the target predicate with modes: ")
+        return newPredicate
     
 def makeIdentifiers(blocks):
     '''make unique identifiers for components of the block and write to file'''
     blockID,sentenceID,wordID = 0,0,0
     blockID = 1
     checkConsistency()
+    print "Creating background file.."
+    bk = open("bk.txt","a")
+    bk.write("useStdLogicVariables: true\n")
+    setParam("treeDepth",bk,"3")
+    setParam("nodeSize",bk,"3")
+    setParam("numOfClauses",bk,"8")
+    bk.write("mode: nextSentenceInBlock(+BID,+SID,-SID).\n")
+    bk.write("mode: nextSentenceInBlock(+BID,-SID,+SID).\n")
+    bk.write("mode: earlySentenceInBlock(+BID,-SID).\n")
+    bk.write("mode: midWaySentenceInBlock(+BID,-SID).\n")
+    bk.write("mode: lateSentenceInBlock(+BID,-SID).\n")
+    bk.write("mode: sentenceInBlock(-SID,+BID).\n")
+    bk.write("mode: wordString(+WID,#WSTR).\n")
+    bk.write("mode: partOfSpeechTag(+WID,#WPOS).\n")
+    bk.write("mode: nextWordInSentence(+SID,+WID,-WID).\n")
+    bk.write("mode: earlyWordInSentence(+SID,-WID).\n")
+    bk.write("mode: midWayWordInSentence(+SID,-WID).\n")
+    bk.write("mode: lateWordInSentence(+SID,-WID).\n")
+    bk.write("wordInSentence(-WID,+SID).\n")
+    target = getTarget()
+    bk.write(target)
+    bk.close()
     nBlocks = len(blocks)
     for block in blocks:
         print "writing block "+str(blocks.index(block)+1)+"/"+str(nBlocks)+" to blockIDs.txt.."
@@ -145,7 +194,6 @@ def makeIdentifiers(blocks):
             #====================predicate: sentenceInBlock(sentenceID,blockID)=====================================
             predicateString = "sentenceInBlock("+str(blockID)+"_"+str(sentenceID)+","+str(blockID)+")."
             writeFact(predicateString)
-            #factPredicates.append(predicateString)
             writeSentenceInBlock(sentence,blockID,sentenceID)
             sentenceID += 1
             wordID = 1
@@ -155,7 +203,22 @@ def makeIdentifiers(blocks):
             ending = (2*nWords)/float(3)
             for word in tokens:
                 #============predicate: wordString(wordID,#str)==================
-                predicateString = "wordString("+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)+","+"\""+str(word)+"\")."
+                '''
+                if word == "you":
+                    pos = open("pos.txt","a")
+                    word = str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)
+                    sentence = str(blockID)+"_"+str(sentenceID)
+                    pos.write("sentenceContainsTarget("+sentence+","+word+").\n")
+                    pos.close()
+                else:
+                    neg = open("neg.txt","a")
+                    word = str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)
+                    sentence = str(blockID)+"_"+str(sentenceID)
+                    neg.write("sentenceContainsTarget("+sentence+","+word+").\n")
+                    neg.close()
+                '''
+                predicateString = "wordString("+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)+","+"\'"+str(word)+"\')."
+                writeFact(predicateString)
                 #============predicate: partOfSpeechTag(wordID,#POS)=============
                 POS = nltk.pos_tag([word])[0][1]
                 predicateString = "partOfSpeech("+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)+","+"\""+str(POS)+"\")."
@@ -176,12 +239,10 @@ def makeIdentifiers(blocks):
                 if sentenceID > ending:
                     predicateString = "lateSentenceInBlock("+str(blockID)+","+str(blockID)+"_"+str(sentenceID)+")."
                     writeFact(predicateString)
-                    #factPredicates.append(predicateString)
                 print "writing word "+str(wordID)+"/"+str(nWords)+" from sentence id "+str(sentenceID)+" in block id "+str(blockID)+" to wordIDs.txt.."
                 #====================predicate: wordInSentence(wordID,sentenceID)=====================================
                 predicateString = "wordInSentence("+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)+","+str(blockID)+"_"+str(sentenceID)+")."
                 writeFact(predicateString)
-                #factPredicates.append(predicateString)
                 writeWordFromSentenceInBlock(word,blockID,sentenceID,wordID)
                 wordID += 1
         blockID += 1

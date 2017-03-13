@@ -1,0 +1,296 @@
+useStdLogicNotation: true.
+
+% maxTreeDepthInNodes                 = 5
+% maxTreeDepthInLiterals              = 12
+% maxNumberOfLiteralsAtAnInteriorNode = 3
+% maxFreeBridgersInBody               = 1
+% maxNumberOfClauses                  = 8
+% maxNodesToConsider                  = 10
+% maxNodesToCreate                    = 10,000
+% maxAcceptableNodeScoreToStop        = 0.003
+% negPosRatio                         = 2.000
+% testNegPosRatio                     = -1.000
+% # of pos examples                   = 42
+% # of neg examples                   = 0
+
+
+
+%%%%%  WILL-Produced Tree #1 @ 13:46:35 3/13/17.  [Using 1,616,760 memory cells.]  %%%%%
+
+% FOR sentenceContainsTarget(a, b):
+%   if ( wordString(b, "you") )
+%   then return 0.8581489350995123;  // std dev = 0.000, 14.000 (wgt'ed) examples reached here.  /* #pos=14 */
+%   else return -0.1418510649004877;  // std dev = 2.58e-08, 28.000 (wgt'ed) examples reached here.  /* #neg=28 */
+
+
+% Clauses:
+
+sentenceContainsTarget(a, b, 0.8581489350995123) :- 
+     wordString(b, "you"), 
+     !. // Clause #1.
+
+sentenceContainsTarget(a, b, -0.1418510649004877) :- !. // Clause #2.
+
+
+% The flattened versions of these clauses:
+
+flattened_wordString(A, "you") ^
+   ! => 
+   sentenceContainsTarget(Underscore, A, 0.8581489350995123). // Flattened version of clause #1.
+
+flattened_! => 
+   sentenceContainsTarget(Underscore, Underscore, -0.1418510649004877). // Flattened version of clause #2.
+
+
+% The unique flattened literals:
+%   wordString(A, "you")
+
+%%%%%  WILL-Produced Tree #2 @ 13:46:35 3/13/17.  [Using 1,692,192 memory cells.]  %%%%%
+
+% FOR sentenceContainsTarget(a, b):
+%   if ( wordString(b, "you") )
+%   then return 0.7194734122109542;  // std dev = 5.16e-08, 14.000 (wgt'ed) examples reached here.  /* #pos=14 */
+%   else return -0.12544463852839136;  // std dev = 1.05e-08, 34.000 (wgt'ed) examples reached here.  /* #neg=34 */
+
+
+% Clauses:
+
+sentenceContainsTarget(a, b, 0.7194734122109542) :- 
+     wordString(b, "you"), 
+     !. // Clause #1.
+
+sentenceContainsTarget(a, b, -0.12544463852839136) :- !. // Clause #2.
+
+
+% The flattened versions of these clauses:
+
+flattened_wordString(A, "you") ^
+   ! => 
+   sentenceContainsTarget(Underscore, A, 0.7194734122109542). // Flattened version of clause #1.
+
+flattened_! => 
+   sentenceContainsTarget(Underscore, Underscore, -0.12544463852839136). // Flattened version of clause #2.
+
+
+% The unique flattened literals:
+%   wordString(A, "you")
+
+%%%%%  WILL-Produced Tree #3 @ 13:46:35 3/13/17.  [Using 1,652,016 memory cells.]  %%%%%
+
+% FOR sentenceContainsTarget(a, b):
+%   if ( wordString(b, "you") )
+%   then return 0.5553664367462846;  // std dev = 0.000, 14.000 (wgt'ed) examples reached here.  /* #pos=14 */
+%   else return -0.11231637819360638;  // std dev = 1.29e-08, 22.000 (wgt'ed) examples reached here.  /* #neg=22 */
+
+
+% Clauses:
+
+sentenceContainsTarget(a, b, 0.5553664367462846) :- 
+     wordString(b, "you"), 
+     !. // Clause #1.
+
+sentenceContainsTarget(a, b, -0.11231637819360638) :- !. // Clause #2.
+
+
+% The flattened versions of these clauses:
+
+flattened_wordString(A, "you") ^
+   ! => 
+   sentenceContainsTarget(Underscore, A, 0.5553664367462846). // Flattened version of clause #1.
+
+flattened_! => 
+   sentenceContainsTarget(Underscore, Underscore, -0.11231637819360638). // Flattened version of clause #2.
+
+
+% The unique flattened literals:
+%   wordString(A, "you")
+
+%%%%%  WILL-Produced Tree #4 @ 13:46:35 3/13/17.  [Using 1,671,088 memory cells.]  %%%%%
+
+% FOR sentenceContainsTarget(a, b):
+%   if ( wordString(b, "you") )
+%   then return 0.4175135841583098;  // std dev = 4.21e-08, 14.000 (wgt'ed) examples reached here.  /* #pos=14 */
+%   else return -0.10159632948783635;  // std dev = 0.000, 39.000 (wgt'ed) examples reached here.  /* #neg=39 */
+
+
+% Clauses:
+
+sentenceContainsTarget(a, b, 0.4175135841583098) :- 
+     wordString(b, "you"), 
+     !. // Clause #1.
+
+sentenceContainsTarget(a, b, -0.10159632948783635) :- !. // Clause #2.
+
+
+% The flattened versions of these clauses:
+
+flattened_wordString(A, "you") ^
+   ! => 
+   sentenceContainsTarget(Underscore, A, 0.4175135841583098). // Flattened version of clause #1.
+
+flattened_! => 
+   sentenceContainsTarget(Underscore, Underscore, -0.10159632948783635). // Flattened version of clause #2.
+
+
+% The unique flattened literals:
+%   wordString(A, "you")
+
+%%%%%  WILL-Produced Tree #5 @ 13:46:35 3/13/17.  [Using 1,674,864 memory cells.]  %%%%%
+
+% FOR sentenceContainsTarget(a, b):
+%   if ( wordString(b, "you") )
+%   then return 0.3207118471601497;  // std dev = 0.000, 14.000 (wgt'ed) examples reached here.  /* #pos=14 */
+%   else return -0.09269127618926094;  // std dev = 1.18e-08, 23.000 (wgt'ed) examples reached here.  /* #neg=23 */
+
+
+% Clauses:
+
+sentenceContainsTarget(a, b, 0.3207118471601497) :- 
+     wordString(b, "you"), 
+     !. // Clause #1.
+
+sentenceContainsTarget(a, b, -0.09269127618926094) :- !. // Clause #2.
+
+
+% The flattened versions of these clauses:
+
+flattened_wordString(A, "you") ^
+   ! => 
+   sentenceContainsTarget(Underscore, A, 0.3207118471601497). // Flattened version of clause #1.
+
+flattened_! => 
+   sentenceContainsTarget(Underscore, Underscore, -0.09269127618926094). // Flattened version of clause #2.
+
+
+% The unique flattened literals:
+%   wordString(A, "you")
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%  Final call for computing score for sentenceContainsTarget.  %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+stepLength_tree1(1.0).
+stepLength_tree2(1.0).
+stepLength_tree3(1.0).
+stepLength_tree4(1.0).
+stepLength_tree5(1.0).
+
+logPrior(-1.8).
+sentenceContainsTarget(a, b, total) :- // A general accessor. 
+   sentenceContainsTarget(a, b, 1000000, total), !.
+sentenceContainsTarget(a, b, total) :- waitHere("This should not fail", sentenceContainsTarget(a, b, total)).
+
+sentenceContainsTarget(a, b, treesToUse, total) :- // A tree-limited accessor (e.g., for tuning the number of trees to use).
+   logPrior(logPrior),
+   getScore_sentenceContainsTarget_tree1(a, b, treesToUse, total1),
+   getScore_sentenceContainsTarget_tree2(a, b, treesToUse, total2),
+   getScore_sentenceContainsTarget_tree3(a, b, treesToUse, total3),
+   getScore_sentenceContainsTarget_tree4(a, b, treesToUse, total4),
+   getScore_sentenceContainsTarget_tree5(a, b, treesToUse, total5),
+   total is logPrior + total1 + total2 + total3 + total4 + total5,
+   !.
+sentenceContainsTarget(a, b, treesToUse, total) :- waitHere("This should not fail", sentenceContainsTarget(a, b, treesToUse, total)).
+
+getScore_sentenceContainsTarget_tree1(a, b, treesToUse, 0.0) :- 1 > treesToUse, !.
+getScore_sentenceContainsTarget_tree1(a, b, treesToUse, total1) :- sentenceContainsTarget_tree1(a, b, total), stepLength_tree1(stepLen), total1 is total * stepLen.
+
+getScore_sentenceContainsTarget_tree2(a, b, treesToUse, 0.0) :- 2 > treesToUse, !.
+getScore_sentenceContainsTarget_tree2(a, b, treesToUse, total2) :- sentenceContainsTarget_tree2(a, b, total), stepLength_tree2(stepLen), total2 is total * stepLen.
+
+getScore_sentenceContainsTarget_tree3(a, b, treesToUse, 0.0) :- 3 > treesToUse, !.
+getScore_sentenceContainsTarget_tree3(a, b, treesToUse, total3) :- sentenceContainsTarget_tree3(a, b, total), stepLength_tree3(stepLen), total3 is total * stepLen.
+
+getScore_sentenceContainsTarget_tree4(a, b, treesToUse, 0.0) :- 4 > treesToUse, !.
+getScore_sentenceContainsTarget_tree4(a, b, treesToUse, total4) :- sentenceContainsTarget_tree4(a, b, total), stepLength_tree4(stepLen), total4 is total * stepLen.
+
+getScore_sentenceContainsTarget_tree5(a, b, treesToUse, 0.0) :- 5 > treesToUse, !.
+getScore_sentenceContainsTarget_tree5(a, b, treesToUse, total5) :- sentenceContainsTarget_tree5(a, b, total), stepLength_tree5(stepLen), total5 is total * stepLen.
+
+flattenedLiteralsInThisSetOfTrees(sentenceContainsTarget, 1, [
+   wordString(A, "you")]).
+
+%%%%%  WILL-Produced Tree Combined @ 13:46:35 3/13/17.  [Using 1,769,680 memory cells.]  %%%%%
+
+% FOR sentenceContainsTarget(a, b):
+%   if ( wordString(b, "you") )
+%   then return 2.8712142153752063;  // std dev = 1.51e-06, 70.000 (wgt'ed) examples reached here.  /* #pos=70 */
+%   else if ( wordString(b, "please") )
+%   | then return -0.2513968307351757;  // std dev = 0.028, 6.000 (wgt'ed) examples reached here.  /* #neg=6 */
+%   | else if ( wordString(b, "off") )
+%   | | then return -0.3962334611165769;  // std dev = 0.085, 9.000 (wgt'ed) examples reached here.  /* #neg=9 */
+%   | | else if ( wordString(b, "fine") )
+%   | | | then return -0.3190313126641823;  // std dev = 0.057, 10.000 (wgt'ed) examples reached here.  /* #neg=10 */
+%   | | | else if ( wordString(b, "am") )
+%   | | | | then return -0.3557637725819305;  // std dev = 7.45e-09, 3.000 (wgt'ed) examples reached here.  /* #neg=3 */
+%   | | | | else if ( wordString(b, "I") )
+%   | | | | | then return -0.3282535011215809;  // std dev = 0.111, 5.000 (wgt'ed) examples reached here.  /* #neg=5 */
+%   | | | | | else return -0.26877025417587824;  // std dev = 0.330, 31.000 (wgt'ed) examples reached here.  /* #neg=31 */
+
+
+% Clauses:
+
+sentenceContainsTarget(a, b, 2.8712142153752063) :- 
+     wordString(b, "you"), 
+     !. // Clause #1.
+
+sentenceContainsTarget(a, b, -0.2513968307351757) :- 
+     wordString(b, "please"), 
+     !. // Clause #2.
+
+sentenceContainsTarget(a, b, -0.3962334611165769) :- 
+     wordString(b, "off"), 
+     !. // Clause #3.
+
+sentenceContainsTarget(a, b, -0.3190313126641823) :- 
+     wordString(b, "fine"), 
+     !. // Clause #4.
+
+sentenceContainsTarget(a, b, -0.3557637725819305) :- 
+     wordString(b, "am"), 
+     !. // Clause #5.
+
+sentenceContainsTarget(a, b, -0.3282535011215809) :- 
+     wordString(b, "I"), 
+     !. // Clause #6.
+
+sentenceContainsTarget(a, b, -0.26877025417587824) :- !. // Clause #7.
+
+
+% The flattened versions of these clauses:
+
+flattened_wordString(A, "you") ^
+   ! => 
+   sentenceContainsTarget(Underscore, A, 2.8712142153752063). // Flattened version of clause #1.
+
+flattened_wordString(A, "please") ^
+   ! => 
+   sentenceContainsTarget(Underscore, A, -0.2513968307351757). // Flattened version of clause #2.
+
+flattened_wordString(A, "off") ^
+   ! => 
+   sentenceContainsTarget(Underscore, A, -0.3962334611165769). // Flattened version of clause #3.
+
+flattened_wordString(A, "fine") ^
+   ! => 
+   sentenceContainsTarget(Underscore, A, -0.3190313126641823). // Flattened version of clause #4.
+
+flattened_wordString(A, "am") ^
+   ! => 
+   sentenceContainsTarget(Underscore, A, -0.3557637725819305). // Flattened version of clause #5.
+
+flattened_wordString(A, "I") ^
+   ! => 
+   sentenceContainsTarget(Underscore, A, -0.3282535011215809). // Flattened version of clause #6.
+
+flattened_! => 
+   sentenceContainsTarget(Underscore, Underscore, -0.26877025417587824). // Flattened version of clause #7.
+
+
+% The unique flattened literals:
+%   wordString(A, "you")
+%   wordString(A, "am")
+%   wordString(A, "please")
+%   wordString(A, "off")
+%   wordString(A, "fine")
+%   wordString(A, "I")

@@ -1,0 +1,18 @@
+useStdLogicVariables: true
+setParam: treeDepth=3.
+setParam: nodeSize=3.
+setParam: numOfClauses=8.
+mode: nextSentenceInBlock(+BID,+SID,-SID).
+mode: nextSentenceInBlock(+BID,-SID,+SID).
+mode: earlySentenceInBlock(+BID,-SID).
+mode: midWaySentenceInBlock(+BID,-SID).
+mode: lateSentenceInBlock(+BID,-SID).
+mode: sentenceInBlock(-SID,+BID).
+mode: wordString(+WID,#WSTR).
+mode: partOfSpeechTag(+WID,#WPOS).
+mode: nextWordInSentence(+SID,+WID,-WID).
+mode: earlyWordInSentence(+SID,-WID).
+mode: midWayWordInSentence(+SID,-WID).
+mode: lateWordInSentence(+SID,-WID).
+wordInSentence(-WID,+SID).
+mode: sentenceContainsTarget(+SID,+WID).

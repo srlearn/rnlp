@@ -1,0 +1,7 @@
+setParam: stringsAreCaseSensitive = true.
+
+useStdLogicNotation: true.
+
+
+(wordString(a, "you") => sentenceContainsTarget(_, a, 0.7194734122109542)).
+sentenceContainsTarget(_, _, -0.12544463852839138) /* #neg=32 */ .
