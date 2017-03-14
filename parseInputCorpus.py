@@ -161,7 +161,7 @@ def makeIdentifiers(blocks):
     bk.write("mode: earlyWordInSentence(+SID,-WID).\n")
     bk.write("mode: midWayWordInSentence(+SID,-WID).\n")
     bk.write("mode: lateWordInSentence(+SID,-WID).\n")
-    bk.write("wordInSentence(-WID,+SID).\n")
+    bk.write("mode: wordInSentence(-WID,+SID).\n")
     target = getTarget()
     bk.write(target)
     bk.close()
