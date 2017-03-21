@@ -163,7 +163,7 @@ def makeIdentifiers(blocks):
     bk.write("mode: lateWordInSentence(+SID,-WID).\n")
     bk.write("mode: wordInSentence(-WID,+SID).\n")
     target = getTarget()
-    bk.write(target)
+    bk.write("mode: "+target)
     bk.close()
     nBlocks = len(blocks)
     for block in blocks:
