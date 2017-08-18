@@ -14,25 +14,25 @@ between sentences and words in the sentences.
 
 The relationships currently encoded are:
 
-1.earlySentenceInBlock - sentence occurs within a third of the block length
+1. earlySentenceInBlock - sentence occurs within a third of the block length
 
-2.earlyWordInSentence - word occurs within a third of the sentence length
+2. earlyWordInSentence - word occurs within a third of the sentence length
 
-3.lateSentenceInBlock - sentence occurs after two-thirds of the block length
+3. lateSentenceInBlock - sentence occurs after two-thirds of the block length
 
-4.midWayWordInSentence - word occurs between a third and two-thirds of the block length
+4. midWayWordInSentence - word occurs between a third and two-thirds of the block length
 
-5.nextSentenceInBlock - sentence that follows a sentence in a block
+5. nextSentenceInBlock - sentence that follows a sentence in a block
 
-6.nextWordInSentence - word that follows a word in a sentence in a block
+6. nextWordInSentence - word that follows a word in a sentence in a block
 
-7.sentenceInBlock - sentence occurs in a block
+7. sentenceInBlock - sentence occurs in a block
 
-8.wordInSentence - word occurs in a sentence.
+8. wordInSentence - word occurs in a sentence.
 
-9.wordString - the string contained in the word.
+9. wordString - the string contained in the word.
 
-10.partOfSpeech - the part of speech of the word.
+10. partOfSpeech - the part of speech of the word.
 
 files contains a toy corpus of files and the output contains an image of RDN-Boost learned tree to predict if a word in a sentence is the word "you"
 
