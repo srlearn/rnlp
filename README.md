@@ -20,9 +20,9 @@ The Relationals encoded are:
 
 - between sentences and words in the sentences.
 
-The relationships currently encoded are:
-
 ---
+
+The relationships currently encoded are:
 
 1. earlySentenceInBlock - sentence occurs within a third of the block length
 
