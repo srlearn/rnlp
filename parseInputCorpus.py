@@ -6,6 +6,16 @@ from os import listdir
 from os import system
 from sys import argv
 
+import nltk
+
+"""
+Package requires punkt, averaged_perceptron_tagger to be installed.
+>>> import nltk
+>>> nltk.download()
+
+(punkt and averaged_perceptron_tagger are under the models tab)
+"""
+
 def textFile(file):
     '''check if text file'''
     return '.txt' in file
