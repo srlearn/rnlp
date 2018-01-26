@@ -1,19 +1,64 @@
-from os import listdir,system
-import nltk
+"""
+Copyright (C) 2017-2018 STARAI Lab
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program (at the base of this repository). If not,
+see <http://www.gnu.org/licenses/>
+
+---
+
+Name: NLP-Preprocessing
+Description: "Processes text from a file or set of files into relational facts."
+Last updated: January 26, 2018
+
+Questions? Contact Kaushik Roy (GitHub: kkroy36) or Alexander L. Hayes (GitHub: batflyer)
+kauroy@indiana.edu
+Alexander.Hayes@utdallas.edu
+
+---
+
+Code is Python 2/3 compatable.
+
+Depencencies: nltk, future: (pip install nltk future)
+nltk models: averaged_perceptron_tagger, punkt
+
+   $ python
+   >>> import nltk
+   >>> nltk.download()
+   [navigate to the models tab and download averaged_perceptron_tagger and punkt]
+"""
+
+from __future__ import print_function
+from builtins import input
+
+from os import listdir
+from os import system
 from sys import argv
+
+import nltk
 
 def textFile(file):
     '''check if text file'''
-    if ".txt" in file:
-        return True
-    return False
+    return '.txt' in file
 
 def readCorpus(file):
     '''reads corpus from a directory of txt files or a file'''
-    print "reading content from corpus.."
+    print("reading content from corpus..")
     corpus = []
     if textFile(file):
-        answer = raw_input("single file provided.\n Go with this file? Yes/No: ")
+        
+        answer = input("Single file provided.\n Go with this file? Yes/No: ")
+        
         if answer.lower() == "no":
             exit()
         with open(file) as fp:
@@ -21,11 +66,11 @@ def readCorpus(file):
             for item in lines:
                 corpus += item
     else:
-        print "Reading files from directory.."
+        print("Reading files from directory..")
         dirFiles = listdir(file)
         nFiles = len(dirFiles)
         for f in dirFiles:
-            print "reading file "+str(f)+", file "+str(dirFiles.index(f)+1)+"/"+str(nFiles)
+            print("reading file "+str(f)+", file "+str(dirFiles.index(f)+1)+"/"+str(nFiles))
             with open(file+"/"+f) as fp:
                 fLines = fp.read().splitlines()
                 for item in fLines:
@@ -58,31 +103,41 @@ def getBlocks(sentences,n):
 def checkConsistency():
     '''checks for system errors/conflicts'''
     if "facts.txt" in listdir("."):
-        answer = raw_input("facts.txt already exists, delete file or exit program, Delete/Exit?: ")
+        
+        answer = input("facts.txt already exists, delete file or exit program, Delete/Exit?: ")
+        
         if answer.lower() == "exit":
             exit()
         else:
             system("rm -f facts.txt")
     if "blockIDs.txt" in listdir("."):
-        answer = raw_input("blockIDs.txt already exists, delete file or exit program, Delete/Exit?: ")
+        
+        answer = input("blockIDs.txt already exists, delete file or exit program, Delete/Exit?: ")
+        
         if answer.lower() == "exit":
             exit()
         else:
             system("rm -f blockIDs.txt")
     if "sentenceIDs.txt" in listdir("."):
-        answer = raw_input("sentenceIDs.txt already exists, delete file or exit program, Delete/Exit?: ")
+
+        answer = input("sentenceIDs.txt already exists, delete file or exit program, Delete/Exit?: ")
+        
         if answer.lower() == "exit":
             exit()
         else:
             system("rm -f sentenceIDs.txt")
     if "wordIDs.txt" in listdir("."):
-        answer = raw_input("wordIDs.txt already exists, delete file or exit program, Delete/Exit?: ")
+
+        answer = input("wordIDs.txt already exists, delete file or exit program, Delete/Exit?: ")
+        
         if answer.lower() == "exit":
             exit()
         else:
             system("rm -f wordIDs.txt")
     if "bk.txt" in listdir("."):
-        answer = raw_input("bk.txt already exists, program will generate new one, OK/Exit?: ")
+
+        answer = input("bk.txt already exists, program will generate new one, OK/Exit?: ")
+        
         if answer.lower() == "exit":
             exit()
         else:
@@ -120,14 +175,21 @@ def writeFact(predicateString):
 def setParam(parameter,bk,defaultValue):
     '''gets parameter value from user'''
     parameterValue = defaultValue
-    ans = raw_input("Enter Custom "+parameter+"?(yes/no). default "+parameter+" is "+parameterValue+": ")
-    if ans.lower()=="yes":
-        parameterValue = raw_input("Enter "+parameter+": ")
-    bk.write("setParam: "+parameter+"="+parameterValue+".\n")
+    
+    answer = input("Enter Custom "+parameter+"?(yes/no). default "+parameter+" is "+parameterValue+": ")
+    
+    if answer.lower()=="yes":
+        
+        parameterValue = input("Enter " + parameter + ": ")
+        
+    bk.write("setParam: " + parameter + "=" + parameterValue + ".\n")
 
 def getTarget():
     '''gets the object of inference from the user(target)'''
-    choice = raw_input("choose target: \n1.sentenceContainsTarget(+SID,+WID)\n2.blockContainsTarget(+BID,+SID)\n3.Both\n4.new target\nEnter choice: ")
+    #choice = raw_input("choose target: \n1.sentenceContainsTarget(+SID,+WID)\n2.blockContainsTarget(+BID,+SID)\n3.Both\n4.new target\nEnter choice: ")
+
+    choice = input("choose target: \n1.sentenceContainsTarget(+SID,+WID)\n2.blockContainsTarget(+BID,+SID)\n3.Both\n4.new target\nEnter choice: ")
+
     if int(choice) == 1:
         return "mode: sentenceContainsTarget(+SID,+WID).\n"
     elif int(choice) == 2:
@@ -135,7 +197,7 @@ def getTarget():
     elif int(choice) == 3:
         return "mode: sentenceContainsTarget(+SID,+WID).\n"+"mode: blockContainsTarget(+BID,+SID).\n"
     elif int(choice) == 4:
-        newPredicate = raw_input("Enter the target predicate with modes: ")
+        newPredicate = input("Enter the target predicate with modes: ")
         return newPredicate
     
 def makeIdentifiers(blocks):
@@ -143,7 +205,7 @@ def makeIdentifiers(blocks):
     blockID,sentenceID,wordID = 0,0,0
     blockID = 1
     checkConsistency()
-    print "Creating background file.."
+    print("Creating background file..")
     bk = open("bk.txt","a")
     bk.write("useStdLogicVariables: true\n")
     setParam("treeDepth",bk,"3")
@@ -167,7 +229,7 @@ def makeIdentifiers(blocks):
     bk.close()
     nBlocks = len(blocks)
     for block in blocks:
-        print "writing block "+str(blocks.index(block)+1)+"/"+str(nBlocks)+" to blockIDs.txt.."
+        print("writing block "+str(blocks.index(block)+1)+"/"+str(nBlocks)+" to blockIDs.txt..")
         writeBlock(block,blockID)
         sentenceID = 1
         nSentences = len(block)
@@ -190,7 +252,7 @@ def makeIdentifiers(blocks):
             if sentenceID > ending:
                 predicateString = "lateSentenceInBlock("+str(blockID)+","+str(blockID)+"_"+str(sentenceID)+")."
                 writeFact(predicateString)
-            print "writing sentence "+str(sentenceID)+"/"+str(nSentences)+" in block id "+str(blockID)+" to sentenceIDs.txt.."
+            print("writing sentence "+str(sentenceID)+"/"+str(nSentences)+" in block id "+str(blockID)+" to sentenceIDs.txt..")
             #====================predicate: sentenceInBlock(sentenceID,blockID)=====================================
             predicateString = "sentenceInBlock("+str(blockID)+"_"+str(sentenceID)+","+str(blockID)+")."
             writeFact(predicateString)
@@ -239,7 +301,7 @@ def makeIdentifiers(blocks):
                 if sentenceID > ending:
                     predicateString = "lateSentenceInBlock("+str(blockID)+","+str(blockID)+"_"+str(sentenceID)+")."
                     writeFact(predicateString)
-                print "writing word "+str(wordID)+"/"+str(nWords)+" from sentence id "+str(sentenceID)+" in block id "+str(blockID)+" to wordIDs.txt.."
+                print("writing word "+str(wordID)+"/"+str(nWords)+" from sentence id "+str(sentenceID)+" in block id "+str(blockID)+" to wordIDs.txt..")
                 #====================predicate: wordInSentence(wordID,sentenceID)=====================================
                 predicateString = "wordInSentence("+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)+","+str(blockID)+"_"+str(sentenceID)+")."
                 writeFact(predicateString)
@@ -251,15 +313,14 @@ def main():
     '''main method'''
     n = 2
     if "-blockSize" not in argv:
-        print "defaulting to block size "+str(n)
+        print("defaulting to block size "+str(n))
     else:
         n = int(argv[(argv.index("-blockSize"))+1])
-    file = raw_input("Enter the file or folder to read the corpus from: ")
-    corpus = readCorpus(file)
+        
+    chosenFile = input("Enter the file or folder to read the corpus from: ")
+    
+    corpus = readCorpus(chosenFile)
     sentences = getSentences(corpus)
     blocks = getBlocks(sentences,n) #can toggle number of sentences in a block
     makeIdentifiers(blocks)
 main()
-            
-    
-        
