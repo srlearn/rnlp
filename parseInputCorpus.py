@@ -1,16 +1,17 @@
-from os import listdir,system
+from __future__ import print_function
+
+from os import listdir
+from os import system
 import nltk
 from sys import argv
 
 def textFile(file):
     '''check if text file'''
-    if ".txt" in file:
-        return True
-    return False
+    return '.txt' in file
 
 def readCorpus(file):
     '''reads corpus from a directory of txt files or a file'''
-    print "reading content from corpus.."
+    print("reading content from corpus..")
     corpus = []
     if textFile(file):
         answer = raw_input("single file provided.\n Go with this file? Yes/No: ")
@@ -21,11 +22,11 @@ def readCorpus(file):
             for item in lines:
                 corpus += item
     else:
-        print "Reading files from directory.."
+        print("Reading files from directory..")
         dirFiles = listdir(file)
         nFiles = len(dirFiles)
         for f in dirFiles:
-            print "reading file "+str(f)+", file "+str(dirFiles.index(f)+1)+"/"+str(nFiles)
+            print("reading file "+str(f)+", file "+str(dirFiles.index(f)+1)+"/"+str(nFiles))
             with open(file+"/"+f) as fp:
                 fLines = fp.read().splitlines()
                 for item in fLines:
@@ -143,7 +144,7 @@ def makeIdentifiers(blocks):
     blockID,sentenceID,wordID = 0,0,0
     blockID = 1
     checkConsistency()
-    print "Creating background file.."
+    print("Creating background file..")
     bk = open("bk.txt","a")
     bk.write("useStdLogicVariables: true\n")
     setParam("treeDepth",bk,"3")
@@ -167,7 +168,7 @@ def makeIdentifiers(blocks):
     bk.close()
     nBlocks = len(blocks)
     for block in blocks:
-        print "writing block "+str(blocks.index(block)+1)+"/"+str(nBlocks)+" to blockIDs.txt.."
+        print("writing block "+str(blocks.index(block)+1)+"/"+str(nBlocks)+" to blockIDs.txt..")
         writeBlock(block,blockID)
         sentenceID = 1
         nSentences = len(block)
@@ -190,7 +191,7 @@ def makeIdentifiers(blocks):
             if sentenceID > ending:
                 predicateString = "lateSentenceInBlock("+str(blockID)+","+str(blockID)+"_"+str(sentenceID)+")."
                 writeFact(predicateString)
-            print "writing sentence "+str(sentenceID)+"/"+str(nSentences)+" in block id "+str(blockID)+" to sentenceIDs.txt.."
+            print("writing sentence "+str(sentenceID)+"/"+str(nSentences)+" in block id "+str(blockID)+" to sentenceIDs.txt..")
             #====================predicate: sentenceInBlock(sentenceID,blockID)=====================================
             predicateString = "sentenceInBlock("+str(blockID)+"_"+str(sentenceID)+","+str(blockID)+")."
             writeFact(predicateString)
@@ -239,7 +240,7 @@ def makeIdentifiers(blocks):
                 if sentenceID > ending:
                     predicateString = "lateSentenceInBlock("+str(blockID)+","+str(blockID)+"_"+str(sentenceID)+")."
                     writeFact(predicateString)
-                print "writing word "+str(wordID)+"/"+str(nWords)+" from sentence id "+str(sentenceID)+" in block id "+str(blockID)+" to wordIDs.txt.."
+                print("writing word "+str(wordID)+"/"+str(nWords)+" from sentence id "+str(sentenceID)+" in block id "+str(blockID)+" to wordIDs.txt..")
                 #====================predicate: wordInSentence(wordID,sentenceID)=====================================
                 predicateString = "wordInSentence("+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)+","+str(blockID)+"_"+str(sentenceID)+")."
                 writeFact(predicateString)
@@ -251,7 +252,7 @@ def main():
     '''main method'''
     n = 2
     if "-blockSize" not in argv:
-        print "defaulting to block size "+str(n)
+        print("defaulting to block size "+str(n))
     else:
         n = int(argv[(argv.index("-blockSize"))+1])
     file = raw_input("Enter the file or folder to read the corpus from: ")
