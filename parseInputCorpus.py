@@ -1,4 +1,43 @@
-# pip install future
+"""
+Copyright (C) 2017-2018 STARAI Lab
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program (at the base of this repository). If not,
+see <http://www.gnu.org/licenses/>
+
+---
+
+Name: NLP-Preprocessing
+Description: "Processes text from a file or set of files into relational facts."
+Last updated: January 26, 2018
+
+Questions? Contact Kaushik Roy (GitHub: kkroy36) or Alexander L. Hayes (GitHub: batflyer)
+kauroy@indiana.edu
+Alexander.Hayes@utdallas.edu
+
+---
+
+Code is Python 2/3 compatable.
+
+Depencencies: nltk, future: (pip install nltk future)
+nltk models: averaged_perceptron_tagger, punkt
+
+   $ python
+   >>> import nltk
+   >>> nltk.download()
+   [navigate to the models tab and download averaged_perceptron_tagger and punkt]
+"""
+
 from __future__ import print_function
 from builtins import input
 
@@ -7,14 +46,6 @@ from os import system
 from sys import argv
 
 import nltk
-
-"""
-Package requires punkt, averaged_perceptron_tagger to be installed.
->>> import nltk
->>> nltk.download()
-
-(punkt and averaged_perceptron_tagger are under the models tab)
-"""
 
 def textFile(file):
     '''check if text file'''
@@ -25,7 +56,6 @@ def readCorpus(file):
     print("reading content from corpus..")
     corpus = []
     if textFile(file):
-        #answer = raw_input("single file provided.\n Go with this file? Yes/No: ") Removed for compatability
         
         answer = input("Single file provided.\n Go with this file? Yes/No: ")
         
@@ -294,6 +324,3 @@ def main():
     blocks = getBlocks(sentences,n) #can toggle number of sentences in a block
     makeIdentifiers(blocks)
 main()
-            
-    
-        
