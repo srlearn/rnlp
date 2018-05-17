@@ -21,9 +21,10 @@ nltk.download('wordnet')
 # Import the package and assign metadata as appropriate
 import rnlp
 
-set(
+setup(
     name='rnlp',
     version=rnlp.__version__,
+    license=rnlp.__license__,
 
     description='Converts text corpora into a set of relational facts.',
     long_description=long_description,
@@ -33,13 +34,6 @@ set(
 
     author='Alexander L. Hayes (@batflyer)',
     author_email='alexander@batflyer.net',
-
-    keywords='nlp',
-
-    project_urls={
-        'Source': 'https://github.com/starling-lab/rnlp',
-        'Tracker': 'https://github.com/starling-lab/rnlp/issues'
-    },
 
     classifiers=[
         # Development Information
@@ -60,5 +54,12 @@ set(
         'Programming Language :: Python :: 3.6'
     ],
 
-    packages=find_packages(exclude=['docs', 'tests*'])
+    keywords='nlp',
+
+    project_urls={
+        'Source': 'https://github.com/starling-lab/rnlp',
+        'Tracker': 'https://github.com/starling-lab/rnlp/issues'
+    },
+
+    packages=find_packages(exclude=['tests'])
 )
