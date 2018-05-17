@@ -15,7 +15,7 @@ rnlp\.corpus module
 rnlp\.parseInputCorpus module
 -----------------------------
 
-.. automodule:: rnlp.parseInputCorpus
+.. automodule:: rnlp.parse
     :members:
     :undoc-members:
     :show-inheritance:
