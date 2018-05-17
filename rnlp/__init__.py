@@ -72,3 +72,5 @@ __credits__ = [
     'Dileep Viswanathan',
     'Rahul Pasunuri'
 ]
+
+from . import parse
