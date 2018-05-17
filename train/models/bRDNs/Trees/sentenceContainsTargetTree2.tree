@@ -1,7 +1,0 @@
-setParam: stringsAreCaseSensitive = true.
-
-useStdLogicNotation: true.
-
-
-(wordString(a, "you") => sentenceContainsTarget(_, a, 0.5553664367462846)).
-sentenceContainsTarget(_, _, -0.11231637819360642) /* #neg=30 */ .
