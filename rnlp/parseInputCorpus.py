@@ -1,5 +1,5 @@
 """
-Copyright (C) 2017-2018 STARAI Lab
+Copyright (C) 2017-2018 StARLinG Lab
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -56,9 +56,9 @@ def readCorpus(file):
     print("reading content from corpus..")
     corpus = []
     if textFile(file):
-        
+
         answer = input("Single file provided.\n Go with this file? Yes/No: ")
-        
+
         if answer.lower() == "no":
             exit()
         with open(file) as fp:
@@ -103,17 +103,17 @@ def getBlocks(sentences,n):
 def checkConsistency():
     '''checks for system errors/conflicts'''
     if "facts.txt" in listdir("."):
-        
+
         answer = input("facts.txt already exists, delete file or exit program, Delete/Exit?: ")
-        
+
         if answer.lower() == "exit":
             exit()
         else:
             system("rm -f facts.txt")
     if "blockIDs.txt" in listdir("."):
-        
+
         answer = input("blockIDs.txt already exists, delete file or exit program, Delete/Exit?: ")
-        
+
         if answer.lower() == "exit":
             exit()
         else:
@@ -121,7 +121,7 @@ def checkConsistency():
     if "sentenceIDs.txt" in listdir("."):
 
         answer = input("sentenceIDs.txt already exists, delete file or exit program, Delete/Exit?: ")
-        
+
         if answer.lower() == "exit":
             exit()
         else:
@@ -129,7 +129,7 @@ def checkConsistency():
     if "wordIDs.txt" in listdir("."):
 
         answer = input("wordIDs.txt already exists, delete file or exit program, Delete/Exit?: ")
-        
+
         if answer.lower() == "exit":
             exit()
         else:
@@ -137,12 +137,12 @@ def checkConsistency():
     if "bk.txt" in listdir("."):
 
         answer = input("bk.txt already exists, program will generate new one, OK/Exit?: ")
-        
+
         if answer.lower() == "exit":
             exit()
         else:
             system("rm -f bk.txt")
-    
+
 def writeBlock(block,blockID):
     '''writes the block to a file with the id'''
     with open("blockIDs.txt","a") as fp:
@@ -175,13 +175,13 @@ def writeFact(predicateString):
 def setParam(parameter,bk,defaultValue):
     '''gets parameter value from user'''
     parameterValue = defaultValue
-    
+
     answer = input("Enter Custom "+parameter+"?(yes/no). default "+parameter+" is "+parameterValue+": ")
-    
+
     if answer.lower()=="yes":
-        
+
         parameterValue = input("Enter " + parameter + ": ")
-        
+
     bk.write("setParam: " + parameter + "=" + parameterValue + ".\n")
 
 def getTarget():
@@ -199,7 +199,7 @@ def getTarget():
     elif int(choice) == 4:
         newPredicate = input("Enter the target predicate with modes: ")
         return newPredicate
-    
+
 def makeIdentifiers(blocks):
     '''make unique identifiers for components of the block and write to file'''
     blockID,sentenceID,wordID = 0,0,0
@@ -316,9 +316,9 @@ def main():
         print("defaulting to block size "+str(n))
     else:
         n = int(argv[(argv.index("-blockSize"))+1])
-        
+
     chosenFile = input("Enter the file or folder to read the corpus from: ")
-    
+
     corpus = readCorpus(chosenFile)
     sentences = getSentences(corpus)
     blocks = getBlocks(sentences,n) #can toggle number of sentences in a block
