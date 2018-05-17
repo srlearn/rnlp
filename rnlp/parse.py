@@ -15,53 +15,75 @@
 # see <http://www.gnu.org/licenses/>
 
 """
-Depencencies: nltk, future: (pip install nltk future)
 nltk models: averaged_perceptron_tagger, punkt
-
-   $ python
-   >>> import nltk
-   >>> nltk.download()
-   [navigate to the models tab and download averaged_perceptron_tagger and punkt]
 """
 
 from __future__ import print_function
-from builtins import input
+from __future__ import division
 
-from os import listdir
-from os import system
-from sys import argv
+import string
 
 import nltk
 
-def textFile(file):
-    '''check if text file'''
-    return '.txt' in file
+from nltk import sent_tokenize
+from nltk import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem.porter import *
 
-def readCorpus(file):
-    '''reads corpus from a directory of txt files or a file'''
-    print("reading content from corpus..")
-    corpus = []
-    if textFile(file):
+_punctuation = string.punctuation
+_stemmer = PorterStemmer()
+_stopwords = stopwords.words('english')
 
-        answer = input("Single file provided.\n Go with this file? Yes/No: ")
+'''
+def removePunctuations(text_string):
+    """
+    Clears the punctuation from a string.
 
-        if answer.lower() == "no":
-            exit()
-        with open(file) as fp:
-            lines = fp.read().splitlines()
-            for item in lines:
-                corpus += item
-    else:
-        print("Reading files from directory..")
-        dirFiles = listdir(file)
-        nFiles = len(dirFiles)
-        for f in dirFiles:
-            print("reading file "+str(f)+", file "+str(dirFiles.index(f)+1)+"/"+str(nFiles))
-            with open(file+"/"+f) as fp:
-                fLines = fp.read().splitlines()
-                for item in fLines:
-                    corpus += item
-    return "".join(corpus)
+    :param text_string: A string of text.
+    :type text_string: str.
+    """
+    return text_string.strip(_punctuation)
+
+def __removeStopwords(list_of_words):
+    """
+    :param list_of_words: A list of words.
+    :type list_of_words: list of str.
+    """
+    for word in list_of_words:
+        if word not in _stopwords:
+            yield word
+
+def getSentences(text_string):
+    """
+    Tokenize the corpus into a list of sentence.
+
+    :param text_string: A string of text.
+    :type text_string: str.
+    """
+    #return sent_tokenize(text_string)
+    sentences = sent_tokenize(text_string)
+    sentences = [removePunctuations(text_string) for sentence in text_string]
+    return sentences
+
+def getBlocks(sentences, n):
+    """
+    Get blocks of n sentences together.
+
+    :param sentences: A list of sentences.
+    :type sentences: list
+    :param n: ???
+    :type n: int.
+
+    for i in range(0, len(sentences), n):
+        yield sentences[i:(i+n)]
+    """
+
+    N = len(sentences)
+    blocks = []
+    for i in range(0,N,n):
+        blocks.append(sentences[i:(i+n)])
+    return blocks
+'''
 
 def removePunctuations(sentence):
     '''removes punctuations from a sentence'''
@@ -86,48 +108,13 @@ def getBlocks(sentences,n):
         blocks.append(sentences[i:(i+n)])
     return blocks
 
-def checkConsistency():
-    '''checks for system errors/conflicts'''
-    if "facts.txt" in listdir("."):
-
-        answer = input("facts.txt already exists, delete file or exit program, Delete/Exit?: ")
-
-        if answer.lower() == "exit":
-            exit()
-        else:
-            system("rm -f facts.txt")
-    if "blockIDs.txt" in listdir("."):
-
-        answer = input("blockIDs.txt already exists, delete file or exit program, Delete/Exit?: ")
-
-        if answer.lower() == "exit":
-            exit()
-        else:
-            system("rm -f blockIDs.txt")
-    if "sentenceIDs.txt" in listdir("."):
-
-        answer = input("sentenceIDs.txt already exists, delete file or exit program, Delete/Exit?: ")
-
-        if answer.lower() == "exit":
-            exit()
-        else:
-            system("rm -f sentenceIDs.txt")
-    if "wordIDs.txt" in listdir("."):
-
-        answer = input("wordIDs.txt already exists, delete file or exit program, Delete/Exit?: ")
-
-        if answer.lower() == "exit":
-            exit()
-        else:
-            system("rm -f wordIDs.txt")
-    if "bk.txt" in listdir("."):
-
-        answer = input("bk.txt already exists, program will generate new one, OK/Exit?: ")
-
-        if answer.lower() == "exit":
-            exit()
-        else:
-            system("rm -f bk.txt")
+"""
+facts.txt
+blockIDs.txt
+sentenceIDs.txt
+wordIDs.txt
+bk.txt
+"""
 
 def writeBlock(block,blockID):
     '''writes the block to a file with the id'''
@@ -190,7 +177,7 @@ def makeIdentifiers(blocks):
     '''make unique identifiers for components of the block and write to file'''
     blockID,sentenceID,wordID = 0,0,0
     blockID = 1
-    checkConsistency()
+    #checkConsistency()
     print("Creating background file..")
     bk = open("bk.txt","a")
     bk.write("useStdLogicVariables: true\n")
@@ -298,15 +285,17 @@ def makeIdentifiers(blocks):
 def main():
     '''main method'''
     n = 2
+    """
     if "-blockSize" not in argv:
         print("defaulting to block size "+str(n))
     else:
         n = int(argv[(argv.index("-blockSize"))+1])
 
     chosenFile = input("Enter the file or folder to read the corpus from: ")
-
-    corpus = readCorpus(chosenFile)
+    """
+    #corpus = readCorpus(chosenFile)
+    corpus = 'hello world. hello alexander. hello some other world.'
     sentences = getSentences(corpus)
     blocks = getBlocks(sentences,n) #can toggle number of sentences in a block
     makeIdentifiers(blocks)
-#main()
+main()

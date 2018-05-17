@@ -13,3 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program (at the base of this repository). If not,
 # see <http://www.gnu.org/licenses/>
+
+def declaration():
+    pass
