@@ -1,7 +1,0 @@
-digraph G{ 
-1[label = "[wordString(b, "you")]"];
-1 -> 2[label="True"];
-1 -> 3[label="False"];
-2[shape = box,label = "0.418(0.603)"];
-3[shape = box,label = "-0.102(0.475)"];
-}
