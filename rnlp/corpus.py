@@ -14,6 +14,8 @@
 # along with this program (at the base of this repository). If not,
 # see <http://www.gnu.org/licenses/>
 
+from os import listdir
+
 def readCorpus(*args):
     """
     Returns the contents of a file or a group of files as strings.
@@ -27,6 +29,32 @@ def readCorpus(*args):
     for file in args:
         with open(file) as f:
             yield f.read()
+
+def readCorpus(file):
+    '''reads corpus from a directory of txt files or a file'''
+    print("reading content from corpus..")
+    corpus = []
+    if '.txt' in file:
+
+        answer = input("Single file provided.\n Go with this file? Yes/No: ")
+
+        if answer.lower() == "no":
+            exit()
+        with open(file) as fp:
+            lines = fp.read().splitlines()
+            for item in lines:
+                corpus += item
+    else:
+        print("Reading files from directory..")
+        dirFiles = listdir(file)
+        nFiles = len(dirFiles)
+        for f in dirFiles:
+            print("reading file "+str(f)+", file "+str(dirFiles.index(f)+1)+"/"+str(nFiles))
+            with open(file+"/"+f) as fp:
+                fLines = fp.read().splitlines()
+                for item in fLines:
+                    corpus += item
+    return "".join(corpus)
 
 def declaration():
     """
