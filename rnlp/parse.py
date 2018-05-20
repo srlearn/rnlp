@@ -25,7 +25,10 @@ nltk models: averaged_perceptron_tagger, punkt
 """
 
 from __future__ import print_function
-from builtins import input
+try:
+   input = raw_input
+except NameError:
+   pass
 
 from os import listdir
 from os import system
@@ -294,19 +297,3 @@ def makeIdentifiers(blocks):
                 writeWordFromSentenceInBlock(word,blockID,sentenceID,wordID)
                 wordID += 1
         blockID += 1
-
-def main():
-    '''main method'''
-    n = 2
-    if "-blockSize" not in argv:
-        print("defaulting to block size "+str(n))
-    else:
-        n = int(argv[(argv.index("-blockSize"))+1])
-
-    chosenFile = input("Enter the file or folder to read the corpus from: ")
-
-    corpus = readCorpus(chosenFile)
-    sentences = getSentences(corpus)
-    blocks = getBlocks(sentences,n) #can toggle number of sentences in a block
-    makeIdentifiers(blocks)
-#main()
