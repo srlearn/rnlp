@@ -2,6 +2,12 @@
 train
 test
 
+bk.txt
+blockIDs.txt
+facts.txt
+sentenceIDs.txt
+wordIDs.txt
+
 # === The following are based on the github/gitignore/Python.gitignore === #
 # === Made available under a Creative Commons Zero v1.0 Universal ======== #
 
