@@ -1,16 +1,26 @@
-# NLP-Preprocessing
+## rnlp
 
-Processes text from a file (or set of files) into relational facts.
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/rnlp.svg?style=flat-square) ![PyPI](https://img.shields.io/pypi/v/rnlp.svg?style=flat-square) ![license](https://img.shields.io/pypi/l/rnlp.svg?style=flat-square)
 
-Pre-requisites:
+*Relational NLP Preprocessing: A Python package and tool for converting text into a set of relational facts.*
 
-- Python 2.7
+**Kaushik Roy** ([@kkroy36](https://github.com/kkroy36/)) and **Alexander L. Hayes** ([@batflyer](https://github.com/batflyer/))
 
-- nltk version 3.2.1
+### Installation
 
-Usage:
+Stable builds from PyPi
 
-`$ python parseInputCorpus.py -blockSize [n]`
+`pip install rnlp`
+
+Development builds from GitHub
+
+`pip install git+git://github.com/starling-lab/rnlp.git`
+
+### Quick-Start
+
+Calling the module from the commandline:
+
+`$ python -m rnlp --blockSize 3`
 
 The code will prompt for a file or folder input of text files to convert to relational facts.
 
@@ -53,4 +63,4 @@ Files contain a toy corpus (`files/`) and an image of a BoostSRL tree for predic
 The tree says that if the word string contained in word 'b' is "you" then 'b' is the word "you". (This is of course true).
 A more interesting inference is the False branch that says that if word 'b' is an early word in sentence 'a' and word 'anon12035' is also an early word in sentence 'a' and if the word string contained in word 'anon12035' is "Thank", then the word 'b' has decent change of being the word "you". (The model was able to learn that the word "you" often occurs with the word "Thank" in the same sentence when "Thank" appears early in that sentence).
 
-Questions: contact kauroy (AT) indiana (DOT) edu
+
