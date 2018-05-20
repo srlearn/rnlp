@@ -62,4 +62,42 @@ def __removePunctuation(text_string):
     """
     return text_string.strip(_punctuation)
 
-    
+def __removeStopwords(text_list):
+    """
+    Removes stopwords contained in a list of words.
+
+    :param text_string: A list of strings.
+    :type text_string: list.
+
+    :returns: The input ``text_list`` with stopwords removed.
+    :rtype: list
+    """
+
+    output_list = []
+
+    for word in text_list:
+        if word.lower() not in _stopwords:
+            output_list.append(word)
+
+    return output_list
+
+def getSentences(text_string):
+    """
+    Tokenizes the corpus into sentences.
+
+    :param text_string: A string.
+    :type text_string: str.
+
+    :returns: A list of string sentences with punctuation removed.
+    :rtype: list
+    """
+    return [__removePunctuation(s) for s in sent_tokenize(corpus)]
+
+def getBlocks(sentences, n):
+    """
+    Get blocks of n sentences together.
+    """
+    blocks = []
+    for i in range(0, len(sentences), n):
+        blocks.append(sentences[i:(i+n)])
+    return blocks
