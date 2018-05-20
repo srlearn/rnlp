@@ -16,6 +16,39 @@
 
 from parse import *
 
+import argparse
+
+__author__ = 'Kaushik Roy (@kkroy36)'
+__copyright__ = 'Copyright (c) 2017-2018 StARLinG Lab'
+__license__ = 'GPL-v3'
+
+__version__ = '0.1.0'
+__status__ = 'Beta'
+__maintainer__ = 'Alexander L. Hayes (@batflyer)'
+__email__ = 'alexander.hayes@utdallas.edu'
+
+__credits__ = [
+    'Kaushik Roy (@kkroy36)',
+    'Alexander L. Hayes (@batflyer)',
+    'Sriraam Natarajan (@boost-starai)',
+    'Gautam Kunapuli (@gkunapuli)',
+    'Dileep Viswanathan',
+    'Rahul Pasunuri'
+]
+
+parser = argparse.ArgumentParser(
+    description='''Relational-NLP: A library and tool for converting text
+                   into a set of relational facts.''',
+    epilog='''Copyright (c) 2017-2018 StARLinG Lab.'''
+)
+
+parser.add_argument('-b', '--blockSize', type=int,
+    help='Set the block size')
+parser.add_argument('-f', '--file', type=str, default=2,
+    help='Read from file.')
+
+args = parser.parse_args()
+
 def main():
     '''main method'''
     n = 2
