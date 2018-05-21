@@ -16,7 +16,8 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 import nltk
 nltk.download('punkt')
 nltk.download('stopwords')
-nltk.download('wordnet')
+#nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger')
 
 # Import the package and assign metadata as appropriate
 import rnlp
@@ -44,7 +45,7 @@ setup(
         'Intended Audience :: Science/Research',
 
         # Tested Operating Systems
-        'Operating System :: POSIX',
+        'Operating System :: POSIX :: Linux',
         'Operating System :: Microsoft :: Windows :: Windows 10',
 
         # Supported Python Versions.

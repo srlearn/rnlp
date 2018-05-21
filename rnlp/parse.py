@@ -15,122 +15,22 @@
 # see <http://www.gnu.org/licenses/>
 
 """
-Depencencies: nltk, future: (pip install nltk future)
 nltk models: averaged_perceptron_tagger, punkt
-
-   $ python
-   >>> import nltk
-   >>> nltk.download()
-   [navigate to the models tab and download averaged_perceptron_tagger and punkt]
 """
 
 from __future__ import print_function
+from __future__ import division
+
 try:
    input = raw_input
 except NameError:
    pass
 
-from os import listdir
-from os import system
-from sys import argv
-
+import string
 import nltk
 
-def textFile(file):
-    '''check if text file'''
-    return '.txt' in file
-
-def readCorpus(file):
-    '''reads corpus from a directory of txt files or a file'''
-    print("reading content from corpus..")
-    corpus = []
-    if textFile(file):
-
-        answer = input("Single file provided.\n Go with this file? Yes/No: ")
-
-        if answer.lower() == "no":
-            exit()
-        with open(file) as fp:
-            lines = fp.read().splitlines()
-            for item in lines:
-                corpus += item
-    else:
-        print("Reading files from directory..")
-        dirFiles = listdir(file)
-        nFiles = len(dirFiles)
-        for f in dirFiles:
-            print("reading file "+str(f)+", file "+str(dirFiles.index(f)+1)+"/"+str(nFiles))
-            with open(file+"/"+f) as fp:
-                fLines = fp.read().splitlines()
-                for item in fLines:
-                    corpus += item
-    return "".join(corpus)
-
-def removePunctuations(sentence):
-    '''removes punctuations from a sentence'''
-    punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
-    no_punct = ""
-    for char in sentence:
-       if char not in punctuations:
-           no_punct = no_punct + char
-    return no_punct
-
-def getSentences(corpus):
-    '''tokenize the corpus into sentences'''
-    sentences = nltk.sent_tokenize(corpus)
-    sentences = [removePunctuations(sentence) for sentence in sentences]
-    return sentences
-
-def getBlocks(sentences,n):
-    '''get blocks of n sentences together'''
-    N = len(sentences)
-    blocks = []
-    for i in range(0,N,n):
-        blocks.append(sentences[i:(i+n)])
-    return blocks
-
-def checkConsistency():
-    '''checks for system errors/conflicts'''
-    if "facts.txt" in listdir("."):
-
-        answer = input("facts.txt already exists, delete file or exit program, Delete/Exit?: ")
-
-        if answer.lower() == "exit":
-            exit()
-        else:
-            system("rm -f facts.txt")
-    if "blockIDs.txt" in listdir("."):
-
-        answer = input("blockIDs.txt already exists, delete file or exit program, Delete/Exit?: ")
-
-        if answer.lower() == "exit":
-            exit()
-        else:
-            system("rm -f blockIDs.txt")
-    if "sentenceIDs.txt" in listdir("."):
-
-        answer = input("sentenceIDs.txt already exists, delete file or exit program, Delete/Exit?: ")
-
-        if answer.lower() == "exit":
-            exit()
-        else:
-            system("rm -f sentenceIDs.txt")
-    if "wordIDs.txt" in listdir("."):
-
-        answer = input("wordIDs.txt already exists, delete file or exit program, Delete/Exit?: ")
-
-        if answer.lower() == "exit":
-            exit()
-        else:
-            system("rm -f wordIDs.txt")
-    if "bk.txt" in listdir("."):
-
-        answer = input("bk.txt already exists, program will generate new one, OK/Exit?: ")
-
-        if answer.lower() == "exit":
-            exit()
-        else:
-            system("rm -f bk.txt")
+from .textprocessing import getSentences
+from .textprocessing import getBlocks
 
 def writeBlock(block,blockID):
     '''writes the block to a file with the id'''
@@ -193,7 +93,7 @@ def makeIdentifiers(blocks):
     '''make unique identifiers for components of the block and write to file'''
     blockID,sentenceID,wordID = 0,0,0
     blockID = 1
-    checkConsistency()
+    #checkConsistency()
     print("Creating background file..")
     bk = open("bk.txt","a")
     bk.write("useStdLogicVariables: true\n")

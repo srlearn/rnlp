@@ -14,21 +14,111 @@
 # along with this program (at the base of this repository). If not,
 # see <http://www.gnu.org/licenses/>
 
-from parse import *
+from .parse import *
+from .corpus import readCorpus
 
-def main():
-    '''main method'''
-    n = 2
-    if "-blockSize" not in argv:
-        print("defaulting to block size "+str(n))
-    else:
-        n = int(argv[(argv.index("-blockSize"))+1])
+import argparse
+import logging
 
+# === Metadata === #
+
+__author__ = 'Kaushik Roy (@kkroy36)'
+__copyright__ = 'Copyright (c) 2017-2018 StARLinG Lab'
+__license__ = 'GPL-v3'
+
+__version__ = '0.1.0'
+__status__ = 'Beta'
+__maintainer__ = 'Alexander L. Hayes (@batflyer)'
+__email__ = 'alexander.hayes@utdallas.edu'
+
+__credits__ = [
+    'Kaushik Roy (@kkroy36)',
+    'Alexander L. Hayes (@batflyer)',
+    'Sriraam Natarajan (@boost-starai)',
+    'Gautam Kunapuli (@gkunapuli)',
+    'Dileep Viswanathan',
+    'Rahul Pasunuri'
+]
+
+# === Logging === #
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+log_handler = logging.FileHandler('rnlp_log.log')
+log_handler.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+log_handler.setFormatter(formatter)
+
+logger.addHandler(log_handler)
+logger.info('Started logger.')
+
+# === Argument Parser === #
+
+logger.info('Started Argument Parser.')
+parser = argparse.ArgumentParser(
+    description='''Relational-NLP: A library and tool for converting text
+                   into a set of relational facts.''',
+    epilog='''Copyright (c) 2017-2018 StARLinG Lab.'''
+)
+
+file_or_dir = parser.add_mutually_exclusive_group()
+
+parser.add_argument('-b', '--blockSize', type=int, default=2,
+    help='Set the block size')
+file_or_dir.add_argument('-d', '--directory', type=str,
+    help='Read text from all files in a directory.')
+file_or_dir.add_argument('-f', '--file', type=str,
+    help='Read from text from a file.')
+
+args = parser.parse_args()
+logger.info('Argument Parsing Successful.')
+
+# Set block size.
+n = 2
+if not args.blockSize:
+    logger.info('blockSize not specified, defaulting to ' + str(n))
+else:
+    n = args.blockSize
+    logger.info('blockSize specified as ' + str(n))
+
+# Set the input file.
+try:
     chosenFile = input("Enter the file or folder to read the corpus from: ")
+    logger.info('chosenFile: ' + chosenFile)
+except Exception:
+    logger.error('Error while choosing input files.', exc_info=True)
+    exit(2)
 
+# Read the corpus.
+try:
     corpus = readCorpus(chosenFile)
-    sentences = getSentences(corpus)
-    blocks = getBlocks(sentences,n) #can toggle number of sentences in a block
-    makeIdentifiers(blocks)
+except Exception:
+    logger.error('Error while reading corpus.', exc_info=True)
+    exit(2)
 
-main()
+# Get sentences from the corpus.
+try:
+    sentences = getSentences(corpus)
+except Exception:
+    logger.error('Error getting sentences from corpus', exc_info=True)
+    exit(2)
+
+# Create blocks from the sentences.
+try:
+    blocks = getBlocks(sentences, n)
+except Exception:
+    logger.error('Error while creating blocks', exc_info=True)
+    exit(2)
+
+# Make identifiers from the blocks.
+try:
+    makeIdentifiers(blocks)
+except Exception:
+    logger.error('Error while making identifiers.', exc_info=True)
+    exit(2)
+
+logger.info('Reached bottom of ' + __name__ + '.')
+logger.info('Shutting down logger.')
+logging.shutdown()
+exit(0)
