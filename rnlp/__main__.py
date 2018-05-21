@@ -14,8 +14,8 @@
 # along with this program (at the base of this repository). If not,
 # see <http://www.gnu.org/licenses/>
 
-from parse import *
-from corpus import readCorpus
+from .parse import *
+from .corpus import readCorpus
 
 import argparse
 import logging
@@ -62,10 +62,14 @@ parser = argparse.ArgumentParser(
     epilog='''Copyright (c) 2017-2018 StARLinG Lab.'''
 )
 
-parser.add_argument('-b', '--blockSize', type=int,
+file_or_dir = parser.add_mutually_exclusive_group()
+
+parser.add_argument('-b', '--blockSize', type=int, default=2,
     help='Set the block size')
-parser.add_argument('-f', '--file', type=str, default=2,
-    help='Read from file.')
+file_or_dir.add_argument('-d', '--directory', type=str,
+    help='Read text from all files in a directory.')
+file_or_dir.add_argument('-f', '--file', type=str,
+    help='Read from text from a file.')
 
 args = parser.parse_args()
 logger.info('Argument Parsing Successful.')

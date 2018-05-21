@@ -43,7 +43,7 @@ import string
 
 _punctuation = string.punctuation
 _stemmer = PorterStemmer()
-_stopwords = stopwords.word('english')
+_stopwords = stopwords.words('english')
 
 def __removePunctuation(text_string):
     """
@@ -91,7 +91,7 @@ def getSentences(text_string):
     :returns: A list of string sentences with punctuation removed.
     :rtype: list
     """
-    return [__removePunctuation(s) for s in sent_tokenize(corpus)]
+    return [__removePunctuation(s) for s in sent_tokenize(text_string)]
 
 def getBlocks(sentences, n):
     """

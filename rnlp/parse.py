@@ -27,99 +27,10 @@ except NameError:
    pass
 
 import string
-
 import nltk
 
-from nltk import sent_tokenize
-from nltk import word_tokenize
-from nltk.corpus import stopwords
-from nltk.stem.porter import *
-
-_punctuation = string.punctuation
-_stemmer = PorterStemmer()
-_stopwords = stopwords.words('english')
-
-'''
-def removePunctuations(text_string):
-    """
-    Clears the punctuation from a string.
-
-    :param text_string: A string of text.
-    :type text_string: str.
-    """
-    return text_string.strip(_punctuation)
-
-def __removeStopwords(list_of_words):
-    """
-    :param list_of_words: A list of words.
-    :type list_of_words: list of str.
-    """
-    for word in list_of_words:
-        if word not in _stopwords:
-            yield word
-
-def getSentences(text_string):
-    """
-    Tokenize the corpus into a list of sentence.
-
-    :param text_string: A string of text.
-    :type text_string: str.
-    """
-    #return sent_tokenize(text_string)
-    sentences = sent_tokenize(text_string)
-    sentences = [removePunctuations(text_string) for sentence in text_string]
-    return sentences
-
-def getBlocks(sentences, n):
-    """
-    Get blocks of n sentences together.
-
-    :param sentences: A list of sentences.
-    :type sentences: list
-    :param n: ???
-    :type n: int.
-
-    for i in range(0, len(sentences), n):
-        yield sentences[i:(i+n)]
-    """
-
-    N = len(sentences)
-    blocks = []
-    for i in range(0,N,n):
-        blocks.append(sentences[i:(i+n)])
-    return blocks
-'''
-
-def removePunctuations(sentence):
-    '''removes punctuations from a sentence'''
-    punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
-    no_punct = ""
-    for char in sentence:
-       if char not in punctuations:
-           no_punct = no_punct + char
-    return no_punct
-
-def getSentences(corpus):
-    '''tokenize the corpus into sentences'''
-    sentences = nltk.sent_tokenize(corpus)
-    sentences = [removePunctuations(sentence) for sentence in sentences]
-    return sentences
-
-def getBlocks(sentences,n):
-    '''get blocks of n sentences together'''
-    N = len(sentences)
-    blocks = []
-    for i in range(0,N,n):
-        blocks.append(sentences[i:(i+n)])
-    return blocks
-
-"""
-facts.txt
-blockIDs.txt
-sentenceIDs.txt
-wordIDs.txt
-bk.txt
-"""
+from .textprocessing import getSentences
+from .textprocessing import getBlocks
 
 def writeBlock(block,blockID):
     '''writes the block to a file with the id'''
