@@ -2,7 +2,7 @@
 
 *Relational NLP Preprocessing: A Python package and tool for converting text into a set of relational facts.*
 
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/rnlp.svg?style=flat-square) ![PyPI](https://img.shields.io/pypi/v/rnlp.svg?style=flat-square) ![license](https://img.shields.io/pypi/l/rnlp.svg?style=flat-square)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/rnlp.svg?style=flat-square) ![PyPI](https://img.shields.io/pypi/v/rnlp.svg?style=flat-square) ![license](https://img.shields.io/pypi/l/rnlp.svg?style=flat-square) [![readthedocs](https://img.shields.io/readthedocs/rnlp/stable.svg?style=flat-square)](http://rnlp.readthedocs.io/en/stable/)
 
 **Kaushik Roy** ([@kkroy36](https://github.com/kkroy36/)) and **Alexander L. Hayes** ([@batflyer](https://github.com/batflyer/))
 
