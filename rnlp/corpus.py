@@ -28,13 +28,12 @@ def readCorpus(file):
     :rtype: str.
     """
     print("Reading corpus from file(s)...")
-    corpus = []
+
+    corpus = ''
 
     if '.txt' in file:
         with open(file) as fp:
-            lines = fp.read().splitlines()
-            for item in lines:
-                corpus += item
+            corpus = fp.read()
     else:
 
         dirFiles = listdir(file)
@@ -42,10 +41,9 @@ def readCorpus(file):
 
         for f in tqdm(dirFiles):
             with open(file+"/"+f) as fp:
-                fLines = fp.read().splitlines()
-                for item in fLines:
-                    corpus += item
-    return "".join(corpus)
+                corpus += fp.read()
+
+    return corpus
 
 def declaration():
     """
