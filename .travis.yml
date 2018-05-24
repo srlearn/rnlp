@@ -20,6 +20,7 @@ cache:
 
 install:
   - "pip install -r rnlp/tests/requirements.txt"
+  - "python -m nltk.downloader stopwords punkt averaged_perceptron_tagger -d $HOME/nltk_data"
 
 script:
   - coverage run rnlp/tests/tests.py
