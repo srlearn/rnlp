@@ -31,17 +31,17 @@ Quick-Start
 
 ``rnlp`` can be used either as a CLI tool or as an imported Python Package.
 
-+---------------------------------------+--------------------------------------+
-| **CLI**                               | **Imported**                         |
-+---------------------------------------+--------------------------------------+
-|.. code-block:: bash                   |.. code-block:: python                |
-|                                       |                                      |
-|  $ python -m rnlp -f files/doi.txt    |  from rnlp.corpus import declaration |
-|                                       |  import rnlp                         |
-|                                       |                                      |
-|                                       |  doi = declaration()                 |
-|                                       |  rnlp.converter(doi)                 |
-+---------------------------------------+--------------------------------------+
++---------------------------------------------+--------------------------------------+
+| **CLI**                                     | **Imported**                         |
++---------------------------------------------+--------------------------------------+
+|.. code-block:: bash                         |.. code-block:: python                |
+|                                             |                                      |
+|  $ python -m rnlp -f files/doi.txt          |  from rnlp.corpus import declaration |
+|  Reading corpus from file(s)...             |  import rnlp                         |
+|  Creating background file...                |                                      |
+|  100%|████████| 18/18 [00:00<00:00, 38it/s] |  doi = declaration()                 |
+|                                             |  rnlp.converter(doi)                 |
++---------------------------------------------+--------------------------------------+
 
 Text will be converted into relational facts, relations encoded are:
 
