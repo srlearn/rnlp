@@ -80,10 +80,8 @@ logger.info('blockSize specified as ' + str(n))
 
 # Set the input file(s).
 if args.file:
-    # A file should be read from.
     chosenFile = args.file
 elif args.directory:
-    # All files in a directory should be read from.
     chosenFile = args.directory
 else:
     message = 'Error. No file or directory was specified.'

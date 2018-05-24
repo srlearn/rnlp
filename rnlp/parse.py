@@ -117,12 +117,15 @@ def makeIdentifiers(blocks):
     nBlocks = len(blocks)
     for block in tqdm(blocks):
 
-        writeBlock(block,blockID)
+        writeBlock(block, blockID)
+
         sentenceID = 1
         nSentences = len(block)
         beginning = nSentences/float(3)
         ending = (2*nSentences)/float(3)
+
         for sentence in block:
+
             if sentenceID < nSentences:
                 #=====================predicate: nextSentenceInBlock(blockID,sentenceID,sentenceID)======================
                 predicateString = "nextSentenceInBlock("+str(blockID)+","+str(blockID)+"_"+str(sentenceID)+","+str(blockID)+"_"+str(sentenceID+1)+")."

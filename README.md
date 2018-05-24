@@ -25,7 +25,17 @@ pip install git+git://github.com/starling-lab/rnlp.git
 Calling the module from the commandline:
 
 ```
-$ python -m rnlp --blockSize 3
+$ python -m rnlp --blockSize 2
+```
+
+## Hands-on Example
+
+```python
+from rnlp.corpus import declaration
+import rnlp
+
+doi = declaration()
+rnlp.converter(doi)
 ```
 
 The code will prompt for a file or folder input of text files to convert to relational facts.

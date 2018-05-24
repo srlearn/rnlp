@@ -17,22 +17,16 @@
 from os import listdir
 from tqdm  import tqdm
 
-def readCorpus(*args):
-    """
-    Returns the contents of a file or a group of files as strings.
-
-    :param *args: Name(s) of file(s) to read from.
-    :type *args: str.
-
-    :returns: Generator where each item represents the file as a string.
-    :rtype: generator
-    """
-    for file in args:
-        with open(file) as f:
-            yield f.read()
-
 def readCorpus(file):
-    '''reads corpus from a directory of txt files or a file'''
+    """
+    Returns the contents of a file or a group of files as a string.
+
+    :param file: .txt file or a directory to read files from.
+    :type file: str.
+
+    :returns: A string of all contents joined together.
+    :rtype: str.
+    """
     print("Reading corpus from file(s)...")
     corpus = []
 
