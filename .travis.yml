@@ -1,0 +1,33 @@
+sudo: false
+
+language: python
+
+env:
+  - SH=bash
+
+python:
+  - "2.7"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "3.6-dev"
+  - "3.7"
+  - "3.7-dev"
+
+cache:
+  pip: true
+  directories:
+    - $HOME/nltk_data
+
+install:
+  - "pip install -r rnlp/tests/requirements.txt"
+
+script:
+  - coverage run rnlp/tests/tests.py
+
+before_install:
+  export NLTK_DATA="$HOME/nltk_data";
+  pip install codecov
+
+after_success:
+  codecov
