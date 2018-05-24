@@ -75,3 +75,20 @@ __credits__ = [
 ]
 
 from . import parse
+
+from .textprocessing import getBlocks
+from .textprocessing import getSentences
+
+def converter(input_string, block_size=2):
+    """
+    The cli tool as a built-in function.
+
+    :param input_string: A string that should be converted to a set of facts.
+    :type input_string: str.
+    :param blocks_size: Optional block size of sentences (Default: 2).
+    :type block_size: int.
+    """
+
+    sentences = textprocessing.getSentences(input_string)
+    blocks = textprocessing.getBlocks(sentences, block_size)
+    parse.makeIdentifiers(blocks)

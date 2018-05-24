@@ -75,20 +75,19 @@ args = parser.parse_args()
 logger.info('Argument Parsing Successful.')
 
 # Set block size.
-n = 2
-if not args.blockSize:
-    logger.info('blockSize not specified, defaulting to ' + str(n))
-else:
-    n = args.blockSize
-    logger.info('blockSize specified as ' + str(n))
+n = args.blockSize
+logger.info('blockSize specified as ' + str(n))
 
-# Set the input file.
-try:
-    chosenFile = input("Enter the file or folder to read the corpus from: ")
-    logger.info('chosenFile: ' + chosenFile)
-except Exception:
-    logger.error('Error while choosing input files.', exc_info=True)
-    exit(2)
+# Set the input file(s).
+if args.file:
+    chosenFile = args.file
+elif args.directory:
+    chosenFile = args.directory
+else:
+    message = 'Error. No file or directory was specified.'
+    logger.error(message)
+    print(message)
+    exit(1)
 
 # Read the corpus.
 try:

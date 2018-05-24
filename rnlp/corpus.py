@@ -14,47 +14,67 @@
 # along with this program (at the base of this repository). If not,
 # see <http://www.gnu.org/licenses/>
 
+"""
+rnlp.corpus
+-----------
+
+Built-in corpus and utilities for reading corpora from files.
+
+.. code-block:: python
+
+                # rnlp.corpus is not imported by default.
+                import rnlp.corpus
+"""
+
 from os import listdir
+from tqdm  import tqdm
 
-def readCorpus(*args):
+def readCorpus(location):
     """
-    Returns the contents of a file or a group of files as strings.
+    Returns the contents of a file or a group of files as a string.
 
-    :param *args: Name(s) of file(s) to read from.
-    :type *args: str.
+    :param location: .txt file or a directory to read files from.
+    :type location: str.
 
-    :returns: Generator where each item represents the file as a string.
-    :rtype: generator
+    :returns: A string of all contents joined together.
+    :rtype: str.
+
+    .. note::
+
+        This function takes a ``location`` on disk as a parameter. Location is
+        assumed to be a string representing a text file or a directory. A text
+        file is further assumed to contain ``.txt`` as a file extension while
+        a directory may be a path.
+
+    Example:
+
+    .. code-block:: python
+
+                    from rnlp.corpus import readCorpus
+
+                    # If you have a text file:
+                    doi = readCorpus('files/doi.txt')
+
+                    # If you have multiple files to read from:
+                    corpus = readCorpus('files')
     """
-    for file in args:
-        with open(file) as f:
-            yield f.read()
+    print("Reading corpus from file(s)...")
 
-def readCorpus(file):
-    '''reads corpus from a directory of txt files or a file'''
-    print("reading content from corpus..")
-    corpus = []
-    if '.txt' in file:
+    corpus = ''
 
-        answer = input("Single file provided.\n Go with this file? Yes/No: ")
-
-        if answer.lower() == "no":
-            exit()
-        with open(file) as fp:
-            lines = fp.read().splitlines()
-            for item in lines:
-                corpus += item
+    if '.txt' in location:
+        with open(location) as fp:
+            corpus = fp.read()
     else:
-        print("Reading files from directory..")
-        dirFiles = listdir(file)
+
+        dirFiles = listdir(location)
         nFiles = len(dirFiles)
-        for f in dirFiles:
-            print("reading file "+str(f)+", file "+str(dirFiles.index(f)+1)+"/"+str(nFiles))
-            with open(file+"/"+f) as fp:
-                fLines = fp.read().splitlines()
-                for item in fLines:
-                    corpus += item
-    return "".join(corpus)
+
+        for f in tqdm(dirFiles):
+            with open(location+"/"+f) as fp:
+                corpus += fp.read()
+
+    return corpus
 
 def declaration():
     """
