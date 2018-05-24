@@ -26,9 +26,12 @@ try:
 except NameError:
    pass
 
+# Standard Python Library
 import string
-import nltk
 
+# Non-standard Python Library
+import nltk
+from tqdm import tqdm
 from .textprocessing import getSentences
 from .textprocessing import getBlocks
 
@@ -98,7 +101,7 @@ def writeBk(target="sentenceContainsTarget(+SID,+WID).", treeDepth="3",
         bk.write("mode: lateWordInSentence(+SID,-WID).\n")
         bk.write("mode: wordInSentence(-WID,+SID).\n")
 
-        bk.write("mode: " + target + ".\n")
+        bk.write("mode: " + target + "\n")
 
     return
 
@@ -106,13 +109,14 @@ def makeIdentifiers(blocks):
     '''make unique identifiers for components of the block and write to file'''
     blockID, sentenceID, wordID = 1, 0, 0
     #checkConsistency()
-    print("Creating background file..")
+    print("Creating background file...")
 
     writeBk() # Write bk with default parameters currently.
 
+    print("Creating identifiers from the blocks...")
     nBlocks = len(blocks)
-    for block in blocks:
-        print("writing block "+str(blocks.index(block)+1)+"/"+str(nBlocks)+" to blockIDs.txt..")
+    for block in tqdm(blocks):
+
         writeBlock(block,blockID)
         sentenceID = 1
         nSentences = len(block)
@@ -135,7 +139,7 @@ def makeIdentifiers(blocks):
             if sentenceID > ending:
                 predicateString = "lateSentenceInBlock("+str(blockID)+","+str(blockID)+"_"+str(sentenceID)+")."
                 writeFact(predicateString)
-            print("writing sentence "+str(sentenceID)+"/"+str(nSentences)+" in block id "+str(blockID)+" to sentenceIDs.txt..")
+            #print("writing sentence "+str(sentenceID)+"/"+str(nSentences)+" in block id "+str(blockID)+" to sentenceIDs.txt..")
             #====================predicate: sentenceInBlock(sentenceID,blockID)=====================================
             predicateString = "sentenceInBlock("+str(blockID)+"_"+str(sentenceID)+","+str(blockID)+")."
             writeFact(predicateString)
@@ -184,7 +188,7 @@ def makeIdentifiers(blocks):
                 if sentenceID > ending:
                     predicateString = "lateSentenceInBlock("+str(blockID)+","+str(blockID)+"_"+str(sentenceID)+")."
                     writeFact(predicateString)
-                print("writing word "+str(wordID)+"/"+str(nWords)+" from sentence id "+str(sentenceID)+" in block id "+str(blockID)+" to wordIDs.txt..")
+                #print("writing word "+str(wordID)+"/"+str(nWords)+" from sentence id "+str(sentenceID)+" in block id "+str(blockID)+" to wordIDs.txt..")
                 #====================predicate: wordInSentence(wordID,sentenceID)=====================================
                 predicateString = "wordInSentence("+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)+","+str(blockID)+"_"+str(sentenceID)+")."
                 writeFact(predicateString)

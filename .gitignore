@@ -1,6 +1,7 @@
 *~
 train
 test
+files2
 
 bk.txt
 blockIDs.txt
@@ -115,3 +116,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
