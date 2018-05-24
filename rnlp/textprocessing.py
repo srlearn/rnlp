@@ -45,7 +45,7 @@ _punctuation = string.punctuation
 _stemmer = PorterStemmer()
 _stopwords = stopwords.words('english')
 
-def __removePunctuation(text_string):
+def _removePunctuation(text_string):
     """
     Removes punctuation symbols from a string.
 
@@ -62,7 +62,7 @@ def __removePunctuation(text_string):
     """
     return text_string.strip(_punctuation)
 
-def __removeStopwords(text_list):
+def _removeStopwords(text_list):
     """
     Removes stopwords contained in a list of words.
 
@@ -131,4 +131,4 @@ def getSentences(text_string):
                     sentences = rnlp.getSentences(example)
                     # ['Hello there', 'How are you', 'I am fine']
     """
-    return [__removePunctuation(s) for s in sent_tokenize(text_string)]
+    return [_removePunctuation(s) for s in sent_tokenize(text_string)]
