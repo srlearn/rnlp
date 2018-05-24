@@ -12,7 +12,7 @@ rnlp\.corpus module
     :undoc-members:
     :show-inheritance:
 
-rnlp\.parseInputCorpus module
+rnlp\.parse module
 -----------------------------
 
 .. automodule:: rnlp.parse
@@ -20,6 +20,13 @@ rnlp\.parseInputCorpus module
     :undoc-members:
     :show-inheritance:
 
+rnlp\.textprocessing module
+-----------------------------
+
+.. automodule:: rnlp.textprocessing
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 Module contents
 ---------------

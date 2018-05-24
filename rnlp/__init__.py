@@ -75,7 +75,9 @@ __credits__ = [
 ]
 
 from . import parse
-from . import textprocessing
+
+from .textprocessing import getBlocks
+from .textprocessing import getSentences
 
 def converter(input_string, block_size=2):
     """

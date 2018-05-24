@@ -14,33 +14,64 @@
 # along with this program (at the base of this repository). If not,
 # see <http://www.gnu.org/licenses/>
 
+"""
+rnlp.corpus
+-----------
+
+Built-in corpus and utilities for reading corpora from files.
+
+.. code-block:: python
+
+                # rnlp.corpus is not imported by default.
+                import rnlp.corpus
+"""
+
 from os import listdir
 from tqdm  import tqdm
 
-def readCorpus(file):
+def readCorpus(location):
     """
     Returns the contents of a file or a group of files as a string.
 
-    :param file: .txt file or a directory to read files from.
-    :type file: str.
+    :param location: .txt file or a directory to read files from.
+    :type location: str.
 
     :returns: A string of all contents joined together.
     :rtype: str.
+
+    .. note::
+
+        This function takes a ``location`` on disk as a parameter. Location is
+        assumed to be a string representing a text file or a directory. A text
+        file is further assumed to contain ``.txt`` as a file extension while
+        a directory may be a path.
+
+    Example:
+
+    .. code-block:: python
+
+                    from rnlp.corpus import readCorpus
+
+                    # If you have a text file:
+                    doi = readCorpus('files/doi.txt')
+
+                    # If you have multiple files to read from:
+                    corpus = readCorpus('files')
     """
     print("Reading corpus from file(s)...")
 
     corpus = ''
 
-    if '.txt' in file:
-        with open(file) as fp:
+    if '.txt' in location:
+        with open(location) as fp:
             corpus = fp.read()
     else:
 
-        dirFiles = listdir(file)
+        dirFiles = listdir(location)
         nFiles = len(dirFiles)
 
         for f in tqdm(dirFiles):
-            with open(file+"/"+f) as fp:
+            with open(location+"/"+f) as fp:
                 corpus += fp.read()
 
     return corpus

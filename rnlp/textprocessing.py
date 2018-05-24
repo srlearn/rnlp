@@ -16,20 +16,20 @@
 
 """
 textprocessing
-==============
+--------------
 
 A set of functions for normalizing text, with options for stemming,
 stopping, removing punctuation, etc.
 
 Document Hierarchy
-==================
+------------------
 
 A corpora is a collection of documents.
 A document is a collection of chapters.
 A chapter is a collection of paragraphs.
 A paragraph is a collection of sentences.
 A sentence is a collection of words.
-A word is a collection of letters.
+A word is a collection of letters...
 
 The depth of reasoning probably depends on the domain you are working on.
 """
@@ -81,23 +81,54 @@ def __removeStopwords(text_list):
 
     return output_list
 
+def getBlocks(sentences, n):
+    """
+    Get blocks of n sentences together.
+
+    :param sentences: List of strings where  each string is a sentence.
+    :type sentences: list
+    :param n: Maximum blocksize for sentences, i.e. a block will be composed of
+              ``n`` sentences.
+    :type n: int.
+
+    :returns: Blocks of n sentences.
+    :rtype: list-of-lists
+
+    .. code-block:: python
+
+                    import rnlp
+
+                    example = "Hello there. How are you? I am fine."
+
+                    sentences = rnlp.getSentences(example)
+                    # ['Hello there', 'How are you', 'I am fine']
+
+                    blocks = rnlp.getBlocks(sentences, 2)
+                    # with 1: [['Hello there'], ['How are you'], ['I am fine']]
+                    # with 2: [['Hello there', 'How are you'], ['I am fine']]
+                    # with 3: [['Hello there', 'How are you', 'I am fine']]
+    """
+    blocks = []
+    for i in range(0, len(sentences), n):
+        blocks.append(sentences[i:(i+n)])
+    return blocks
+
 def getSentences(text_string):
     """
-    Tokenizes the corpus into sentences.
+    Tokenizes the corpus into sentences, removing punctuation as it does so.
 
     :param text_string: A string.
     :type text_string: str.
 
     :returns: A list of string sentences with punctuation removed.
     :rtype: list
+
+    .. code-block:: python
+
+                    import rnlp
+
+                    example = "Hello there. How are you? I am fine."
+                    sentences = rnlp.getSentences(example)
+                    # ['Hello there', 'How are you', 'I am fine']
     """
     return [__removePunctuation(s) for s in sent_tokenize(text_string)]
-
-def getBlocks(sentences, n):
-    """
-    Get blocks of n sentences together.
-    """
-    blocks = []
-    for i in range(0, len(sentences), n):
-        blocks.append(sentences[i:(i+n)])
-    return blocks
