@@ -61,34 +61,6 @@ def writeFact(predicateString):
     with open("facts.txt","a") as f:
         f.write(predicateString+"\n")
 
-def getTarget():
-    '''gets the object of inference from the user(target)'''
-    #choice = raw_input("choose target: \n1.sentenceContainsTarget(+SID,+WID)\n2.blockContainsTarget(+BID,+SID)\n3.Both\n4.new target\nEnter choice: ")
-
-    choice = input("choose target: \n1.sentenceContainsTarget(+SID,+WID)\n2.blockContainsTarget(+BID,+SID)\n3.Both\n4.new target\nEnter choice: ")
-
-    if int(choice) == 1:
-        return "mode: sentenceContainsTarget(+SID,+WID).\n"
-    elif int(choice) == 2:
-        return "mode: blockContainsTarget(+BID,+SID).\n"
-    elif int(choice) == 3:
-        return "mode: sentenceContainsTarget(+SID,+WID).\n"+"mode: blockContainsTarget(+BID,+SID).\n"
-    elif int(choice) == 4:
-        newPredicate = input("Enter the target predicate with modes: ")
-        return newPredicate
-
-def setParam(parameter,bk,defaultValue):
-    '''gets parameter value from user'''
-    parameterValue = defaultValue
-
-    answer = input("Enter Custom "+parameter+"?(yes/no). default "+parameter+" is "+parameterValue+": ")
-
-    if answer.lower()=="yes":
-
-        parameterValue = input("Enter " + parameter + ": ")
-
-    bk.write("setParam: " + parameter + "=" + parameterValue + ".\n")
-
 def writeBk(target="sentenceContainsTarget(+SID,+WID).", treeDepth="3",
             nodeSize="3", numOfClauses="8"):
     """
@@ -136,31 +108,7 @@ def makeIdentifiers(blocks):
     #checkConsistency()
     print("Creating background file..")
 
-    writeBk()
-
-    '''
-    bk = open("f.txt","a")
-    bk.write("useStdLogicVariables: true\n")
-    setParam("treeDepth",bk,"3")
-    setParam("nodeSize",bk,"3")
-    setParam("numOfClauses",bk,"8")
-    bk.write("mode: nextSentenceInBlock(+BID,+SID,-SID).\n")
-    bk.write("mode: nextSentenceInBlock(+BID,-SID,+SID).\n")
-    bk.write("mode: earlySentenceInBlock(+BID,-SID).\n")
-    bk.write("mode: midWaySentenceInBlock(+BID,-SID).\n")
-    bk.write("mode: lateSentenceInBlock(+BID,-SID).\n")
-    bk.write("mode: sentenceInBlock(-SID,+BID).\n")
-    bk.write("mode: wordString(+WID,#WSTR).\n")
-    bk.write("mode: partOfSpeechTag(+WID,#WPOS).\n")
-    bk.write("mode: nextWordInSentence(+SID,+WID,-WID).\n")
-    bk.write("mode: earlyWordInSentence(+SID,-WID).\n")
-    bk.write("mode: midWayWordInSentence(+SID,-WID).\n")
-    bk.write("mode: lateWordInSentence(+SID,-WID).\n")
-    bk.write("mode: wordInSentence(-WID,+SID).\n")
-    target = getTarget()
-    bk.write("mode: "+target)
-    bk.close()
-    '''
+    writeBk() # Write bk with default parameters currently.
 
     nBlocks = len(blocks)
     for block in blocks:
