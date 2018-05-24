@@ -1,3 +1,6 @@
+
+# -*- coding: utf-8 -*-
+
 # Copyright (C) 2017-2018 StARLinG Lab
 #
 # This program is free software: you can redistribute it and/or modify
