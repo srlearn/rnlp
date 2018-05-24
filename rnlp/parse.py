@@ -61,18 +61,6 @@ def writeFact(predicateString):
     with open("facts.txt","a") as f:
         f.write(predicateString+"\n")
 
-def setParam(parameter,bk,defaultValue):
-    '''gets parameter value from user'''
-    parameterValue = defaultValue
-
-    answer = input("Enter Custom "+parameter+"?(yes/no). default "+parameter+" is "+parameterValue+": ")
-
-    if answer.lower()=="yes":
-
-        parameterValue = input("Enter " + parameter + ": ")
-
-    bk.write("setParam: " + parameter + "=" + parameterValue + ".\n")
-
 def getTarget():
     '''gets the object of inference from the user(target)'''
     #choice = raw_input("choose target: \n1.sentenceContainsTarget(+SID,+WID)\n2.blockContainsTarget(+BID,+SID)\n3.Both\n4.new target\nEnter choice: ")
@@ -89,13 +77,69 @@ def getTarget():
         newPredicate = input("Enter the target predicate with modes: ")
         return newPredicate
 
+def setParam(parameter,bk,defaultValue):
+    '''gets parameter value from user'''
+    parameterValue = defaultValue
+
+    answer = input("Enter Custom "+parameter+"?(yes/no). default "+parameter+" is "+parameterValue+": ")
+
+    if answer.lower()=="yes":
+
+        parameterValue = input("Enter " + parameter + ": ")
+
+    bk.write("setParam: " + parameter + "=" + parameterValue + ".\n")
+
+def writeBk(target="sentenceContainsTarget(+SID,+WID).", treeDepth="3",
+            nodeSize="3", numOfClauses="8"):
+    """
+    Writes a background file to disk.
+
+    :param target: Target predicate with modes.
+    :type target: str.
+    :param treeDepth: Depth of the tree.
+    :type treeDepth: str.
+    :param nodeSize: Maximum size of each node in the tree.
+    :type nodeSize: str.
+    :param numOfClauses: Number of clauses in total.
+    :type numOfClauses: str.
+    """
+
+    with open('bk.txt', 'w') as bk:
+
+        bk.write("useStdLogicVariables: true\n")
+
+        bk.write("setParam: treeDepth=" + str(treeDepth) + '.\n')
+        bk.write("setParam: nodeSize=" + str(nodeSize) + '.\n')
+        bk.write("setParam: numOfClauses=" + str(numOfClauses) + '.\n')
+
+        bk.write("mode: nextSentenceInBlock(+BID,+SID,-SID).\n")
+        bk.write("mode: nextSentenceInBlock(+BID,-SID,+SID).\n")
+        bk.write("mode: earlySentenceInBlock(+BID,-SID).\n")
+        bk.write("mode: midWaySentenceInBlock(+BID,-SID).\n")
+        bk.write("mode: lateSentenceInBlock(+BID,-SID).\n")
+        bk.write("mode: sentenceInBlock(-SID,+BID).\n")
+        bk.write("mode: wordString(+WID,#WSTR).\n")
+        bk.write("mode: partOfSpeechTag(+WID,#WPOS).\n")
+        bk.write("mode: nextWordInSentence(+SID,+WID,-WID).\n")
+        bk.write("mode: earlyWordInSentence(+SID,-WID).\n")
+        bk.write("mode: midWayWordInSentence(+SID,-WID).\n")
+        bk.write("mode: lateWordInSentence(+SID,-WID).\n")
+        bk.write("mode: wordInSentence(-WID,+SID).\n")
+
+        bk.write("mode: " + target + ".\n")
+
+    return
+
 def makeIdentifiers(blocks):
     '''make unique identifiers for components of the block and write to file'''
-    blockID,sentenceID,wordID = 0,0,0
-    blockID = 1
+    blockID, sentenceID, wordID = 1, 0, 0
     #checkConsistency()
     print("Creating background file..")
-    bk = open("bk.txt","a")
+
+    writeBk()
+
+    '''
+    bk = open("f.txt","a")
     bk.write("useStdLogicVariables: true\n")
     setParam("treeDepth",bk,"3")
     setParam("nodeSize",bk,"3")
@@ -116,6 +160,8 @@ def makeIdentifiers(blocks):
     target = getTarget()
     bk.write("mode: "+target)
     bk.close()
+    '''
+
     nBlocks = len(blocks)
     for block in blocks:
         print("writing block "+str(blocks.index(block)+1)+"/"+str(nBlocks)+" to blockIDs.txt..")
