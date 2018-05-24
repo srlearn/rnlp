@@ -4,11 +4,8 @@
 *Relational NLP Preprocessing: A Python package and tool for converting text into a set of relational facts.*
 
 .. image:: https://img.shields.io/pypi/pyversions/rnlp.svg?style=flat-square
-
 .. image:: https://img.shields.io/pypi/v/rnlp.svg?style=flat-square
-
-.. image:: https://img.shields.io/pypi/l/rnlp.svg?style=flag-square
-
+.. image:: https://img.shields.io/pypi/l/rnlp.svg?style=flat-square
 .. image:: https://img.shields.io/readthedocs/rnlp/stable.svg?flat-square
 	   :target: http://rnlp.readthedocs.io/en/stable/
 
@@ -38,6 +35,7 @@ Quick-Start
 | **CLI**                               | **Imported**                         |
 +---------------------------------------+--------------------------------------+
 |.. code-block:: bash                   |.. code-block:: python                |
+|                                       |                                      |
 |  $ python -m rnlp -f files/doi.txt    |  from rnlp.corpus import declaration |
 |                                       |  import rnlp                         |
 |                                       |                                      |
