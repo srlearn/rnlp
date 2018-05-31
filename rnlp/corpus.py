@@ -27,7 +27,8 @@ Built-in corpus and utilities for reading corpora from files.
 """
 
 from os import listdir
-from tqdm  import tqdm
+from tqdm import tqdm
+
 
 def readCorpus(location):
     """
@@ -75,6 +76,7 @@ def readCorpus(location):
                 corpus += fp.read()
 
     return corpus
+
 
 def declaration():
     """
@@ -134,8 +136,9 @@ def declaration():
     public good.
 
     He has forbidden his Governors to pass Laws of immediate and pressing
-    importance, unless suspended in their operation till his Assent should be
-    obtained; and when so suspended, he has utterly neglected to attend to them.
+    importance, unless suspended in their operation till his Assent should
+    be obtained; and when so suspended, he has utterly neglected to attend
+    to them.
 
     He has refused to pass other Laws for the accommodation of large districts
     of people, unless those people would relinquish the right of Representation

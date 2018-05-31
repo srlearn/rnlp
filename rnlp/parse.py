@@ -34,37 +34,43 @@ from tqdm import tqdm
 from .textprocessing import getSentences
 from .textprocessing import getBlocks
 
-def _writeBlock(block,blockID):
+
+def _writeBlock(block, blockID):
     '''writes the block to a file with the id'''
-    with open("blockIDs.txt","a") as fp:
-        fp.write("blockID: "+str(blockID)+"\n")
+    with open("blockIDs.txt", "a") as fp:
+        fp.write("blockID: " + str(blockID) + "\n")
         sentences = ""
         for sentence in block:
             sentences += sentence+","
         fp.write("block sentences: "+sentences[:-1]+"\n")
         fp.write("\n")
 
-def _writeSentenceInBlock(sentence,blockID,sentenceID):
+
+def _writeSentenceInBlock(sentence, blockID, sentenceID):
     '''writes the sentence in a block to a file with the id'''
-    with open("sentenceIDs.txt","a") as fp:
+    with open("sentenceIDs.txt", "a") as fp:
         fp.write("sentenceID: "+str(blockID)+"_"+str(sentenceID)+"\n")
         fp.write("sentence string: "+sentence+"\n")
         fp.write("\n")
 
-def _writeWordFromSentenceInBlock(word,blockID,sentenceID,wordID):
+
+def _writeWordFromSentenceInBlock(word, blockID, sentenceID, wordID):
     '''writes the word from a sentence in a block to a file with the id'''
-    with open("wordIDs.txt","a") as fp:
-        fp.write("wordID: "+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)+"\n")
-        fp.write("wordString: "+word+"\n")
+    with open("wordIDs.txt", "a") as fp:
+        fp.write("wordID: " + str(blockID) + "_" +
+                 str(sentenceID) + "_" + str(wordID) + "\n")
+        fp.write("wordString: " + word + "\n")
         fp.write("\n")
+
 
 def _writeFact(predicateString):
     '''writes the fact to facts file'''
-    with open("facts.txt","a") as f:
+    with open("facts.txt", "a") as f:
         f.write(predicateString+"\n")
 
+
 def _writeBk(target="sentenceContainsTarget(+SID,+WID).", treeDepth="3",
-            nodeSize="3", numOfClauses="8"):
+             nodeSize="3", numOfClauses="8"):
     """
     Writes a background file to disk.
 
@@ -103,6 +109,7 @@ def _writeBk(target="sentenceContainsTarget(+SID,+WID).", treeDepth="3",
         bk.write("mode: " + target + "\n")
 
     return
+
 
 def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
                     treeDepth="3", nodeSize="3", numOfClauses="8"):
@@ -148,8 +155,6 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
     """
 
     blockID, sentenceID, wordID = 1, 0, 0
-
-    #checkConsistency()
 
     print("Creating background file...")
 
@@ -204,10 +209,6 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
             wordID = 1
             tokens = nltk.word_tokenize(sentence)
             nWords = len(tokens)
-
-
-            # Adding these two in, the other two will overwrite
-            # the variables defined above.
             wBeginning = nWords/float(3)
             wEnding = (2*nWords)/float(3)
 
@@ -257,14 +258,14 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
                 elif wordID > wEnding:
                     # mode: lateWordInSentence(sentenceID< wordID).
                     ps = "lateWordInSentence(" + str(blockID) + "_" + \
-                    str(sentenceID) + "," + str(blockID) + "_" + \
-                    str(sentenceID) + "_" + str(wordID) + ")."
+                         str(sentenceID) + "," + str(blockID) + "_" + \
+                         str(sentenceID) + "_" + str(wordID) + ")."
                     _writeFact(ps)
                 else:
                     # mode: midWayWordInSentence(sentenceID, wordID).
                     ps = "midWayWordInSentence(" + str(blockID) + "_" + \
-                    str(sentenceID) + "," + str(blockID) + "_" + \
-                    str(sentenceID) + "_" + str(wordID) + ")."
+                         str(sentenceID) + "," + str(blockID) + "_" + \
+                         str(sentenceID) + "_" + str(wordID) + ")."
                     _writeFact(ps)
 
                 # mode: wordInSentence(wordID, sentenceID).
@@ -272,7 +273,7 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
                      str(sentenceID) + "_" + str(wordID) + "," + \
                      str(blockID) + "_" + str(sentenceID) + ")."
                 _writeFact(ps)
-                _writeWordFromSentenceInBlock(word, blockID, sentenceID, wordID)
-
+                _writeWordFromSentenceInBlock(word, blockID,
+                                              sentenceID, wordID)
                 wordID += 1
         blockID += 1
