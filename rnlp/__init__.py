@@ -74,10 +74,9 @@ __credits__ = [
     'Rahul Pasunuri'
 ]
 
-from . import parse
-
 from .textprocessing import getBlocks
 from .textprocessing import getSentences
+from .parse import makeIdentifiers
 
 def converter(input_string, block_size=2):
     """
