@@ -22,7 +22,7 @@ class removePunctuationTest(unittest.TestCase):
 
     def test_removePunctuation_3(self):
         sent = 'Hi.There'
-        self.assertEqual(textprocessing._removePunctuation(sent), 'Hi.There')
+        self.assertEqual(textprocessing._removePunctuation(sent), 'HiThere')
 
     def test_removePunctuation_4(self):
         import string
@@ -32,7 +32,7 @@ class removePunctuationTest(unittest.TestCase):
     def test_removePunctuation_5(self):
         sent = '(def add1 (lambda (n)) + n 1)'
         self.assertEqual(textprocessing._removePunctuation(sent),
-                         'def add1 (lambda (n)) + n 1')
+                         'def add1 lambda n  n 1')
 
 class removeStopwordsTest(unittest.TestCase):
 
@@ -89,8 +89,8 @@ class getBlocks(unittest.TestCase):
         breadlines blow my mind, and now this deadline.""")
         self.assertEqual(textprocessing.getBlocks(sents, 1),
         [['How do you document real life'],
-        ["When real life's getting more like fiction each day"],
-        ["Headlines,\n        breadlines blow my mind, and now this deadline"]])
+        ["When real lifes getting more like fiction each day"],
+        ["Headlines\n        breadlines blow my mind and now this deadline"]])
 
     def test_getBlocks_3(self):
         sents = textprocessing.getSentences(

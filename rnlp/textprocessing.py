@@ -60,7 +60,10 @@ def _removePunctuation(text_string):
     >>> __removePunctuation(example)
     'Hello World'
     """
-    return text_string.strip(_punctuation)
+    try:
+        return text_string.translate(None, _punctuation)
+    except TypeError:
+        return text_string.translate(str.maketrans('', '', _punctuation))
 
 def _removeStopwords(text_list):
     """
