@@ -25,11 +25,6 @@ rnlp.parse
 from __future__ import print_function
 from __future__ import division
 
-try:
-   input = raw_input
-except NameError:
-   pass
-
 # Standard Python Library
 import string
 
@@ -162,6 +157,7 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
              nodeSize=nodeSize, numOfClauses=numOfClauses)
 
     print("Creating identifiers from the blocks...")
+
     nBlocks = len(blocks)
     for block in tqdm(blocks):
 
@@ -208,13 +204,17 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
             wordID = 1
             tokens = nltk.word_tokenize(sentence)
             nWords = len(tokens)
-            beginning = nWords/float(3)
-            ending = (2*nWords)/float(3)
+
+
+            # Adding these two in, the other two will overwrite
+            # the variables defined above.
+            wBeginning = nWords/float(3)
+            wEnding = (2*nWords)/float(3)
 
             for word in tokens:
-                #============predicate: wordString(wordID,#str)==================
-                '''
-                if word == "you":
+
+                """
+                if word == "He":
                     pos = open("pos.txt","a")
                     word = str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)
                     sentence = str(blockID)+"_"+str(sentenceID)
@@ -226,33 +226,53 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
                     sentence = str(blockID)+"_"+str(sentenceID)
                     neg.write("sentenceContainsTarget("+sentence+","+word+").\n")
                     neg.close()
-                '''
-                predicateString = "wordString("+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)+","+"\'"+str(word)+"\')."
-                _writeFact(predicateString)
-                #============predicate: partOfSpeechTag(wordID,#POS)=============
+                """
+
+                # mode: wordString(wordID, #str).
+                ps = "wordString(" + str(blockID) + "_" + str(sentenceID) + \
+                     "_" + str(wordID) + "," + "'" + str(word) + "')."
+                _writeFact(ps)
+
+                # mode: partOfSpeechTag(wordID, #POS).
                 POS = nltk.pos_tag([word])[0][1]
-                predicateString = "partOfSpeech("+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)+","+"\""+str(POS)+"\")."
-                _writeFact(predicateString)
+                ps = "partOfSpeech(" + str(blockID) + "_" + str(sentenceID) + \
+                     "_" + str(wordID) + "," + '"' + str(POS) + '").'
+                _writeFact(ps)
+
+                # mode: nextWordInSentence(sentenceID, wordID, wordID).
                 if wordID < nWords:
-                    #====================predicate: nextWordInSentence(sentenceID,wordID,wordID)==========================
-                    predicateString = "nextWordInSentence("+str(blockID)+"_"+str(sentenceID)+","+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)+","+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID+1)+")."
-                    _writeFact(predicateString)
-                #=====================predicate: earlyWordInSentence(sentenceID,wordID)===========================
-                if wordID < beginning:
-                    predicateString = "earlyWordInSentence("+str(blockID)+"_"+str(sentenceID)+","+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)+")."
-                    _writeFact(predicateString)
-                #=====================predicate: midWayWordInSentences(sentenceID,wordID)==========================
-                if wordID >= beginning and wordID < ending:
-                    predicateString = "midWayWordInSentence("+str(blockID)+"_"+str(sentenceID)+","+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)+")."
-                    _writeFact(predicateString)
-                #=====================predicate: lateWordInSentence(sentenceID,wordID)============================
-                if sentenceID > ending:
-                    predicateString = "lateSentenceInBlock("+str(blockID)+","+str(blockID)+"_"+str(sentenceID)+")."
-                    _writeFact(predicateString)
-                #print("writing word "+str(wordID)+"/"+str(nWords)+" from sentence id "+str(sentenceID)+" in block id "+str(blockID)+" to wordIDs.txt..")
-                #====================predicate: wordInSentence(wordID,sentenceID)=====================================
-                predicateString = "wordInSentence("+str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)+","+str(blockID)+"_"+str(sentenceID)+")."
-                _writeFact(predicateString)
-                _writeWordFromSentenceInBlock(word,blockID,sentenceID,wordID)
+                    ps = "nextWordInSentence(" + str(blockID) + "_" + \
+                         str(sentenceID) + "," + str(blockID) + "_" + \
+                         str(sentenceID) + "_" + str(wordID) + "," + \
+                         str(blockID) + "_" + str(sentenceID) + "_" + \
+                         str(wordID+1) + ")."
+                    _writeFact(ps)
+
+                if wordID < wBeginning:
+                    # mode: earlyWordInSentence(sentenceID, wordID).
+                    ps = "earlyWordInSentence(" + str(blockID) + "_" + \
+                         str(sentenceID) + "," + str(blockID) + "_" + \
+                         str(sentenceID) + "_" + str(wordID) + ")."
+                    _writeFact(ps)
+                elif wordID > wEnding:
+                    # mode: lateWordInSentence(sentenceID< wordID).
+                    ps = "lateWordInSentence(" + str(blockID) + "_" + \
+                    str(sentenceID) + "," + str(blockID) + "_" + \
+                    str(sentenceID) + "_" + str(wordID) + ")."
+                    _writeFact(ps)
+                else:
+                    # mode: midWayWordInSentence(sentenceID, wordID).
+                    ps = "midWayWordInSentence(" + str(blockID) + "_" + \
+                    str(sentenceID) + "," + str(blockID) + "_" + \
+                    str(sentenceID) + "_" + str(wordID) + ")."
+                    _writeFact(ps)
+
+                # mode: wordInSentence(wordID, sentenceID).
+                ps = "wordInSentence(" + str(blockID) + "_" + \
+                     str(sentenceID) + "_" + str(wordID) + "," + \
+                     str(blockID) + "_" + str(sentenceID) + ")."
+                _writeFact(ps)
+                _writeWordFromSentenceInBlock(word, blockID, sentenceID, wordID)
+
                 wordID += 1
         blockID += 1
