@@ -56,6 +56,10 @@ Examples
                 predicates = rnlp.parse(declaration)
 """
 
+from .textprocessing import getBlocks
+from .textprocessing import getSentences
+from .parse import makeIdentifiers
+
 __author__ = 'Kaushik Roy (@kkroy36)'
 __copyright__ = 'Copyright (c) 2017-2018 StARLinG Lab'
 __license__ = 'GPL-v3'
@@ -74,10 +78,6 @@ __credits__ = [
     'Rahul Pasunuri'
 ]
 
-from . import parse
-
-from .textprocessing import getBlocks
-from .textprocessing import getSentences
 
 def converter(input_string, block_size=2):
     """

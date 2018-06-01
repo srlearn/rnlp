@@ -45,6 +45,7 @@ _punctuation = string.punctuation
 _stemmer = PorterStemmer()
 _stopwords = stopwords.words('english')
 
+
 def _removePunctuation(text_string):
     """
     Removes punctuation symbols from a string.
@@ -60,7 +61,11 @@ def _removePunctuation(text_string):
     >>> __removePunctuation(example)
     'Hello World'
     """
-    return text_string.strip(_punctuation)
+    try:
+        return text_string.translate(None, _punctuation)
+    except TypeError:
+        return text_string.translate(str.maketrans('', '', _punctuation))
+
 
 def _removeStopwords(text_list):
     """
@@ -80,6 +85,7 @@ def _removeStopwords(text_list):
             output_list.append(word)
 
     return output_list
+
 
 def getBlocks(sentences, n):
     """
@@ -112,6 +118,7 @@ def getBlocks(sentences, n):
     for i in range(0, len(sentences), n):
         blocks.append(sentences[i:(i+n)])
     return blocks
+
 
 def getSentences(text_string):
     """

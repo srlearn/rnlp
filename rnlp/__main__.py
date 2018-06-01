@@ -65,11 +65,11 @@ parser = argparse.ArgumentParser(
 file_or_dir = parser.add_mutually_exclusive_group()
 
 parser.add_argument('-b', '--blockSize', type=int, default=2,
-    help='Set the block size')
+                    help='Set the block size')
 file_or_dir.add_argument('-d', '--directory', type=str,
-    help='Read text from all files in a directory.')
+                         help='Read text from all files in a directory.')
 file_or_dir.add_argument('-f', '--file', type=str,
-    help='Read from text from a file.')
+                         help='Read from text from a file.')
 
 args = parser.parse_args()
 logger.info('Argument Parsing Successful.')

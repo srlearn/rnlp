@@ -1,4 +1,18 @@
-# Copyright (c) 2017-2018 StARLinG Lab
+# Copyright (C) 2017-2018 StARLinG Lab
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program (at the base of this repository). If not,
+# see <http://www.gnu.org/licenses/>
 
 import sys
 import unittest
@@ -22,7 +36,7 @@ class removePunctuationTest(unittest.TestCase):
 
     def test_removePunctuation_3(self):
         sent = 'Hi.There'
-        self.assertEqual(textprocessing._removePunctuation(sent), 'Hi.There')
+        self.assertEqual(textprocessing._removePunctuation(sent), 'HiThere')
 
     def test_removePunctuation_4(self):
         import string
@@ -32,7 +46,7 @@ class removePunctuationTest(unittest.TestCase):
     def test_removePunctuation_5(self):
         sent = '(def add1 (lambda (n)) + n 1)'
         self.assertEqual(textprocessing._removePunctuation(sent),
-                         'def add1 (lambda (n)) + n 1')
+                         'def add1 lambda n  n 1')
 
 class removeStopwordsTest(unittest.TestCase):
 
@@ -89,8 +103,8 @@ class getBlocks(unittest.TestCase):
         breadlines blow my mind, and now this deadline.""")
         self.assertEqual(textprocessing.getBlocks(sents, 1),
         [['How do you document real life'],
-        ["When real life's getting more like fiction each day"],
-        ["Headlines,\n        breadlines blow my mind, and now this deadline"]])
+        ["When real lifes getting more like fiction each day"],
+        ["Headlines\n        breadlines blow my mind and now this deadline"]])
 
     def test_getBlocks_3(self):
         sents = textprocessing.getSentences(
