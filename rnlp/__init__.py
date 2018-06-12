@@ -64,7 +64,7 @@ __author__ = 'Kaushik Roy (@kkroy36)'
 __copyright__ = 'Copyright (c) 2017-2018 StARLinG Lab'
 __license__ = 'GPL-v3'
 
-__version__ = '0.3.0'
+__version__ = '0.3.1'
 __status__ = 'Beta'
 __maintainer__ = 'Alexander L. Hayes (@batflyer)'
 __email__ = 'alexander.hayes@utdallas.edu'
