@@ -204,8 +204,6 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
             _writeFact(ps)
             _writeSentenceInBlock(sentence, blockID, sentenceID)
 
-            sentenceID += 1
-
             wordID = 1
             tokens = nltk.word_tokenize(sentence)
             nWords = len(tokens)
@@ -276,4 +274,5 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
                 _writeWordFromSentenceInBlock(word, blockID,
                                               sentenceID, wordID)
                 wordID += 1
+            sentenceID += 1
         blockID += 1
