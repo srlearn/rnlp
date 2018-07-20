@@ -29,7 +29,7 @@ Development builds on GitHub
 Quick-Start
 -----------
 
-``rnlp`` can be used either as a CLI tool or as an imported Python Package.
+``rnlp`` can be used either as a command line interface (CLI) tool or as an imported Python Package.
 
 +---------------------------------------------+--------------------------------------+
 | **CLI**                                     | **Imported**                         |
@@ -45,11 +45,11 @@ Quick-Start
 
 Text will be converted into relational facts, relations encoded are:
 
-- between blocks of size 'n' (i.e. 2 sentences) in the blocks.
+- between sentences and the surrounding block of n sentences.
 
-- between block's of size n (i.e. 'n' sentences) and sentences in the blocks.
+- between words and the surrounding sentence.
 
-- between sentences and words in the sentences.
+- between words within the surrounding sentence.
 
 ---
 
@@ -77,12 +77,12 @@ The relationships currently encoded are:
 
 ---
 
-Files contain a toy corpus (``files/``) and an image of a BoostSRL tree for predicting if a word in a sentence is the word "you".
+Files contain a toy corpus (``example files/``) and an image of a BoostSRL tree for predicting if a word in a sentence is the word "you".
 
 .. image:: https://raw.githubusercontent.com/starling-lab/rnlp/master/docs/img/output.png
 
-The tree says that if the word string contained in word 'b' is "you" then 'b' is the word "you". (This is of course true).
-A more interesting inference is the False branch that says that if word 'b' is an early word in sentence 'a' and word 'anon12035' is also an early word in sentence 'a' and if the word string contained in word 'anon12035' is "Thank", then the word 'b' has decent change of being the word "you". (The model was able to learn that the word "you" often occurs with the word "Thank" in the same sentence when "Thank" appears early in that sentence).
+The tree says that if the word string contained in word 'b' is "you" then 'b' is the word "you" with a high probability. (This is of course true).
+A more interesting inference is the False branch that says that if word 'b' is an early word in sentence 'a' and word 'anon12035' is also an early word in sentence 'a' and if the word string contained in word 'anon12035' is "Thank", then the word 'b' has decent chance of being the word "you". (The model was able to learn that the word "you" often occurs with the word "Thank" in the same sentence when "Thank" appears early in that sentence).
 
  .. _`@kkroy36`: https://github.com/kkroy36/
  .. _`@batflyer`: https://github.com/batflyer/
