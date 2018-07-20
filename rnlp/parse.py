@@ -31,6 +31,10 @@ import string
 # Non-standard Python Library
 import nltk
 from tqdm import tqdm
+
+import joblib
+import multiprocessing as mp
+
 from .textprocessing import getSentences
 from .textprocessing import getBlocks
 
@@ -110,6 +114,124 @@ def _writeBk(target="sentenceContainsTarget(+SID,+WID).", treeDepth="3",
 
     return
 
+
+def makeIdentifiersLaziest(blocks, startIndex=1, cores=1):
+    """
+    Spreads makeIdentifiers over a set number of cores.
+    """
+
+    n_jobs = cores
+    o = Parallel(n_jobs=cores)(makeIdentifiersLazy(blocks[i], i) for i in tqdm(range(len(blocks))))
+    return o
+    
+
+def makeIdentifiersLazy(block, blockID):
+    """
+    Spreads out the process of makingIdentifiers over a set number of cores.
+    
+    :returns: A list of facts to be written to files.
+    :rtype: list
+    """
+    
+    # Initialize an empty list where the facts will be stored.
+    facts = []
+    
+    # Initialize the blockID, sentenceID, and wordID
+    sentenceID, wordID = startIndex, 0, 0
+
+    sentenceID = 1
+    nSentences = len(block)
+    beginning = nSentences/float(3)
+    ending = (2 * nSentences)/float(3)
+
+        for sentence in block:
+
+            if sentenceID < nSentences:
+                # mode: nextSentenceInBlock(blockID, sentenceID, sentenceID).
+                ps = "nextSentenceInBlock(" + str(blockID) + "," + \
+                     str(blockID) + "_" + str(sentenceID) + "," + \
+                     str(blockID) + "_" + str(sentenceID+1) + ")."
+                facts.append(ps)
+
+            if sentenceID < beginning:
+                # mode: earlySentenceInBlock(blockID, sentenceID).
+                ps = "earlySentenceInBlock(" + str(blockID) + "," + \
+                     str(blockID) + "_" + str(sentenceID) + ")."
+                facts.append(ps)
+            elif sentenceID > ending:
+                # mode: lateSentenceInBlock(blockID, sentenceID).
+                ps = "lateSentenceInBlock(" + str(blockID) + "," + \
+                     str(blockID) + "_" + str(sentenceID) + ")."
+                facts.append(ps)
+            else:
+                # mode: midWaySentenceInBlock(blockID, sentenceID).
+                ps = "earlySentenceInBlock(" + str(blockID) + "," + \
+                     str(blockID) + "_" + str(sentenceID) + ")."
+                facts.append(ps)
+
+            # mode: sentenceInBlock(sentenceID, blockID).
+            ps = "sentenceInBlock(" + str(blockID) + "_" + str(sentenceID) + \
+                 "," + str(blockID) + ")."
+            facts.append(ps)
+
+            wordID = 1
+            tokens = nltk.word_tokenize(sentence)
+            nWords = len(tokens)
+            wBeginning = nWords/float(3)
+            wEnding = (2*nWords)/float(3)
+
+            for word in tokens:
+
+                # mode: wordString(wordID, #str).
+                ps = "wordString(" + str(blockID) + "_" + str(sentenceID) + \
+                     "_" + str(wordID) + "," + "'" + str(word) + "')."
+                facts.append(ps)
+
+                # mode: partOfSpeechTag(wordID, #POS).
+                POS = nltk.pos_tag([word])[0][1]
+                ps = "partOfSpeech(" + str(blockID) + "_" + str(sentenceID) + \
+                     "_" + str(wordID) + "," + '"' + str(POS) + '").'
+                facts.append(ps)
+
+                # mode: nextWordInSentence(sentenceID, wordID, wordID).
+                if wordID < nWords:
+                    ps = "nextWordInSentence(" + str(blockID) + "_" + \
+                         str(sentenceID) + "," + str(blockID) + "_" + \
+                         str(sentenceID) + "_" + str(wordID) + "," + \
+                         str(blockID) + "_" + str(sentenceID) + "_" + \
+                         str(wordID+1) + ")."
+                    facts.append(ps)
+
+                if wordID < wBeginning:
+                    # mode: earlyWordInSentence(sentenceID, wordID).
+                    ps = "earlyWordInSentence(" + str(blockID) + "_" + \
+                         str(sentenceID) + "," + str(blockID) + "_" + \
+                         str(sentenceID) + "_" + str(wordID) + ")."
+                    facts.append(ps)
+                elif wordID > wEnding:
+                    # mode: lateWordInSentence(sentenceID< wordID).
+                    ps = "lateWordInSentence(" + str(blockID) + "_" + \
+                         str(sentenceID) + "," + str(blockID) + "_" + \
+                         str(sentenceID) + "_" + str(wordID) + ")."
+                    facts.append(ps)
+                else:
+                    # mode: midWayWordInSentence(sentenceID, wordID).
+                    ps = "midWayWordInSentence(" + str(blockID) + "_" + \
+                         str(sentenceID) + "," + str(blockID) + "_" + \
+                         str(sentenceID) + "_" + str(wordID) + ")."
+                    facts.append(ps)
+
+                # mode: wordInSentence(wordID, sentenceID).
+                ps = "wordInSentence(" + str(blockID) + "_" + \
+                     str(sentenceID) + "_" + str(wordID) + "," + \
+                     str(blockID) + "_" + str(sentenceID) + ")."
+                facts.append(ps)
+                wordID += 1
+            sentenceID += 1
+        blockID += 1
+
+    return facts
+    
 
 def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
                     treeDepth="3", nodeSize="3", numOfClauses="8"):
