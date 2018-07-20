@@ -66,6 +66,9 @@ file_or_dir = parser.add_mutually_exclusive_group()
 
 parser.add_argument('-b', '--blockSize', type=int, default=2,
                     help='Set the block size')
+parser.add_argument('-c', '--cores', type=int, default=1,
+                    help='''Set the number of cores to use, 
+                    -1 to use all cores. Default=1''')
 file_or_dir.add_argument('-d', '--directory', type=str,
                          help='Read text from all files in a directory.')
 file_or_dir.add_argument('-f', '--file', type=str,
