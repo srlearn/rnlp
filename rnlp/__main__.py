@@ -66,8 +66,8 @@ file_or_dir = parser.add_mutually_exclusive_group()
 
 parser.add_argument('-b', '--blockSize', type=int, default=2,
                     help='Set the block size')
-parser.add_argument('-c', '--cores', type=int, default=1,
-                    help='''Set the number of cores to use, 
+parser.add_argument('-n', '--n_jobs', type=int, default=1,
+                    help='''Set the number of cores to use,
                     -1 to use all cores. Default=1''')
 file_or_dir.add_argument('-d', '--directory', type=str,
                          help='Read text from all files in a directory.')
@@ -80,6 +80,10 @@ logger.info('Argument Parsing Successful.')
 # Set block size.
 n = args.blockSize
 logger.info('blockSize specified as ' + str(n))
+
+# Set the number of jobs to perform in parallel.
+n_jobs = args.n_jobs
+logger.info('n_jobs: ' + str(n_jobs))
 
 # Set the input file(s).
 if args.file:
@@ -115,7 +119,7 @@ except Exception:
 
 # Make identifiers from the blocks.
 try:
-    makeIdentifiers(blocks)
+    makeIdentifiers(blocks, n_jobs=n_jobs)
 except Exception:
     logger.error('Error while making identifiers.', exc_info=True)
     exit(2)
