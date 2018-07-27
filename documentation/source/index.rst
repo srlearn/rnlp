@@ -95,7 +95,7 @@ The relationships currently encoded are:
 
 Files contain a toy corpus (``files/``) and an image of a BoostSRL tree for predicting if a word in a sentence is the word "you".
 
-.. image:: https://raw.githubusercontent.com/starling-lab/rnlp/master/docs/img/output.png
+.. image:: https://raw.githubusercontent.com/starling-lab/rnlp/master/documentation/img/output.png
 
 The tree says that if the word string contained in word 'b' is "you" then 'b' is the word "you". (This is of course true).
 A more interesting inference is the False branch that says that if word 'b' is an early word in sentence 'a' and word 'anon12035' is also an early word in sentence 'a' and if the word string contained in word 'anon12035' is "Thank", then the word 'b' has decent change of being the word "you". (The model was able to learn that the word "you" often occurs with the word "Thank" in the same sentence when "Thank" appears early in that sentence).
