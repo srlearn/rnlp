@@ -42,12 +42,14 @@ Development builds on GitHub
 
 		pip install git+git://github.com/starling-lab/rnlp.git
 
-These packages need to be installed:
+Some modules in nltk need to be available:
 
-- nltk
-
-- nltk.corpus.stop_words
-
+.. code-block:: bash
+        import nltk
+        nltk.download('punkt')
+        nltk.download('stopwords')
+        nltk.download('averaged_perceptron_tagger')
+        
 Quick-Start
 -----------
 
