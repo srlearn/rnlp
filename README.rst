@@ -26,6 +26,12 @@ Development builds on GitHub
 
 		pip install git+git://github.com/starling-lab/rnlp.git
 
+These packages need to be installed:
+
+- nltk
+
+- nltk.corpus.stop_words
+
 Quick-Start
 -----------
 
