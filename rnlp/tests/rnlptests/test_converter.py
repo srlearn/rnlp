@@ -14,27 +14,25 @@
 # along with this program (at the base of this repository). If not,
 # see <http://www.gnu.org/licenses/>
 
+import hashlib
 import os
 import sys
 import unittest
 
 sys.path.append('./')
 
+from rnlp.corpus import declaration
 import rnlp
-
 
 class converterTest(unittest.TestCase):
     """
     This performs a similar test to test_parse.py, but uses rnlp.convert.
     """
-
     def Reset(self):
         """
         Removes files created by ``parse.makeIdentifiers``, since the current
         version appends to the end of the files each time the function runs.
         """
-
-        # TODO: Integrate this with the setup/teardown methods from unittest
 
         file_set = ['bk.txt',
                     'facts.txt',
@@ -45,73 +43,70 @@ class converterTest(unittest.TestCase):
             if os.path.isfile(f):
                 os.remove(f)
 
-    def EqualFileContents(self, fileName, expectedContents):
+    def EqualFileContents(self, fileName, expectedHash):
         """
         Open ``fileName`` and return true if the list ``expectedContents``
         match the contents of the file.
         """
 
         with open(fileName) as f:
-            actualContents = f.read().splitlines()
+            contents = f.read()
 
-        return actualContents == expectedContents
+        trueHash = hashlib.md5(contents.encode('utf-8')).hexdigest()
 
-    def test_converter_1(self):
+        return trueHash == expectedHash
 
-        # Reset state to ensure files do not exist.
+    def runner(self, example, blockLength, hashlist):
+        """
+        Runs rnlp.converter on example and verifies that the md5 hashes match.
+
+        example: str.
+        blockLength: int.
+        hashlist: list of five hash values.
+        """
+
         self.Reset()
+        rnlp.converter(example, blockLength)
 
-        example = "Hello there. How are you?"
-        rnlp.converter(example, 1)
+        self.assertTrue(self.EqualFileContents('wordIDs.txt', hashlist[0]))
+        self.assertTrue(self.EqualFileContents('sentenceIDs.txt', hashlist[1]))
+        self.assertTrue(self.EqualFileContents('blockIDs.txt', hashlist[2]))
+        self.assertTrue(self.EqualFileContents('facts.txt', hashlist[3]))
+        self.assertTrue(self.EqualFileContents('bk.txt', hashlist[4]))
 
-        wordIDs = ['wordID: 1_1_1', 'wordString: Hello', '',
-                   'wordID: 1_1_2', 'wordString: there', '',
-                   'wordID: 2_1_1', 'wordString: How', '',
-                   'wordID: 2_1_2', 'wordString: are', '',
-                   'wordID: 2_1_3', 'wordString: you', '']
-        sentIDs = ['sentenceID: 1_1', 'sentence string: Hello there', '',
-                   'sentenceID: 2_1', 'sentence string: How are you', '']
-        blocIDs = ['blockID: 1', 'block sentences: Hello there', '',
-                   'blockID: 2', 'block sentences: How are you', '']
-        facts = ['lateSentenceInBlock(1,1_1).', 'sentenceInBlock(1_1,1).',
-                 "wordString(1_1_1,'Hello').", 'partOfSpeech(1_1_1,"NN").',
-                 'nextWordInSentence(1_1,1_1_1,1_1_2).',
-                 'midWayWordInSentence(1_1,1_1_1).',
-                 'wordInSentence(1_1_1,1_1).', "wordString(1_1_2,'there').",
-                 'partOfSpeech(1_1_2,"RB").', 'lateWordInSentence(1_1,1_1_2).',
-                 'wordInSentence(1_1_2,1_1).', 'lateSentenceInBlock(2,2_1).',
-                 'sentenceInBlock(2_1,2).', "wordString(2_1_1,'How').",
-                 'partOfSpeech(2_1_1,"WRB").',
-                 'nextWordInSentence(2_1,2_1_1,2_1_2).',
-                 'midWayWordInSentence(2_1,2_1_1).',
-                 'wordInSentence(2_1_1,2_1).', "wordString(2_1_2,'are').",
-                 'partOfSpeech(2_1_2,"VBP").',
-                 'nextWordInSentence(2_1,2_1_2,2_1_3).',
-                 'midWayWordInSentence(2_1,2_1_2).',
-                 'wordInSentence(2_1_2,2_1).', "wordString(2_1_3,'you').",
-                 'partOfSpeech(2_1_3,"PRP").',
-                 'lateWordInSentence(2_1,2_1_3).',
-                 'wordInSentence(2_1_3,2_1).']
-        bk = ['useStdLogicVariables: true', 'setParam: treeDepth=3.',
-              'setParam: nodeSize=3.', 'setParam: numOfClauses=8.',
-              'mode: nextSentenceInBlock(+BID,+SID,-SID).',
-              'mode: nextSentenceInBlock(+BID,-SID,+SID).',
-              'mode: earlySentenceInBlock(+BID,-SID).',
-              'mode: midWaySentenceInBlock(+BID,-SID).',
-              'mode: lateSentenceInBlock(+BID,-SID).',
-              'mode: sentenceInBlock(-SID,+BID).',
-              'mode: wordString(+WID,#WSTR).',
-              'mode: partOfSpeechTag(+WID,#WPOS).',
-              'mode: nextWordInSentence(+SID,+WID,-WID).',
-              'mode: earlyWordInSentence(+SID,-WID).',
-              'mode: midWayWordInSentence(+SID,-WID).',
-              'mode: lateWordInSentence(+SID,-WID).',
-              'mode: wordInSentence(-WID,+SID).',
-              'mode: sentenceContainsTarget(+SID,+WID).']
 
-        # Assert that the created files match expectations.
-        self.assertTrue(self.EqualFileContents('wordIDs.txt', wordIDs))
-        self.assertTrue(self.EqualFileContents('sentenceIDs.txt', sentIDs))
-        self.assertTrue(self.EqualFileContents('blockIDs.txt', blocIDs))
-        self.assertTrue(self.EqualFileContents('facts.txt', facts))
-        self.assertTrue(self.EqualFileContents('bk.txt', bk))
+    def test_makeIdentifiers_1(self):
+        self.runner('Hello there. How are you?', 1,
+                    ['bbaccb43cf22eeea851df721a40fddb7',
+                     '60ffc99bc55eaab87b74d77557164bd0',
+                     '41f2b5849b50502d31152bc20ec9f81d',
+                     '53e96b0214838323def0375b0ac40023',
+                     'f8f91289b8db5fa0270ffc0b0c94bd09'])
+
+    def test_makeIdentifiers_2(self):
+        self.runner("A B. C D. E F.", 1, ['87a3b6464acc41ca7939fe6e2062a60b',
+                                          '049b7a05061ed1478669c23e8bd946c6',
+                                          '62131ea41b1bf0363d61c34a72d6b34c',
+                                          '1a4273067a5f959ed78a6f571a63ae1c',
+                                          'f8f91289b8db5fa0270ffc0b0c94bd09'])
+
+    def test_makeIdentifiers_3(self):
+        self.runner(declaration(), 1, ['3beca96390f114e4bb5513aed359e090',
+                                       '3e7168dc0ecfc76b1710edb8fb147d41',
+                                       '3778793bd861a1bc658c2b55bdc2eaf3',
+                                       '8ec3d7d72ffedf1740f04b838a7164b6',
+                                       'f8f91289b8db5fa0270ffc0b0c94bd09'])
+
+    def test_makeIdentifiers_4(self):
+        self.runner(declaration(), 2, ['9ef701f7a5c1da8eb8d0e87ba63025f6',
+                                       '28f7f057e5a5a9a66a0d37686716c9f6',
+                                       '56d6a375bb36a4e68b1a1a6e3d194fda',
+                                       '1af5996e085f3ba7fe906992ee723513',
+                                       'f8f91289b8db5fa0270ffc0b0c94bd09'])
+
+    def test_makeIdentifiers_5(self):
+        self.runner(declaration(), 3, ['7c653cc6e226acfb685144581bec0c10',
+                                       '06441a60380e2b3915ee9de25019df9f',
+                                       '368f35fe0a34ba6984ed4e977cca3687',
+                                       '6ce50160bc795d4a8476916d4e688a51',
+                                       'f8f91289b8db5fa0270ffc0b0c94bd09'])
