@@ -4,3 +4,4 @@ pytest-cov
 unittest2
 nltk
 tqdm
+joblib
