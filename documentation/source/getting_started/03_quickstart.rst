@@ -2,57 +2,88 @@
 Quick Start
 ===========
 
-``rnlp`` can be used either as a CLI tool or as an imported Python Package.
+Relations
+---------
 
-+---------------------------------------------+--------------------------------------+
-| **CLI**                                     | **Imported**                         |
-+---------------------------------------------+--------------------------------------+
-|.. code-block:: bash                         |.. code-block:: python                |
-|                                             |                                      |
-|  $ python -m rnlp -f example_files/doi.txt  |  from rnlp.corpus import declaration |
-|  Reading corpus from file(s)...             |  import rnlp                         |
-|  Creating background file...                |                                      |
-|  100%|████████| 18/18 [00:00<00:00, 38it/s] |  doi = declaration()                 |
-|                                             |  rnlp.converter(doi)                 |
-+---------------------------------------------+--------------------------------------+
+The relations created by ``rnlp`` include the following:
 
-Text will be converted into relational facts, relations encoded are:
+  * Sentence’s Relative Position in Block:
 
-- between blocks of size 'n' (i.e. 2 sentences) in the blocks.
+    * ``earlySentenceInBlock``: Sentence occurs within the first third of a block’s length.
+    * ``midWaySentenceInBlock``: Sentence occurs between the first and last third of a block’s length.
+    * ``lateSentenceInBlock``: Sentence occurs within the last third of a block’s length.
 
-- between block's of size n (i.e. 'n' sentences) and sentences in the blocks.
+  * Word’s Relative Position in Sentence:
 
-- between sentences and words in the sentences.
+    * ``earlyWordInSentence``: Word occurs within the first third of a sentence.
+    * ``midWayWordInSentence``: Word occurs between a third and two-thirds of a sentence.
+    * ``lateWordInSentence``: Word occurs within the last third of a sentence.
 
----
+  * Relative Position Between Items:
 
-The relationships currently encoded are:
+    * ``nextWordInSentence``: Pointer from a word to its neighbor.
+    * ``nextSentenceInBlock``: Pointer from a sentence to its neighbor.
 
-1. earlySentenceInBlock - sentence occurs within a third of the block length
+  * Existential Semantics:
 
-2. earlyWordInSentence - word occurs within a third of the sentence length
+    * ``sentenceInBlock``: Sentence occurs in a particular block.
+    * ``wordInSentence``: Word occurs in a particular sentence.
 
-3. lateSentenceInBlock - sentence occurs after two-thirds of the block length
+  * Low-Level Information about words:
 
-4. midWayWordInSentence - word occurs between a third and two-thirds of the block length
+    * ``wordString``: A string representation of a word.
+    * ``partOfSpeechTag``: The word’s part of speech.
 
-5. nextSentenceInBlock - sentence that follows a sentence in a block
+From text to Relational Facts
+-----------------------------
 
-6. nextWordInSentence - word that follows a word in a sentence in a block
+Consider the example file ``example_files/doi.txt``, the U.S. Declaration of Independence:
 
-7. sentenceInBlock - sentence occurs in a block
+.. code-block:: text
 
-8. wordInSentence - word occurs in a sentence.
+    In Congress, July 4, 1776. The unanimous Declaration of the thirteen united
+    States of America, When in the Course of human events, it becomes necessary
+    for one people to dissolve the political bands which have connected them
+    with another, and to assume among the powers of the earth, the separate and
+    equal station to which the Laws of Nature and of Nature's God entitle them,
+    a decent respect to the opinions of mankind requires that they should
+    declare the causes which impel them to the separation.
+    ...
+    ...
 
-9. wordString - the string contained in the word.
+``rnlp`` can be used either as a commandline tool or as an imported Python Package.
 
-10. partOfSpeech - the part of speech of the word.
+**Commandline**
 
----
+.. code-block:: bash
 
-Files contain a toy corpus (``files/``) and an image of a BoostSRL tree for predicting if a word in a sentence is the word "you".
+  $ python -m rnlp -f example_files/doi.txt
+  Reading corpus from file(s)...
+  Creating background file...
+  100%|████████| 18/18 [00:00<00:00, 38it/s]
 
-.. image:: ../_static/img/output.png
+**Imported**
 
-The tree says that if the word string contained in word 'b' is "you" then 'b' is the word "you". (This is of course true).
-A more interesting inference is the False branch that says that if word 'b' is an early word in sentence 'a' and word 'anon12035' is also an early word in sentence 'a' and if the word string contained in word 'anon12035' is "Thank", then the word 'b' has decent change of being the word "you". (The model was able to learn that the word "you" often occurs with the word "Thank" in the same sentence when "Thank" appears early in that sentence).
+.. code-block:: python
+
+  from rnlp.corpus import declaration
+  import rnlp
+
+  doi = declaration()
+  rnlp.converter(doi)
+
+
+.. code-block:: prolog
+
+    nextSentenceInBlock(1,1_1,1_2).
+    earlySentenceInBlock(1,1_1).
+    sentenceInBlock(1_1,1).
+    wordString(1_1_1,'In').
+    partOfSpeech(1_1_1,"IN").
+    nextWordInSentence(1_1,1_1_1,1_1_2).
+    earlyWordInSentence(1_1,1_1_1).
+    wordInSentence(1_1_1,1_1).
+    wordString(1_1_2,'Congress').
+    partOfSpeech(1_1_2,"NNP").
+    ...
+    ...

@@ -37,6 +37,7 @@ Text is converted into relational facts, built around the basic building blocks 
    getting_started/01_environment
    getting_started/02_installation
    getting_started/03_quickstart
+   getting_started/04_learning
 
 .. toctree::
    :maxdepth: 1
