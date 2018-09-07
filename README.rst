@@ -9,8 +9,6 @@
   .. image:: https://img.shields.io/readthedocs/rnlp/stable.svg?flat-square
 	   :target: http://rnlp.readthedocs.io/en/stable/
 
-**Kaushik Roy** (`@kkroy36`_) and **Alexander L. Hayes** (`@batflyer`_)
-
 Installation
 ------------
 
@@ -25,15 +23,6 @@ Development builds on GitHub
 .. code-block:: bash
 
 		pip install git+git://github.com/starling-lab/rnlp.git
-
-Some modules in nltk need to be available:
-
-.. code-block:: bash
-
-        import nltk
-        nltk.download('punkt')
-        nltk.download('stopwords')
-        nltk.download('averaged_perceptron_tagger')
 
 Quick-Start
 -----------
@@ -52,37 +41,34 @@ Quick-Start
 |                                             |  rnlp.converter(doi)                 |
 +---------------------------------------------+--------------------------------------+
 
-Text will be converted into relational facts, relations encoded are:
+The relations created by ``rnlp`` include the following:
 
-- between sentences and the surrounding block of n sentences.
+  * Sentence's Relative Position in Block:
 
-- between words and the surrounding sentence.
+    * ``earlySentenceInBlock``: Sentence occurs within the first third of a block.
+    * ``midWaySentenceInBlock``: Sentence occurs between the first third and the last third of a block's length.
+    * ``lateSentenceInBlock``: Sentence occurs within the last third of a block's length.
 
-- between words within the surrounding sentence.
+  * Word's Relative Position in Sentence:
 
----
+    * ``earlyWordInSentence``: Word occurs within the first third of a sentence.
+    * ``midWayWordInSentence``: Word occurs between a third and two-thirds of a sentence.
+    * ``lateWordInSentence``: Word occurs within the last third of a sentence.
 
-The relationships currently encoded are:
+  * Relative Position Between Items:
 
-1. earlySentenceInBlock - sentence occurs within a third of the block length
+    * ``nextWordInSentence``: Pointer from a word to its neighbor.
+    * ``nextSentenceInBlock``: Pointer from a sentence to its neighbor.
 
-2. earlyWordInSentence - word occurs within a third of the sentence length
+  * Existential Semantics:
 
-3. lateSentenceInBlock - sentence occurs after two-thirds of the block length
+    * ``sentenceInBlock``: Sentence occurs in a particular block.
+    * ``wordInSentence``: Word occurs in a particular sentence.
 
-4. midWayWordInSentence - word occurs between a third and two-thirds of the block length
+  * Low-Level Information about words:
 
-5. nextSentenceInBlock - sentence that follows a sentence in a block
-
-6. nextWordInSentence - word that follows a word in a sentence in a block
-
-7. sentenceInBlock - sentence occurs in a block
-
-8. wordInSentence - word occurs in a sentence.
-
-9. wordString - the string contained in the word.
-
-10. partOfSpeech - the part of speech of the word.
+    * ``wordString``: A string representation of a word.
+    * ``partOfSpeechTag``: The word's part of speech (as determined by the nltk part-of-speech tagger).
 
 ---
 
@@ -93,5 +79,3 @@ Files contain a toy corpus (``example files/``) and an image of a BoostSRL tree 
 The tree says that if the word string contained in word 'b' is "you" then 'b' is the word "you" with a high probability. (This is of course true).
 A more interesting inference is the False branch that says that if word 'b' is an early word in sentence 'a' and word 'anon12035' is also an early word in sentence 'a' and if the word string contained in word 'anon12035' is "Thank", then the word 'b' has decent chance of being the word "you". (The model was able to learn that the word "you" often occurs with the word "Thank" in the same sentence when "Thank" appears early in that sentence).
 
- .. _`@kkroy36`: https://github.com/kkroy36/
- .. _`@batflyer`: https://github.com/batflyer/
