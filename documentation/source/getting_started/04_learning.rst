@@ -6,7 +6,7 @@ Learning
 
 We now have ``bk.txt`` and ``facts.txt`` as a result of the previous step. In order to get show some results, we will construct a toy data set from predicates easily available in the facts file.
 
-The *Delcaration of Independence* contains a set of phrases called the "List of Grievances", where the Founders spell out the 27 violations by King George III.
+The *Declaration of Independence* contains a set of phrases called the "List of Grievances", where the Founders spell out the 27 violations by King George III.
 
 We can turn these into a text classification task where we learn the structure of the grievances.
 

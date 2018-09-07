@@ -32,7 +32,7 @@ The relations created by ``rnlp`` include the following:
   * Low-Level Information about words:
 
     * ``wordString``: A string representation of a word.
-    * ``partOfSpeechTag``: The word’s part of speech.
+    * ``partOfSpeechTag``: The word's part of speech (as determined by the nltk part-of-speech tagger).
 
 From text to Relational Facts
 -----------------------------
