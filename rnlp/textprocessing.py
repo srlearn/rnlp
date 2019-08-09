@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 
 # Copyright © 2017-2018 StARLinG Lab
@@ -38,16 +37,12 @@ A word is a collection of letters...
 The depth of reasoning probably depends on the domain you are working on.
 """
 
-from nltk import word_tokenize
+import string
 from nltk import sent_tokenize
 from nltk.corpus import stopwords
-from nltk.stem.porter import *
 
-import string
-
-_punctuation = string.punctuation
-_stemmer = PorterStemmer()
-_stopwords = stopwords.words('english')
+PUNCTUATION = string.punctuation
+STOPWORDS = stopwords.words("english")
 
 
 def _removePunctuation(text_string):
@@ -66,9 +61,9 @@ def _removePunctuation(text_string):
     'Hello World'
     """
     try:
-        return text_string.translate(None, _punctuation)
+        return text_string.translate(None, PUNCTUATION)
     except TypeError:
-        return text_string.translate(str.maketrans('', '', _punctuation))
+        return text_string.translate(str.maketrans("", "", PUNCTUATION))
 
 
 def _removeStopwords(text_list):
@@ -85,21 +80,21 @@ def _removeStopwords(text_list):
     output_list = []
 
     for word in text_list:
-        if word.lower() not in _stopwords:
+        if word.lower() not in STOPWORDS:
             output_list.append(word)
 
     return output_list
 
 
-def getBlocks(sentences, n):
+def getBlocks(sentences, n_blocks):
     """
     Get blocks of n sentences together.
 
     :param sentences: List of strings where  each string is a sentence.
     :type sentences: list
-    :param n: Maximum blocksize for sentences, i.e. a block will be composed of
-              ``n`` sentences.
-    :type n: int.
+    :param n_blocks: Maximum blocksize for sentences, i.e. a block will be
+              composed of ``n_blocks`` sentences.
+    :type n_blocks: int.
 
     :returns: Blocks of n sentences.
     :rtype: list-of-lists
@@ -119,8 +114,8 @@ def getBlocks(sentences, n):
                     # with 3: [['Hello there', 'How are you', 'I am fine']]
     """
     blocks = []
-    for i in range(0, len(sentences), n):
-        blocks.append(sentences[i:(i+n)])
+    for i in range(0, len(sentences), n_blocks):
+        blocks.append(sentences[i : (i + n_blocks)])
     return blocks
 
 

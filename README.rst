@@ -4,7 +4,7 @@
 
 |PyPi|_ |License|_ |Travis|_ |Codecov|_ |ReadTheDocs|_
 
-.. |PyPi| image:: https://img.shields.io/pypi/pyversions/rnlp.svg
+.. |PyPi| image:: https://img.shields.io/pypi/v/rnlp.svg
   :alt: Python Package Index (PyPi) latest version.
 .. _PyPi: https://pypi.org/project/rnlp/
 
