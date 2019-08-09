@@ -1,4 +1,7 @@
-# Copyright (C) 2017-2018 StARLinG Lab
+# -*- coding: utf-8 -*-
+
+# Copyright © 2017-2018 StARLinG Lab
+# Copyright © 2019 Alexander L. Hayes
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -56,27 +59,18 @@ Examples
                 predicates = rnlp.parse(declaration)
 """
 
+from ._meta import (
+    __author__,
+    __copyright__,
+    __license__,
+    __status__,
+    __maintainer__,
+    __email__,
+    __credits__,
+)
+from .parse import makeIdentifiers
 from .textprocessing import getBlocks
 from .textprocessing import getSentences
-from .parse import makeIdentifiers
-
-__author__ = 'Kaushik Roy (@kkroy36)'
-__copyright__ = 'Copyright (c) 2017-2018 StARLinG Lab'
-__license__ = 'GPL-v3'
-
-__version__ = '0.3.2'
-__status__ = 'Beta'
-__maintainer__ = 'Alexander L. Hayes (@batflyer)'
-__email__ = 'alexander.hayes@utdallas.edu'
-
-__credits__ = [
-    'Kaushik Roy (@kkroy36)',
-    'Alexander L. Hayes (@batflyer)',
-    'Sriraam Natarajan (@boost-starai)',
-    'Gautam Kunapuli (@gkunapuli)',
-    'Dileep Viswanathan',
-    'Rahul Pasunuri'
-]
 
 
 def converter(input_string, block_size=2):
@@ -89,6 +83,6 @@ def converter(input_string, block_size=2):
     :type block_size: int.
     """
 
-    sentences = textprocessing.getSentences(input_string)
-    blocks = textprocessing.getBlocks(sentences, block_size)
-    parse.makeIdentifiers(blocks)
+    sentences = getSentences(input_string)
+    blocks = getBlocks(sentences, block_size)
+    makeIdentifiers(blocks)

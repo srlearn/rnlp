@@ -1,7 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2017-2018 StARLinG Lab
+# Copyright © 2017-2018 StARLinG Lab
+# Copyright © 2019 Alexander L. Hayes
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,21 +23,16 @@ rnlp.parse
 ----------
 """
 
-from __future__ import print_function
-from __future__ import division
-
-# Standard Python Library
 import string
-
-# Non-standard Python Library
 import nltk
 from tqdm import tqdm
-from .textprocessing import getSentences
-from .textprocessing import getBlocks
+
+__all__ = ["makeIdentifiers"]
 
 
 def _writeBlock(block, blockID):
-    '''writes the block to a file with the id'''
+    """Writes the blocks to a file with blockID.
+    """
     with open("blockIDs.txt", "a") as fp:
         fp.write("blockID: " + str(blockID) + "\n")
         sentences = ""
@@ -158,8 +154,12 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
 
     print("Creating background file...")
 
-    _writeBk(target=target, treeDepth=treeDepth,
-             nodeSize=nodeSize, numOfClauses=numOfClauses)
+    _writeBk(
+        target=target,
+        treeDepth=treeDepth,
+        nodeSize=nodeSize,
+        numOfClauses=numOfClauses,
+    )
 
     print("Creating identifiers from the blocks...")
 
@@ -211,21 +211,6 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
             wEnding = (2*nWords)/float(3)
 
             for word in tokens:
-
-                """
-                if word == "He":
-                    pos = open("pos.txt","a")
-                    word = str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)
-                    sentence = str(blockID)+"_"+str(sentenceID)
-                    pos.write("sentenceContainsTarget("+sentence+","+word+").\n")
-                    pos.close()
-                else:
-                    neg = open("neg.txt","a")
-                    word = str(blockID)+"_"+str(sentenceID)+"_"+str(wordID)
-                    sentence = str(blockID)+"_"+str(sentenceID)
-                    neg.write("sentenceContainsTarget("+sentence+","+word+").\n")
-                    neg.close()
-                """
 
                 # mode: wordString(wordID, #str).
                 ps = "wordString(" + str(blockID) + "_" + str(sentenceID) + \

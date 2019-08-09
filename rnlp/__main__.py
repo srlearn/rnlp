@@ -1,4 +1,7 @@
-# Copyright (C) 2017-2018 StARLinG Lab
+# -*- coding: utf-8 -*-
+
+# Copyright © 2017-2018 StARLinG Lab
+# Copyright © 2019 Alexander L. Hayes
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,110 +17,73 @@
 # along with this program (at the base of this repository). If not,
 # see <http://www.gnu.org/licenses/>
 
-from .parse import *
-from .corpus import readCorpus
+"""
+Main script for rnlp.
+
+.. code-block:: bash
+
+    $ python -m rnlp --help
+"""
 
 import argparse
 import logging
 
-# === Metadata === #
+from .parse import makeIdentifiers
+from .textprocessing import getSentences
+from .textprocessing import getBlocks
+from .corpus import readCorpus
 
-__author__ = 'Kaushik Roy (@kkroy36)'
-__copyright__ = 'Copyright (c) 2017-2018 StARLinG Lab'
-__license__ = 'GPL-v3'
+from ._meta import __license__, __version__, __copyright__
 
-__version__ = '0.3.1'
-__status__ = 'Beta'
-__maintainer__ = 'Alexander L. Hayes (@batflyer)'
-__email__ = 'alexander.hayes@utdallas.edu'
+LOGGER = logging.getLogger(__name__)
+LOGGER.setLevel(logging.INFO)
 
-__credits__ = [
-    'Kaushik Roy (@kkroy36)',
-    'Alexander L. Hayes (@batflyer)',
-    'Sriraam Natarajan (@boost-starai)',
-    'Gautam Kunapuli (@gkunapuli)',
-    'Dileep Viswanathan',
-    'Rahul Pasunuri'
-]
+LOG_HANDLER = logging.FileHandler("rnlp_log.log")
+LOG_HANDLER.setLevel(logging.INFO)
+FORMATTER = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+LOG_HANDLER.setFormatter(FORMATTER)
 
-# === Logging === #
+LOGGER.addHandler(LOG_HANDLER)
+LOGGER.info("Started logger.")
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
-log_handler = logging.FileHandler('rnlp_log.log')
-log_handler.setLevel(logging.INFO)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-log_handler.setFormatter(formatter)
-
-logger.addHandler(log_handler)
-logger.info('Started logger.')
-
-# === Argument Parser === #
-
-logger.info('Started Argument Parser.')
-parser = argparse.ArgumentParser(
-    description='''Relational-NLP: A library and tool for converting text
-                   into a set of relational facts.''',
-    epilog='''Copyright (c) 2017-2018 StARLinG Lab.'''
+LOGGER.info("Started Argument Parser.")
+PARSER = argparse.ArgumentParser(
+    description="rnlp (v{0}): Convert text into relational facts.".format(__version__),
+    epilog="This program is free software under the {0}. {1}".format(
+        __license__, __copyright__
+    ),
 )
 
-file_or_dir = parser.add_mutually_exclusive_group()
+FILE_OR_DIR = PARSER.add_mutually_exclusive_group()
 
-parser.add_argument('-b', '--blockSize', type=int, default=2,
-                    help='Set the block size')
-file_or_dir.add_argument('-d', '--directory', type=str,
-                         help='Read text from all files in a directory.')
-file_or_dir.add_argument('-f', '--file', type=str,
-                         help='Read from text from a file.')
+PARSER.add_argument("-b", "--blockSize", type=int, default=2, help="Set the block size")
+FILE_OR_DIR.add_argument(
+    "-d", "--directory", type=str, help="Read all .txt files in directory"
+)
+FILE_OR_DIR.add_argument("-f", "--file", type=str, help="Read from one .txt file")
 
-args = parser.parse_args()
-logger.info('Argument Parsing Successful.')
+ARGS = PARSER.parse_args()
+LOGGER.info("Argument Parsing Successful.")
 
-# Set block size.
-n = args.blockSize
-logger.info('blockSize specified as ' + str(n))
+N_BLOCKS = ARGS.blockSize
+LOGGER.info("blockSize specified as %s", N_BLOCKS)
 
-# Set the input file(s).
-if args.file:
-    chosenFile = args.file
-elif args.directory:
-    chosenFile = args.directory
+if ARGS.file:
+    CHOSEN_FILE = ARGS.file
+elif ARGS.directory:
+    CHOSEN_FILE = ARGS.directory
 else:
-    message = 'Error. No file or directory was specified.'
-    logger.error(message)
-    print(message)
+    ERROR_MESSAGE = "Error. No file or directory was specified."
+    LOGGER.error(ERROR_MESSAGE)
+    print(ERROR_MESSAGE)
     exit(1)
 
-# Read the corpus.
-try:
-    corpus = readCorpus(chosenFile)
-except Exception:
-    logger.error('Error while reading corpus.', exc_info=True)
-    exit(2)
+CORPUS = readCorpus(CHOSEN_FILE)
+SENTENCES = getSentences(CORPUS)
+BLOCKS = getBlocks(SENTENCES, N_BLOCKS)
+makeIdentifiers(BLOCKS)
 
-# Get sentences from the corpus.
-try:
-    sentences = getSentences(corpus)
-except Exception:
-    logger.error('Error getting sentences from corpus', exc_info=True)
-    exit(2)
-
-# Create blocks from the sentences.
-try:
-    blocks = getBlocks(sentences, n)
-except Exception:
-    logger.error('Error while creating blocks', exc_info=True)
-    exit(2)
-
-# Make identifiers from the blocks.
-try:
-    makeIdentifiers(blocks)
-except Exception:
-    logger.error('Error while making identifiers.', exc_info=True)
-    exit(2)
-
-logger.info('Reached bottom of ' + __name__ + '.')
-logger.info('Shutting down logger.')
+LOGGER.info("Reached bottom of %s.", __name__)
+LOGGER.info("Shutting down logger.")
 logging.shutdown()
 exit(0)

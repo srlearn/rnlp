@@ -49,8 +49,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'rnlp'
-copyright = '2017-2018, StARLinG Lab'
-author = 'Alexander L. Hayes (@batflyer), Kaushik Roy (@kkroy36)'
+copyright = '2019 Alexander L. Hayes'
+author = 'Alexander L. Hayes (@hayesall)'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -145,7 +145,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'rnlp.tex', 'rnlp Documentation',
-     'Alexander L. Hayes (@batflyer), Kaushik Roy (@kkroy36)', 'manual'),
+     'Alexander L. Hayes (@hayesall)', 'manual'),
 ]
 
 
@@ -169,6 +169,3 @@ texinfo_documents = [
      author, 'rnlp', 'One line description of project.',
      'Miscellaneous'),
 ]
-
-
-

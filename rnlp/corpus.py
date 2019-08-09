@@ -1,4 +1,7 @@
-# Copyright (C) 2017-2018 StARLinG Lab
+# -*- coding: utf-8 -*-
+
+# Copyright © 2017-2018 StARLinG Lab
+# Copyright © 2019 Alexander L. Hayes
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -61,19 +64,17 @@ def readCorpus(location):
     """
     print("Reading corpus from file(s)...")
 
-    corpus = ''
+    corpus = ""
 
-    if '.txt' in location:
-        with open(location) as fp:
-            corpus = fp.read()
+    if ".txt" in location:
+        with open(location) as _fp:
+            corpus = _fp.read()
     else:
-
         dirFiles = listdir(location)
-        nFiles = len(dirFiles)
 
-        for f in tqdm(dirFiles):
-            with open(location+"/"+f) as fp:
-                corpus += fp.read()
+        for file in tqdm(dirFiles):
+            with open(location + "/" + file) as _fp:
+                corpus += _fp.read()
 
     return corpus
 
