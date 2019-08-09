@@ -1,4 +1,8 @@
-# Copyright (C) 2017-2018 StARLinG Lab
+
+# -*- coding: utf-8 -*-
+
+# Copyright © 2017-2018 StARLinG Lab
+# Copyright © 2019 Alexander L. Hayes
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,18 +26,18 @@ import logging
 
 # === Metadata === #
 
-__author__ = 'Kaushik Roy (@kkroy36)'
-__copyright__ = 'Copyright (c) 2017-2018 StARLinG Lab'
+__author__ = 'Alexander L. Hayes (@hayesall)'
+__copyright__ = 'Copyright © 2017-2018 StARLinG Lab; Copyright © 2019 Alexander L. Hayes'
 __license__ = 'GPL-v3'
 
 __version__ = '0.3.1'
 __status__ = 'Beta'
-__maintainer__ = 'Alexander L. Hayes (@batflyer)'
+__maintainer__ = 'Alexander L. Hayes (@hayesall)'
 __email__ = 'alexander.hayes@utdallas.edu'
 
 __credits__ = [
     'Kaushik Roy (@kkroy36)',
-    'Alexander L. Hayes (@batflyer)',
+    'Alexander L. Hayes (@hayesall)',
     'Sriraam Natarajan (@boost-starai)',
     'Gautam Kunapuli (@gkunapuli)',
     'Dileep Viswanathan',
@@ -59,7 +63,7 @@ logger.info('Started Argument Parser.')
 parser = argparse.ArgumentParser(
     description='''Relational-NLP: A library and tool for converting text
                    into a set of relational facts.''',
-    epilog='''Copyright (c) 2017-2018 StARLinG Lab.'''
+    epilog='''Copyright © 2019 Alexander L. Hayes'''
 )
 
 file_or_dir = parser.add_mutually_exclusive_group()

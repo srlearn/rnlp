@@ -1,4 +1,8 @@
-# Copyright (C) 2017-2018 StARLinG Lab
+
+# -*- coding: utf-8 -*-
+
+# Copyright © 2017-2018 StARLinG Lab
+# Copyright © 2019 Alexander L. Hayes
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -60,18 +64,18 @@ from .textprocessing import getBlocks
 from .textprocessing import getSentences
 from .parse import makeIdentifiers
 
-__author__ = 'Kaushik Roy (@kkroy36)'
-__copyright__ = 'Copyright (c) 2017-2018 StARLinG Lab'
+__author__ = 'Alexander L. Hayes (@hayesall)'
+__copyright__ = 'Copyright © 2017-2018 StARLinG Lab; Copyright © 2019 Alexander L. Hayes'
 __license__ = 'GPL-v3'
 
 __version__ = '0.3.2'
 __status__ = 'Beta'
-__maintainer__ = 'Alexander L. Hayes (@batflyer)'
-__email__ = 'alexander.hayes@utdallas.edu'
+__maintainer__ = 'Alexander L. Hayes (@hayesall)'
+__email__ = 'hayesall@iu.edu'
 
 __credits__ = [
     'Kaushik Roy (@kkroy36)',
-    'Alexander L. Hayes (@batflyer)',
+    'Alexander L. Hayes (@hayesall)',
     'Sriraam Natarajan (@boost-starai)',
     'Gautam Kunapuli (@gkunapuli)',
     'Dileep Viswanathan',

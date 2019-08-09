@@ -30,7 +30,7 @@ class Install(_install):
         nltk.download('stopwords')
         nltk.download('averaged_perceptron_tagger')
 
-    
+
 setup(
     name='rnlp',
     version='0.3.2',
@@ -39,9 +39,9 @@ setup(
     description='Converts text corpora into a set of relational facts.',
     long_description=long_description,
 
-    url='https://github.com/starling-lab/rnlp',
+    url='https://github.com/hayesall/rnlp',
 
-    author='Alexander L. Hayes (@batflyer)',
+    author='Alexander L. Hayes (@hayesall)',
     author_email='alexander@batflyer.net',
 
     classifiers=[
@@ -66,14 +66,14 @@ setup(
     keywords='nlp',
 
     project_urls={
-        'Source': 'https://github.com/starling-lab/rnlp',
-        'Tracker': 'https://github.com/starling-lab/rnlp/issues'
+        'Source': 'https://github.com/hayesall/rnlp',
+        'Tracker': 'https://github.com/hayesall/rnlp/issues'
     },
 
     packages=find_packages(exclude=['tests']),
 
     cmdclass={'install': Install},
-    
+
     install_requires=[
         'nltk',
         'tqdm',

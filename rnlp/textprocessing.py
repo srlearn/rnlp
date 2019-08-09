@@ -1,4 +1,8 @@
-# Copyright (C) 2017-2018 StARLinG Lab
+
+# -*- coding: utf-8 -*-
+
+# Copyright © 2017-2018 StARLinG Lab
+# Copyright © 2019 Alexander L. Hayes
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,7 +28,7 @@ stopping, removing punctuation, etc.
 Document Hierarchy
 ------------------
 
-A corpora is a collection of documents.
+A corpus is a collection of documents.
 A document is a collection of chapters.
 A chapter is a collection of paragraphs.
 A paragraph is a collection of sentences.

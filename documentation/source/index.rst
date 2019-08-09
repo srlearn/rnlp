@@ -10,8 +10,8 @@
   into a set of relational facts.
 
 
-  :Source Code: `GitHub <https://github.com/starling-lab/rnlp>`_
-  :Bugtracker: `GitHub Issues <https://github.com/starling-lab/rnlp/issues/>`_
+  :Source Code: `GitHub <https://github.com/hayesall/rnlp>`_
+  :Bugtracker: `GitHub Issues <https://github.com/hayesall/rnlp/issues/>`_
 
   .. image:: https://img.shields.io/pypi/pyversions/rnlp.svg?style=flat-square
   .. image:: https://img.shields.io/pypi/v/rnlp.svg?style=flat-square

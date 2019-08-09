@@ -8,12 +8,6 @@ Stable builds on PyPi
 
 		pip install rnlp
 
-Development builds on GitHub
-
-.. code-block:: bash
-
-		pip install git+git://github.com/starling-lab/rnlp.git
-
 Some modules in nltk need to be available:
 
 .. code-block:: bash
