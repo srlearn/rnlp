@@ -4,7 +4,6 @@ Setup file for rnlp
 
 from setuptools import setup
 from setuptools import find_packages
-from setuptools.command.install import install as _install
 
 from codecs import open
 from os import path
@@ -18,24 +17,6 @@ here = path.abspath(path.dirname(__file__))
 # Get the long description from the README.md
 with open(path.join(here, "README.rst"), encoding="utf-8") as f:
     long_description = f.read()
-
-
-# https://stackoverflow.com/questions/26799894/installing-nltk-data-in-setup-py-script
-class Install(_install):
-    """
-    Overwriting the base class to additionally install nltk packages.
-    """
-
-    def run(self):
-        _install.do_egg_install(self)
-
-        # Install the additional required nltk packages
-        import nltk
-
-        nltk.download("punkt")
-        nltk.download("stopwords")
-        nltk.download("averaged_perceptron_tagger")
-
 
 setup(
     name="rnlp",
@@ -63,7 +44,6 @@ setup(
         "Tracker": "https://github.com/hayesall/rnlp/issues",
     },
     packages=find_packages(exclude=["tests"]),
-    cmdclass={"install": Install},
     install_requires=["nltk", "tqdm", "joblib"],
     setup_requires=["nltk"],
 )
