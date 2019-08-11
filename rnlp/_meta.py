@@ -26,7 +26,7 @@ __copyright__ = (
 )
 __license__ = "GPL-v3"
 
-__version__ = "0.3.2"
+__version__ = "0.3.3.dev"
 __status__ = "Beta"
 __maintainer__ = "Alexander L. Hayes (@hayesall)"
 __email__ = "hayesall@iu.edu"
