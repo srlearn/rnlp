@@ -23,6 +23,7 @@ rnlp.parse
 ----------
 """
 
+import os
 import string
 import nltk
 from tqdm import tqdm
@@ -33,7 +34,7 @@ __all__ = ["makeIdentifiers"]
 def _writeBlock(block, blockID):
     """Writes the blocks to a file with blockID.
     """
-    with open("blockIDs.txt", "a") as fp:
+    with open(os.path.join(OUTPUT_DIR, "blockIDs.txt"), "a") as fp:
         fp.write("blockID: " + str(blockID) + "\n")
         sentences = ""
         for sentence in block:
@@ -44,7 +45,7 @@ def _writeBlock(block, blockID):
 
 def _writeSentenceInBlock(sentence, blockID, sentenceID):
     '''writes the sentence in a block to a file with the id'''
-    with open("sentenceIDs.txt", "a") as fp:
+    with open(os.path.join(OUTPUT_DIR, "sentenceIDs.txt"), "a") as fp:
         fp.write("sentenceID: "+str(blockID)+"_"+str(sentenceID)+"\n")
         fp.write("sentence string: "+sentence+"\n")
         fp.write("\n")
@@ -52,7 +53,7 @@ def _writeSentenceInBlock(sentence, blockID, sentenceID):
 
 def _writeWordFromSentenceInBlock(word, blockID, sentenceID, wordID):
     '''writes the word from a sentence in a block to a file with the id'''
-    with open("wordIDs.txt", "a") as fp:
+    with open(os.path.join(OUTPUT_DIR, "wordIDs.txt"), "a") as fp:
         fp.write("wordID: " + str(blockID) + "_" +
                  str(sentenceID) + "_" + str(wordID) + "\n")
         fp.write("wordString: " + word + "\n")
@@ -61,7 +62,7 @@ def _writeWordFromSentenceInBlock(word, blockID, sentenceID, wordID):
 
 def _writeFact(predicateString):
     '''writes the fact to facts file'''
-    with open("facts.txt", "a") as f:
+    with open(os.path.join(OUTPUT_DIR, "facts.txt"), "a") as f:
         f.write(predicateString+"\n")
 
 
@@ -80,7 +81,7 @@ def _writeBk(target="sentenceContainsTarget(+SID,+WID).", treeDepth="3",
     :type numOfClauses: str.
     """
 
-    with open('bk.txt', 'w') as bk:
+    with open(os.path.join(OUTPUT_DIR, 'bk.txt'), 'w') as bk:
 
         bk.write("useStdLogicVariables: true\n")
 
@@ -108,7 +109,7 @@ def _writeBk(target="sentenceContainsTarget(+SID,+WID).", treeDepth="3",
 
 
 def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
-                    treeDepth="3", nodeSize="3", numOfClauses="8"):
+                    treeDepth="3", nodeSize="3", numOfClauses="8", output=None):
     """
     Make unique identifiers for components of the block and write to files.
 
@@ -124,6 +125,8 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
     :type nodeSize: str.
     :param numOfClauses: Number of clauses in total.
     :type numOfClauses: str.
+    :param output: Optional directory to pass in for output
+    type output: str.
 
     .. note:: This is a function that writes *facts*, presently there is no
       way to distinguish between these and positive/negatives examples.
@@ -149,7 +152,18 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
                     makeIdentifiers(blocks)
                     # 100%|██████████████████████| 2/2 [00:00<00:00, 18.49it/s]
     """
-
+    # Specify a global variable
+    global OUTPUT_DIR
+    if output is None:
+        # If no output passed in, set to the current directory
+        OUTPUT_DIR = os.getcwd()
+    else:
+        # Set to what was passed in
+        OUTPUT_DIR = output
+        # Ensure it exists
+        if not os.path.isdir(OUTPUT_DIR):
+            os.mkdir(OUTPUT_DIR)
+    
     blockID, sentenceID, wordID = 1, 0, 0
 
     print("Creating background file...")
