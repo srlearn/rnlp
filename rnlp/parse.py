@@ -46,24 +46,22 @@ def _writeBlock(block, blockID, outputDir=None):
     outputFile = __getOutputFile(outputDir, "blockIDS.txt")
     with open(outputFile, "a") as fp:
         fp.write("blockID: " + str(blockID) + "\n")
-        sentences = ""
-        for sentence in block:
-            sentences += sentence+","
-        fp.write("block sentences: "+sentences[:-1]+"\n")
+        sentences = ",".join(block)
+        fp.write("block sentences: " + sentences + "\n")
         fp.write("\n")
 
 
 def _writeSentenceInBlock(sentence, blockID, sentenceID, outputDir=None):
-    """writes the sentence in a block to a file with the id"""
+    """Writes the sentence in a block to a file with the id."""
     outputFile = __getOutputFile(outputDir, "sentenceIDs.txt")
     with open(outputFile, "a") as fp:
-        fp.write("sentenceID: "+str(blockID)+"_"+str(sentenceID)+"\n")
-        fp.write("sentence string: "+sentence+"\n")
+        fp.write("sentenceID: " + str(blockID) + "_" + str(sentenceID) + "\n")
+        fp.write("sentence string: " + sentence+"\n")
         fp.write("\n")
 
 
 def _writeWordFromSentenceInBlock(word, blockID, sentenceID, wordID, outputDir=None):
-    """writes the word from a sentence in a block to a file with the id"""
+    """Writes the word from a sentence in a block to a file with the id."""
     outputFile = __getOutputFile(outputDir, "wordIDs.txt")
     with open(outputFile, "a") as fp:
         fp.write("wordID: " + str(blockID) + "_" + str(sentenceID) + "_" + str(wordID) + "\n")
@@ -72,10 +70,10 @@ def _writeWordFromSentenceInBlock(word, blockID, sentenceID, wordID, outputDir=N
 
 
 def _writeFact(predicateString, outputDir=None):
-    """writes the fact to facts file"""
+    """writes the fact to facts file."""
     outputFile = __getOutputFile(outputDir, "facts.txt")
     with open(outputFile, "a") as fp:
-        fp.write(predicateString+"\n")
+        fp.write(predicateString + "\n")
 
 
 def _writeBk(target="sentenceContainsTarget(+SID,+WID).", treeDepth="3",
@@ -97,9 +95,9 @@ def _writeBk(target="sentenceContainsTarget(+SID,+WID).", treeDepth="3",
 
         fp.write("useStdLogicVariables: true\n")
 
-        fp.write("setParam: treeDepth=" + str(treeDepth) + '.\n')
-        fp.write("setParam: nodeSize=" + str(nodeSize) + '.\n')
-        fp.write("setParam: numOfClauses=" + str(numOfClauses) + '.\n')
+        fp.write("setParam: treeDepth=" + str(treeDepth) + ".\n")
+        fp.write("setParam: nodeSize=" + str(nodeSize) + ".\n")
+        fp.write("setParam: numOfClauses=" + str(numOfClauses) + ".\n")
 
         fp.write("mode: nextSentenceInBlock(+BID,+SID,-SID).\n")
         fp.write("mode: nextSentenceInBlock(+BID,-SID,+SID).\n")
