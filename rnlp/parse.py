@@ -74,8 +74,8 @@ def _writeWordFromSentenceInBlock(word, blockID, sentenceID, wordID, outputDir=N
 def _writeFact(predicateString, outputDir=None):
     """writes the fact to facts file"""
     outputFile = __getOutputFile(outputDir, "facts.txt")
-    with open(outputFile, "a") as f:
-        f.write(predicateString+"\n")
+    with open(outputFile, "a") as fp:
+        fp.write(predicateString+"\n")
 
 
 def _writeBk(target="sentenceContainsTarget(+SID,+WID).", treeDepth="3",
@@ -93,31 +93,29 @@ def _writeBk(target="sentenceContainsTarget(+SID,+WID).", treeDepth="3",
     :type numOfClauses: str.
     """
     outputFile = __getOutputFile(outputDir, "bk.txt")
-    with open(outputFile, "a") as bk:
+    with open(outputFile, "a") as fp:
 
-        bk.write("useStdLogicVariables: true\n")
+        fp.write("useStdLogicVariables: true\n")
 
-        bk.write("setParam: treeDepth=" + str(treeDepth) + '.\n')
-        bk.write("setParam: nodeSize=" + str(nodeSize) + '.\n')
-        bk.write("setParam: numOfClauses=" + str(numOfClauses) + '.\n')
+        fp.write("setParam: treeDepth=" + str(treeDepth) + '.\n')
+        fp.write("setParam: nodeSize=" + str(nodeSize) + '.\n')
+        fp.write("setParam: numOfClauses=" + str(numOfClauses) + '.\n')
 
-        bk.write("mode: nextSentenceInBlock(+BID,+SID,-SID).\n")
-        bk.write("mode: nextSentenceInBlock(+BID,-SID,+SID).\n")
-        bk.write("mode: earlySentenceInBlock(+BID,-SID).\n")
-        bk.write("mode: midWaySentenceInBlock(+BID,-SID).\n")
-        bk.write("mode: lateSentenceInBlock(+BID,-SID).\n")
-        bk.write("mode: sentenceInBlock(-SID,+BID).\n")
-        bk.write("mode: wordString(+WID,#WSTR).\n")
-        bk.write("mode: partOfSpeechTag(+WID,#WPOS).\n")
-        bk.write("mode: nextWordInSentence(+SID,+WID,-WID).\n")
-        bk.write("mode: earlyWordInSentence(+SID,-WID).\n")
-        bk.write("mode: midWayWordInSentence(+SID,-WID).\n")
-        bk.write("mode: lateWordInSentence(+SID,-WID).\n")
-        bk.write("mode: wordInSentence(-WID,+SID).\n")
+        fp.write("mode: nextSentenceInBlock(+BID,+SID,-SID).\n")
+        fp.write("mode: nextSentenceInBlock(+BID,-SID,+SID).\n")
+        fp.write("mode: earlySentenceInBlock(+BID,-SID).\n")
+        fp.write("mode: midWaySentenceInBlock(+BID,-SID).\n")
+        fp.write("mode: lateSentenceInBlock(+BID,-SID).\n")
+        fp.write("mode: sentenceInBlock(-SID,+BID).\n")
+        fp.write("mode: wordString(+WID,#WSTR).\n")
+        fp.write("mode: partOfSpeechTag(+WID,#WPOS).\n")
+        fp.write("mode: nextWordInSentence(+SID,+WID,-WID).\n")
+        fp.write("mode: earlyWordInSentence(+SID,-WID).\n")
+        fp.write("mode: midWayWordInSentence(+SID,-WID).\n")
+        fp.write("mode: lateWordInSentence(+SID,-WID).\n")
+        fp.write("mode: wordInSentence(-WID,+SID).\n")
 
-        bk.write("mode: " + target + "\n")
-
-    return
+        fp.write("mode: " + target + "\n")
 
 
 def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
