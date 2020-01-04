@@ -54,7 +54,7 @@ def _writeBlock(block, blockID, outputDir=None):
 
 
 def _writeSentenceInBlock(sentence, blockID, sentenceID, outputDir=None):
-    '''writes the sentence in a block to a file with the id'''
+    """writes the sentence in a block to a file with the id"""
     outputFile = __getOutputFile(outputDir, "sentenceIDs.txt")
     with open(outputFile, "a") as fp:
         fp.write("sentenceID: "+str(blockID)+"_"+str(sentenceID)+"\n")
@@ -63,7 +63,7 @@ def _writeSentenceInBlock(sentence, blockID, sentenceID, outputDir=None):
 
 
 def _writeWordFromSentenceInBlock(word, blockID, sentenceID, wordID, outputDir=None):
-    '''writes the word from a sentence in a block to a file with the id'''
+    """writes the word from a sentence in a block to a file with the id"""
     outputFile = __getOutputFile(outputDir, "wordIDs.txt")
     with open(outputFile, "a") as fp:
         fp.write("wordID: " + str(blockID) + "_" + str(sentenceID) + "_" + str(wordID) + "\n")
@@ -72,7 +72,7 @@ def _writeWordFromSentenceInBlock(word, blockID, sentenceID, wordID, outputDir=N
 
 
 def _writeFact(predicateString, outputDir=None):
-    '''writes the fact to facts file'''
+    """writes the fact to facts file"""
     outputFile = __getOutputFile(outputDir, "facts.txt")
     with open(outputFile, "a") as f:
         f.write(predicateString+"\n")
