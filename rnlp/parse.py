@@ -30,11 +30,21 @@ from tqdm import tqdm
 
 __all__ = ["makeIdentifiers"]
 
+def __getOutputFile(outputDir, fileName):
+    if outputDir is None:
+        # If no outputDir passed in, set to the current directory
+        outputDir = os.getcwd()
+    elif not os.path.isdir(outputDir):
+        # Ensure it exists
+        os.makedirs(outputDir)
+    
+    return os.path.join(outputDir, fileName)
 
-def _writeBlock(block, blockID):
-    """Writes the blocks to a file with blockID.
-    """
-    with open(os.path.join(OUTPUT_DIR, "blockIDs.txt"), "a") as fp:
+    
+def _writeBlock(block, blockID, outputDir=None):
+    """Writes the blocks to a file with blockID."""
+    outputFile = __getOutputFile(outputDir, "blockIDS.txt")
+    with open(outputFile, "a") as fp:
         fp.write("blockID: " + str(blockID) + "\n")
         sentences = ""
         for sentence in block:
@@ -43,31 +53,33 @@ def _writeBlock(block, blockID):
         fp.write("\n")
 
 
-def _writeSentenceInBlock(sentence, blockID, sentenceID):
+def _writeSentenceInBlock(sentence, blockID, sentenceID, outputDir=None):
     '''writes the sentence in a block to a file with the id'''
-    with open(os.path.join(OUTPUT_DIR, "sentenceIDs.txt"), "a") as fp:
+    outputFile = __getOutputFile(outputDir, "sentenceIDs.txt")
+    with open(outputFile, "a") as fp:
         fp.write("sentenceID: "+str(blockID)+"_"+str(sentenceID)+"\n")
         fp.write("sentence string: "+sentence+"\n")
         fp.write("\n")
 
 
-def _writeWordFromSentenceInBlock(word, blockID, sentenceID, wordID):
+def _writeWordFromSentenceInBlock(word, blockID, sentenceID, wordID, outputDir=None):
     '''writes the word from a sentence in a block to a file with the id'''
-    with open(os.path.join(OUTPUT_DIR, "wordIDs.txt"), "a") as fp:
-        fp.write("wordID: " + str(blockID) + "_" +
-                 str(sentenceID) + "_" + str(wordID) + "\n")
+    outputFile = __getOutputFile(outputDir, "wordIDs.txt")
+    with open(outputFile, "a") as fp:
+        fp.write("wordID: " + str(blockID) + "_" + str(sentenceID) + "_" + str(wordID) + "\n")
         fp.write("wordString: " + word + "\n")
         fp.write("\n")
 
 
-def _writeFact(predicateString):
+def _writeFact(predicateString, outputDir=None):
     '''writes the fact to facts file'''
-    with open(os.path.join(OUTPUT_DIR, "facts.txt"), "a") as f:
+    outputFile = __getOutputFile(outputDir, "facts.txt")
+    with open(outputFile, "a") as f:
         f.write(predicateString+"\n")
 
 
 def _writeBk(target="sentenceContainsTarget(+SID,+WID).", treeDepth="3",
-             nodeSize="3", numOfClauses="8"):
+             nodeSize="3", numOfClauses="8", outputDir=None):
     """
     Writes a background file to disk.
 
@@ -80,8 +92,8 @@ def _writeBk(target="sentenceContainsTarget(+SID,+WID).", treeDepth="3",
     :param numOfClauses: Number of clauses in total.
     :type numOfClauses: str.
     """
-
-    with open(os.path.join(OUTPUT_DIR, 'bk.txt'), 'w') as bk:
+    outputFile = __getOutputFile(outputDir, "bk.txt")
+    with open(outputFile, "a") as bk:
 
         bk.write("useStdLogicVariables: true\n")
 
@@ -109,7 +121,7 @@ def _writeBk(target="sentenceContainsTarget(+SID,+WID).", treeDepth="3",
 
 
 def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
-                    treeDepth="3", nodeSize="3", numOfClauses="8", output=None):
+                    treeDepth="3", nodeSize="3", numOfClauses="8", outputDir=None):
     """
     Make unique identifiers for components of the block and write to files.
 
@@ -152,20 +164,8 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
                     makeIdentifiers(blocks)
                     # 100%|██████████████████████| 2/2 [00:00<00:00, 18.49it/s]
     """
-    # Specify a global variable
-    global OUTPUT_DIR
-    if output is None:
-        # If no output passed in, set to the current directory
-        OUTPUT_DIR = os.getcwd()
-    else:
-        # Set to what was passed in
-        OUTPUT_DIR = output
-        # Ensure it exists
-        if not os.path.isdir(OUTPUT_DIR):
-            os.mkdir(OUTPUT_DIR)
     
     blockID, sentenceID, wordID = 1, 0, 0
-
     print("Creating background file...")
 
     _writeBk(
@@ -173,6 +173,7 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
         treeDepth=treeDepth,
         nodeSize=nodeSize,
         numOfClauses=numOfClauses,
+        outputDir=outputDir
     )
 
     print("Creating identifiers from the blocks...")
@@ -180,7 +181,7 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
     nBlocks = len(blocks)
     for block in tqdm(blocks):
 
-        _writeBlock(block, blockID)
+        _writeBlock(block, blockID, outputDir)
 
         sentenceID = 1
         nSentences = len(block)
@@ -194,29 +195,29 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
                 ps = "nextSentenceInBlock(" + str(blockID) + "," + \
                      str(blockID) + "_" + str(sentenceID) + "," + \
                      str(blockID) + "_" + str(sentenceID+1) + ")."
-                _writeFact(ps)
+                _writeFact(ps, outputDir)
 
             if sentenceID < beginning:
                 # mode: earlySentenceInBlock(blockID, sentenceID).
                 ps = "earlySentenceInBlock(" + str(blockID) + "," + \
                      str(blockID) + "_" + str(sentenceID) + ")."
-                _writeFact(ps)
+                _writeFact(ps, outputDir)
             elif sentenceID > ending:
                 # mode: lateSentenceInBlock(blockID, sentenceID).
                 ps = "lateSentenceInBlock(" + str(blockID) + "," + \
                      str(blockID) + "_" + str(sentenceID) + ")."
-                _writeFact(ps)
+                _writeFact(ps, outputDir)
             else:
                 # mode: midWaySentenceInBlock(blockID, sentenceID).
                 ps = "earlySentenceInBlock(" + str(blockID) + "," + \
                      str(blockID) + "_" + str(sentenceID) + ")."
-                _writeFact(ps)
+                _writeFact(ps, outputDir)
 
             # mode: sentenceInBlock(sentenceID, blockID).
             ps = "sentenceInBlock(" + str(blockID) + "_" + str(sentenceID) + \
                  "," + str(blockID) + ")."
-            _writeFact(ps)
-            _writeSentenceInBlock(sentence, blockID, sentenceID)
+            _writeFact(ps, outputDir)
+            _writeSentenceInBlock(sentence, blockID, sentenceID, outputDir)
 
             wordID = 1
             tokens = nltk.word_tokenize(sentence)
@@ -229,13 +230,13 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
                 # mode: wordString(wordID, #str).
                 ps = "wordString(" + str(blockID) + "_" + str(sentenceID) + \
                      "_" + str(wordID) + "," + "'" + str(word) + "')."
-                _writeFact(ps)
+                _writeFact(ps, outputDir)
 
                 # mode: partOfSpeechTag(wordID, #POS).
                 POS = nltk.pos_tag([word])[0][1]
                 ps = "partOfSpeech(" + str(blockID) + "_" + str(sentenceID) + \
                      "_" + str(wordID) + "," + '"' + str(POS) + '").'
-                _writeFact(ps)
+                _writeFact(ps, outputDir)
 
                 # mode: nextWordInSentence(sentenceID, wordID, wordID).
                 if wordID < nWords:
@@ -244,34 +245,33 @@ def makeIdentifiers(blocks, target="sentenceContainsTarget(+SID,+WID).",
                          str(sentenceID) + "_" + str(wordID) + "," + \
                          str(blockID) + "_" + str(sentenceID) + "_" + \
                          str(wordID+1) + ")."
-                    _writeFact(ps)
+                    _writeFact(ps, outputDir)
 
                 if wordID < wBeginning:
                     # mode: earlyWordInSentence(sentenceID, wordID).
                     ps = "earlyWordInSentence(" + str(blockID) + "_" + \
                          str(sentenceID) + "," + str(blockID) + "_" + \
                          str(sentenceID) + "_" + str(wordID) + ")."
-                    _writeFact(ps)
+                    _writeFact(ps, outputDir)
                 elif wordID > wEnding:
                     # mode: lateWordInSentence(sentenceID< wordID).
                     ps = "lateWordInSentence(" + str(blockID) + "_" + \
                          str(sentenceID) + "," + str(blockID) + "_" + \
                          str(sentenceID) + "_" + str(wordID) + ")."
-                    _writeFact(ps)
+                    _writeFact(ps, outputDir)
                 else:
                     # mode: midWayWordInSentence(sentenceID, wordID).
                     ps = "midWayWordInSentence(" + str(blockID) + "_" + \
                          str(sentenceID) + "," + str(blockID) + "_" + \
                          str(sentenceID) + "_" + str(wordID) + ")."
-                    _writeFact(ps)
+                    _writeFact(ps, outputDir)
 
                 # mode: wordInSentence(wordID, sentenceID).
                 ps = "wordInSentence(" + str(blockID) + "_" + \
                      str(sentenceID) + "_" + str(wordID) + "," + \
                      str(blockID) + "_" + str(sentenceID) + ")."
-                _writeFact(ps)
-                _writeWordFromSentenceInBlock(word, blockID,
-                                              sentenceID, wordID)
+                _writeFact(ps, outputDir)
+                _writeWordFromSentenceInBlock(word, blockID, sentenceID, wordID, outputDir)
                 wordID += 1
             sentenceID += 1
         blockID += 1
