@@ -79,7 +79,7 @@ else:
     exit(1)
 
 CORPUS = readCorpus(CHOSEN_FILE)
-SENTENCES = getSentences(CORPUS,)
+SENTENCES = getSentences(CORPUS)
 BLOCKS = getBlocks(SENTENCES, N_BLOCKS)
 makeIdentifiers(BLOCKS, output=ARGS.output)
 
