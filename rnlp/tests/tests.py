@@ -32,14 +32,14 @@ if __name__ == '__main__':
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-v', '--verbose',
+    parser.add_argument("-v", "--verbose",
                         default=1,
                         type=int)
     args = parser.parse_args()
 
-    testsuite = unittest.TestLoader().discover('.')
+    testsuite = unittest.TestLoader().discover(".")
     runner = unittest.TextTestRunner(verbosity=args.verbose)
 
     results = runner.run(testsuite)
     if results.failures or results.errors:
-        raise(Exception('Encountered errors during runner.run'))
+        raise(Exception("Encountered errors during runner.run"))

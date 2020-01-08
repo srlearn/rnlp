@@ -19,7 +19,7 @@ import os
 import sys
 import unittest
 
-sys.path.append('./')
+sys.path.append("./")
 
 from rnlp.corpus import declaration
 import rnlp
@@ -33,11 +33,11 @@ class converterTest(unittest.TestCase):
         
         self._path = os.getcwd()
         self._fileSet = [
-            'wordIDs.txt',
-            'sentenceIDs.txt',
-            'blockIDs.txt',
-            'facts.txt',
-            'bk.txt'
+            "wordIDs.txt",
+            "sentenceIDs.txt",
+            "blockIDs.txt",
+            "facts.txt",
+            "bk.txt"
         ]
 
     def tearDown(self):
@@ -59,7 +59,7 @@ class converterTest(unittest.TestCase):
         with open(fileName) as f:
             contents = f.read()
 
-        trueHash = hashlib.md5(contents.encode('utf-8')).hexdigest()
+        trueHash = hashlib.md5(contents.encode("utf-8")).hexdigest()
 
         return trueHash == expectedHash
 
@@ -80,37 +80,37 @@ class converterTest(unittest.TestCase):
             self.assertTrue(self.EqualFileContents(fileName, hashlist[index]))
 
     def test_makeIdentifiers_1(self):
-        self.runner('Hello there. How are you?', 1,
-                    ['bbaccb43cf22eeea851df721a40fddb7',
-                     '60ffc99bc55eaab87b74d77557164bd0',
-                     '41f2b5849b50502d31152bc20ec9f81d',
-                     '53e96b0214838323def0375b0ac40023',
-                     'f8f91289b8db5fa0270ffc0b0c94bd09'])
+        self.runner("Hello there. How are you?", 1,
+                    ["bbaccb43cf22eeea851df721a40fddb7",
+                     "60ffc99bc55eaab87b74d77557164bd0",
+                     "41f2b5849b50502d31152bc20ec9f81d",
+                     "53e96b0214838323def0375b0ac40023",
+                     "f8f91289b8db5fa0270ffc0b0c94bd09"])
 
     def test_makeIdentifiers_2(self):
-        self.runner("A B. C D. E F.", 1, ['87a3b6464acc41ca7939fe6e2062a60b',
-                                          '049b7a05061ed1478669c23e8bd946c6',
-                                          '62131ea41b1bf0363d61c34a72d6b34c',
-                                          '1a4273067a5f959ed78a6f571a63ae1c',
-                                          'f8f91289b8db5fa0270ffc0b0c94bd09'])
+        self.runner("A B. C D. E F.", 1, ["87a3b6464acc41ca7939fe6e2062a60b",
+                                          "049b7a05061ed1478669c23e8bd946c6",
+                                          "62131ea41b1bf0363d61c34a72d6b34c",
+                                          "1a4273067a5f959ed78a6f571a63ae1c",
+                                          "f8f91289b8db5fa0270ffc0b0c94bd09"])
 
     def test_makeIdentifiers_3(self):
-        self.runner(declaration(), 1, ['3beca96390f114e4bb5513aed359e090',
-                                       '3e7168dc0ecfc76b1710edb8fb147d41',
-                                       '3778793bd861a1bc658c2b55bdc2eaf3',
-                                       '8ec3d7d72ffedf1740f04b838a7164b6',
-                                       'f8f91289b8db5fa0270ffc0b0c94bd09'])
+        self.runner(declaration(), 1, ["3beca96390f114e4bb5513aed359e090",
+                                       "3e7168dc0ecfc76b1710edb8fb147d41",
+                                       "3778793bd861a1bc658c2b55bdc2eaf3",
+                                       "8ec3d7d72ffedf1740f04b838a7164b6",
+                                       "f8f91289b8db5fa0270ffc0b0c94bd09"])
 
     def test_makeIdentifiers_4(self):
-        self.runner(declaration(), 2, ['9ef701f7a5c1da8eb8d0e87ba63025f6',
-                                       '28f7f057e5a5a9a66a0d37686716c9f6',
-                                       '56d6a375bb36a4e68b1a1a6e3d194fda',
-                                       '1af5996e085f3ba7fe906992ee723513',
-                                       'f8f91289b8db5fa0270ffc0b0c94bd09'])
+        self.runner(declaration(), 2, ["9ef701f7a5c1da8eb8d0e87ba63025f6",
+                                       "28f7f057e5a5a9a66a0d37686716c9f6",
+                                       "56d6a375bb36a4e68b1a1a6e3d194fda",
+                                       "1af5996e085f3ba7fe906992ee723513",
+                                       "f8f91289b8db5fa0270ffc0b0c94bd09"])
 
     def test_makeIdentifiers_5(self):
-        self.runner(declaration(), 3, ['7c653cc6e226acfb685144581bec0c10',
-                                       '06441a60380e2b3915ee9de25019df9f',
-                                       '368f35fe0a34ba6984ed4e977cca3687',
-                                       '6ce50160bc795d4a8476916d4e688a51',
-                                       'f8f91289b8db5fa0270ffc0b0c94bd09'])
+        self.runner(declaration(), 3, ["7c653cc6e226acfb685144581bec0c10",
+                                       "06441a60380e2b3915ee9de25019df9f",
+                                       "368f35fe0a34ba6984ed4e977cca3687",
+                                       "6ce50160bc795d4a8476916d4e688a51",
+                                       "f8f91289b8db5fa0270ffc0b0c94bd09"])
