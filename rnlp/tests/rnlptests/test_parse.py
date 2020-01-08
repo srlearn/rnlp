@@ -21,7 +21,7 @@ import unittest
 from rnlp.corpus import declaration
 from rnlp.parse import makeIdentifiers
 from rnlp.textprocessing import getBlocks, getSentences
-
+import rnlp
 
 class makeIdentifiersTest(unittest.TestCase):
     """
@@ -49,6 +49,8 @@ class makeIdentifiersTest(unittest.TestCase):
             f = os.path.join(self._path, f)
             if os.path.isfile(f):
                 os.remove(f)
+        
+        self._path = os.getcwd()
 
     def EqualFileContents(self, fileName, expectedHash):
         """
@@ -75,8 +77,7 @@ class makeIdentifiersTest(unittest.TestCase):
 
         sentences = getSentences(example)
         blocks = getBlocks(sentences, blockLength)
-
-        makeIdentifiers(blocks)
+        makeIdentifiers(blocks, outputDir=self._path)
 
         for index, fileName in enumerate(self._fileSet):
             fileName = os.path.join(self._path, fileName)
@@ -117,3 +118,11 @@ class makeIdentifiersTest(unittest.TestCase):
                                        "368f35fe0a34ba6984ed4e977cca3687",
                                        "6ce50160bc795d4a8476916d4e688a51",
                                        "f8f91289b8db5fa0270ffc0b0c94bd09"])
+
+    def test_makeIdentifiers_outputDir(self):
+        self._path = "test"
+        self.test_makeIdentifiers_1()
+
+    def test_makeIdentifiers_nestedOutputDir(self):
+        self._path = "test/test"
+        self.test_makeIdentifiers_1()
