@@ -43,7 +43,7 @@ def __getOutputFile(outputDir, fileName):
     
 def _writeBlock(block, blockID, outputDir=None):
     """Writes the blocks to a file with blockID."""
-    outputFile = __getOutputFile(outputDir, "blockIDS.txt")
+    outputFile = __getOutputFile(outputDir, "blockIDs.txt")
     with open(outputFile, "a") as fp:
         fp.write("blockID: " + str(blockID) + "\n")
         sentences = ",".join(block)
