@@ -28,18 +28,25 @@ class converterTest(unittest.TestCase):
     """
     This performs a similar test to test_parse.py, but uses rnlp.convert.
     """
-    def Reset(self):
+    def __init__(self, *args, **kwargs):
+        super(converterTest, self).__init__(*args, **kwargs)
+        
+        self._path = os.getcwd()
+        self._fileSet = [
+            'wordIDs.txt',
+            'sentenceIDs.txt',
+            'blockIDs.txt',
+            'facts.txt',
+            'bk.txt'
+        ]
+
+    def tearDown(self):
         """
         Removes files created by ``parse.makeIdentifiers``, since the current
         version appends to the end of the files each time the function runs.
         """
-
-        file_set = ['bk.txt',
-                    'facts.txt',
-                    'wordIDs.txt',
-                    'sentenceIDs.txt',
-                    'blockIDs.txt']
-        for f in file_set:
+        for f in self._fileSet:
+            f = os.path.join(self._path, f)
             if os.path.isfile(f):
                 os.remove(f)
 
@@ -58,22 +65,19 @@ class converterTest(unittest.TestCase):
 
     def runner(self, example, blockLength, hashlist):
         """
-        Runs rnlp.converter on example and verifies that the md5 hashes match.
+        Creates identifiers with makeIdentifiers, and asserts that
+        the md5 hashes match.
 
         example: str.
         blockLength: int.
         hashlist: list of five hash values.
         """
 
-        self.Reset()
         rnlp.converter(example, blockLength)
 
-        self.assertTrue(self.EqualFileContents('wordIDs.txt', hashlist[0]))
-        self.assertTrue(self.EqualFileContents('sentenceIDs.txt', hashlist[1]))
-        self.assertTrue(self.EqualFileContents('blockIDs.txt', hashlist[2]))
-        self.assertTrue(self.EqualFileContents('facts.txt', hashlist[3]))
-        self.assertTrue(self.EqualFileContents('bk.txt', hashlist[4]))
-
+        for index, fileName in enumerate(self._fileSet):
+            fileName = os.path.join(self._path, fileName)
+            self.assertTrue(self.EqualFileContents(fileName, hashlist[index]))
 
     def test_makeIdentifiers_1(self):
         self.runner('Hello there. How are you?', 1,

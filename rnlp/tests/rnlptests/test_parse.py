@@ -24,26 +24,31 @@ import os
 import sys
 import unittest
 
-# TODO: Integrate Reset with the setup/teardown methods from unittest
 
 class makeIdentifiersTest(unittest.TestCase):
     """
     makeIdentifiers is not elegant to test in practice (since it does a
     large amount of i/o).
     """
+    def __init__(self, *args, **kwargs):
+        super(makeIdentifiersTest, self).__init__(*args, **kwargs)
+        
+        self._path = os.getcwd()
+        self._fileSet = [
+            'wordIDs.txt',
+            'sentenceIDs.txt',
+            'blockIDs.txt',
+            'facts.txt',
+            'bk.txt'
+        ]
 
-    def Reset(self):
+    def tearDown(self):
         """
         Removes files created by ``parse.makeIdentifiers``, since the current
         version appends to the end of the files each time the function runs.
         """
-
-        file_set = ['bk.txt',
-                    'facts.txt',
-                    'wordIDs.txt',
-                    'sentenceIDs.txt',
-                    'blockIDs.txt']
-        for f in file_set:
+        for f in self._fileSet:
+            f = os.path.join(self._path, f)
             if os.path.isfile(f):
                 os.remove(f)
 
@@ -70,18 +75,14 @@ class makeIdentifiersTest(unittest.TestCase):
         hashlist: list of five hash values.
         """
 
-        self.Reset()
-
         sentences = getSentences(example)
         blocks = getBlocks(sentences, blockLength)
 
         makeIdentifiers(blocks)
 
-        self.assertTrue(self.EqualFileContents('wordIDs.txt', hashlist[0]))
-        self.assertTrue(self.EqualFileContents('sentenceIDs.txt', hashlist[1]))
-        self.assertTrue(self.EqualFileContents('blockIDs.txt', hashlist[2]))
-        self.assertTrue(self.EqualFileContents('facts.txt', hashlist[3]))
-        self.assertTrue(self.EqualFileContents('bk.txt', hashlist[4]))
+        for index, fileName in enumerate(self._fileSet):
+            fileName = os.path.join(self._path, fileName)
+            self.assertTrue(self.EqualFileContents(fileName, hashlist[index]))
 
     def test_makeIdentifiers_1(self):
         self.runner('Hello there. How are you?', 1,
