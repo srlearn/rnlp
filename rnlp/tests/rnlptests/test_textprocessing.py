@@ -14,12 +14,10 @@
 # along with this program (at the base of this repository). If not,
 # see <http://www.gnu.org/licenses/>
 
-import sys
 import unittest
 
-sys.path.append("./")
-
 from rnlp import textprocessing
+
 
 class removePunctuationTest(unittest.TestCase):
     """

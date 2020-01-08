@@ -16,17 +16,15 @@
 
 import hashlib
 import os
-import sys
 import unittest
 
-sys.path.append("./")
-
+from rnlp import converter
 from rnlp.corpus import declaration
-import rnlp
+
 
 class converterTest(unittest.TestCase):
     """
-    This performs a similar test to test_parse.py, but uses rnlp.convert.
+    This performs a similar test to test_parse.py, but uses rnlp.converter.
     """
     def __init__(self, *args, **kwargs):
         super(converterTest, self).__init__(*args, **kwargs)
@@ -73,7 +71,7 @@ class converterTest(unittest.TestCase):
         hashlist: list of five hash values.
         """
 
-        rnlp.converter(example, blockLength)
+        converter(example, blockLength)
 
         for index, fileName in enumerate(self._fileSet):
             fileName = os.path.join(self._path, fileName)

@@ -14,15 +14,13 @@
 # along with this program (at the base of this repository). If not,
 # see <http://www.gnu.org/licenses/>
 
-from ...corpus import declaration
-from ...textprocessing import getSentences
-from ...textprocessing import getBlocks
-from ...parse import makeIdentifiers
-
 import hashlib
 import os
-import sys
 import unittest
+
+from rnlp.corpus import declaration
+from rnlp.parse import makeIdentifiers
+from rnlp.textprocessing import getBlocks, getSentences
 
 
 class makeIdentifiersTest(unittest.TestCase):
