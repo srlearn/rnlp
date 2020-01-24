@@ -48,12 +48,12 @@ PARSER = argparse.ArgumentParser(
 FILE_OR_DIR = PARSER.add_mutually_exclusive_group()
 
 PARSER.add_argument("-b", "--blockSize", type=int, default=2, help="Set the block size")
+PARSER.add_argument("-o", "--outputDir", type=str, help="Set an optional output directory")
 FILE_OR_DIR.add_argument(
     "-d", "--directory", type=str, help="Read all .txt files in directory"
 )
 FILE_OR_DIR.add_argument("-f", "--file", type=str, help="Read from one .txt file")
 PARSER.add_argument("--no-logs", action="store_true", help="Specify that no logs should be created.")
-
 
 ARGS = PARSER.parse_args()
 LOG_HANDLER = logging.NullHandler() if ARGS.no_logs else logging.FileHandler("rnlp_log.log")
@@ -83,7 +83,7 @@ else:
 CORPUS = readCorpus(CHOSEN_FILE)
 SENTENCES = getSentences(CORPUS)
 BLOCKS = getBlocks(SENTENCES, N_BLOCKS)
-makeIdentifiers(BLOCKS)
+makeIdentifiers(BLOCKS, outputDir=ARGS.output)
 
 LOGGER.info("Reached bottom of %s.", __name__)
 LOGGER.info("Shutting down logger.")
