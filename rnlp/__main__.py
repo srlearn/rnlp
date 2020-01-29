@@ -83,7 +83,7 @@ else:
 CORPUS = readCorpus(CHOSEN_FILE)
 SENTENCES = getSentences(CORPUS)
 BLOCKS = getBlocks(SENTENCES, N_BLOCKS)
-makeIdentifiers(BLOCKS, outputDir=ARGS.output)
+makeIdentifiers(BLOCKS, outputDir=ARGS.outputDir)
 
 LOGGER.info("Reached bottom of %s.", __name__)
 LOGGER.info("Shutting down logger.")
