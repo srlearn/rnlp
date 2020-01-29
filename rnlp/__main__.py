@@ -38,15 +38,6 @@ from ._meta import __license__, __version__, __copyright__
 LOGGER = logging.getLogger(__name__)
 LOGGER.setLevel(logging.INFO)
 
-LOG_HANDLER = logging.FileHandler("rnlp_log.log")
-LOG_HANDLER.setLevel(logging.INFO)
-FORMATTER = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-LOG_HANDLER.setFormatter(FORMATTER)
-
-LOGGER.addHandler(LOG_HANDLER)
-LOGGER.info("Started logger.")
-
-LOGGER.info("Started Argument Parser.")
 PARSER = argparse.ArgumentParser(
     description="rnlp (v{0}): Convert text into relational facts.".format(__version__),
     epilog="This program is free software under the {0}. {1}".format(
@@ -62,7 +53,18 @@ FILE_OR_DIR.add_argument(
     "-d", "--directory", type=str, help="Read all .txt files in directory"
 )
 FILE_OR_DIR.add_argument("-f", "--file", type=str, help="Read from one .txt file")
+PARSER.add_argument("--no-logs", action="store_true", help="Specify that no logs should be created.")
+
 ARGS = PARSER.parse_args()
+LOG_HANDLER = logging.NullHandler() if ARGS.no_logs else logging.FileHandler("rnlp_log.log")
+
+LOG_HANDLER.setLevel(logging.INFO)
+FORMATTER = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+LOG_HANDLER.setFormatter(FORMATTER)
+
+LOGGER.addHandler(LOG_HANDLER)
+LOGGER.info("Started logger.")
+
 LOGGER.info("Argument Parsing Successful.")
 
 N_BLOCKS = ARGS.blockSize

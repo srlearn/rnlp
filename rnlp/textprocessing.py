@@ -37,6 +37,9 @@ A word is a collection of letters...
 The depth of reasoning probably depends on the domain you are working on.
 """
 
+import rnlp.check_state as check_state
+check_state.ensure_nltk_setup()
+
 import string
 from nltk import sent_tokenize
 from nltk.corpus import stopwords

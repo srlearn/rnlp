@@ -22,6 +22,8 @@
 rnlp.parse
 ----------
 """
+import rnlp.check_state as check_state
+check_state.ensure_nltk_setup()
 
 import os
 import string
